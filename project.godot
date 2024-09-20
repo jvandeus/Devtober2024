@@ -1,0 +1,16 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Devtober2024"
+config/description="The main goal of Devtober is to work on your game every day for a month, and this is my groups attempt to do so. Everything is currently undefined and/or work in progress."
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://icon.svg"
