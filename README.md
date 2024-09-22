@@ -1,8 +1,22 @@
 # Devtober 2024
 Welcome to our efforts in developing a game over the month of Octover. The requirements are loose and mostly self-imposed. The goal is to just work on stuff, and post about it if you want to. As of writing this I have no idea what this game will be, but I'm putting together as much as I can to make sure collaboration can happen. The full gamjam page is here: https://itch.io/jam/devtober-2024
 
-# Instructions for Contributors
-It helps if you know how to use git and version control stuff, and helps if you know how to use Godot. I am a newcomer to Godot so I'll be learning as much as I can through this too, so don't worry if you are lost. The point of this project is to learn. IF you are experienced in Godot I welcome you and appreciate you even more, I might be needing your knowledge and advice.
+For the purposes of sharing ideas with potential collaborators I'm gonna list my ideas below, shortened for simplicity's sake. If you are a group memeber I'll be sure to send you more details on each.
+
+## Idea 1: 2D Puyo-like
+A game in the same vein as puyo-puyo or Dr. Robotnic's Mean bean machine. The goal here is to make a fun, simple, and arcade-y gameplay loop where we don't care too much about gameplay being unque, but rather just to have realistic goals with an opportunity to put our own spin on it. Should we decide to go this route I would likely poor msot of my effort into 2d animations for the character, and everyone else can pick and chose whatever tasks they like.
+
+## Idea 2: Origional 3D Platformer
+The people who already expressed interest in this project are all on at least one shared server for cool indie 3d platformers, So naturally this is an option. This option MAY not be able to be in a "complete" form in a month, but I'm not gonna say we won't try. The appeal of this project is that its all new, something the group memebers can all be "idea guys" for, BUT this only works if we all have something to contribute BESIDES JUST IDEAS. I volenteer at least my character design skills and whatever else my skillset can offer as suplemental support.
+
+## Idea 3: Re-start My previous project in Godot.
+For past devtobers I have been slowly working on something in unity, BUT since then I want to distance myself from all the code I made there anyway. The project outline and progress can be found on the itch page https://daeleth.itch.io/devtober-2023, But most transferable assets are just the model and wip animations. The difficulty here is trying to find ways organise my thoughts on what I want this game to be so that I can have everyone else participate.
+
+## THE UNKNOWN:
+The project isn't started, any ideas that other team members have or that we come up with together are also an option. I just wanna make it clear that I'm not trying to say we can ONLY do one of the 3 above. My goal is to collaborate this year, and I'm just going to be excited to see what happens from there.
+
+# Instructions for Collaborators
+If we talked and you agreed to be part of this gamjam group, this part is for you. It helps if you know how to use git and version control stuff, and helps if you know how to use Godot. I am a newcomer to Godot so I'll be learning as much as I can through this too, so don't worry if you are lost. The point of this project is to learn. IF you are experienced in Godot I welcome you and appreciate you even more, I might be needing your knowledge and advice.
 
 ## How to get started in Godot
 First download Godot 4.3 https://godotengine.org/download/windows/
