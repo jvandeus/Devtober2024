@@ -1,16 +1,21 @@
 # Devtober 2024
 Welcome to our efforts in developing a game over the month of Octover. The requirements are loose and mostly self-imposed. The goal is to just work on stuff, and post about it if you want to. As of writing this I have no idea what this game will be, but I'm putting together as much as I can to make sure collaboration can happen. The full gamjam page is here: https://itch.io/jam/devtober-2024
 
-For the purposes of sharing ideas with potential collaborators I'm gonna list my ideas below, shortened for simplicity's sake. If you are a group memeber I'll be sure to send you more details on each.
+The bare minimum guidelines for this project are:
+- I want to use and learn Godot
+- I want to do something with art/animation
+- I want to use at least one of my characters designs
 
-## Idea 1: 2D Puyo-like
-A game in the same vein as puyo-puyo or Dr. Robotnic's Mean bean machine. The goal here is to make a fun, simple, and arcade-y gameplay loop where we don't care too much about gameplay being unque, but rather just to have realistic goals with an opportunity to put our own spin on it. Should we decide to go this route I would likely poor most of my effort into 2d animations for the character, and everyone else can pick and chose whatever tasks they like.
+For the purposes of sharing ideas with collaborators I've provided a list of my ideas below, shortened for simplicity's sake. If you are a group memeber I'll be sure to send you more details on each.
 
-## Idea 2: Origional 3D Platformer
-The people who already expressed interest in this project are all on at least one shared server for cool indie 3d platformers, so naturally this is an option. This option MAY not be able to be in a "complete" form in a month, but I'm not gonna say we won't try. The appeal of this project is that its all new, something the group memebers can all be "idea guys" for, BUT this only works if we all have something to contribute BESIDES JUST IDEAS. The main difficulty would be in keeping the scope small enough for this game jam. I volenteer at least my character design skills and whatever else my skillset can offer as suplemental support.
+## Idea 1: 2D Arcade game
+Cartoony fun meets puzzle games in this retro-styled arcade game featuring custom hand-made animations and original music. The goal here is to make a fun and simple gameplay loop where we don't care too much about gameplay being unque, but rather just to have realistic goals with an opportunity to put our own spin on it. 
 
-## Idea 3: Re-start My previous project in Godot.
-For past devtobers I have been slowly working on something in unity, BUT since then I want to distance myself from all the code I made there anyway. The project outline and progress can be found on the itch page https://daeleth.itch.io/devtober-2023, But most transferable assets are just the model and wip animations. The difficulty here is trying to find ways organise my thoughts on what I want this game to be so that I can have everyone else participate.
+## Idea 2: Origional 3D Platformer Prototype
+The people who already showed interest in this project are all on at least one shared server for cool indie 3d platformers, so making one ourself is seems like a natural option. This option MAY not be able to be in a "complete" form in a month, but I'm not gonna say we won't try. The appeal of this project is that its all new, something the group memebers can all be "idea guys" for, BUT this only works if we all have something to contribute BESIDES JUST IDEAS. The main difficulty would be in keeping the scope small enough for this game jam. I volenteer at least my character design skills and whatever else my skillset can offer as suplemental support.
+
+## Idea 3: Re-start a previous project in Godot.
+For past devtobers I have been slowly working on something in unity, BUT since then I want to distance myself from all the code I made there anyway. The project outline and progress can be found on the itch page https://daeleth.itch.io/devtober-2023, But most transferable assets are just the model and W.I.P. animations. The difficulty here is trying to find ways organise tasks so that everyone else can participate.
 
 ## THE UNKNOWN:
 The project isn't started, any ideas that other team members have or that we come up with together are also an option. I just wanna make it clear that I'm not trying to say we can ONLY do one of the 3 above. My goal is to collaborate this year, and I'm just going to be excited to see what happens from there.
