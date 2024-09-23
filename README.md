@@ -9,17 +9,17 @@ The bare minimum guidelines for this project are:
 For the purposes of sharing ideas with collaborators I've provided a list of my ideas below, shortened for simplicity's sake.
 
 ## Idea 1: 2D Arcade game
-Cartoony fun meets puzzle games in this retro-styled arcade game featuring custom hand-made animations and original music. The goal here is to make a fun and simple gameplay loop where we don't care too much about gameplay being unque, but rather just to have realistic goals with an opportunity to put our own spin on it.
+Cartoony fun meets puzzle games in this retro-styled arcade game featuring custom animations and original music. The goal here is to make a fun and simple gameplay loop where we don't care too much about gameplay being unique. Instead we will keep expectations realistic to give the best chance at completing something.
 [Full WIP Ideas Document](https://docs.google.com/document/d/1_56ptP_n4veRY45rVA_g2Vw_qhZGDT1ag9vkRnXH2g4/edit?pli=1#heading=h.u6ln3yn7ddk8)
 
 ## Idea 2: Origional 3D Platformer Prototype
-The people who already showed interest in this project are all on discords for cool indie 3d platformers, so making one ourself is seems like a natural option. This will be much harder to get to a "complete" form in a month, but I'm not gonna be the one to say we can't try. The appeal of this option is that its all new, something the group memebers can all be "idea guys" for, BUT this only works if we all have something to contribute BESIDES JUST IDEAS. The main difficulty would be in keeping the scope small enough for this game jam. I volenteer at least my character design skills and whatever else my skillset can offer as suplemental support.
+The people who already showed interest in this project are all on discords for cool indie 3d platformers, so making one ourself seems like a natural option. This will be much harder to get to a "complete" form in a month, but I'm not gonna be the one to say we can't try. The appeal of this option is that its all new, something the group memebers can all be "idea guys" for, BUT this only works if we all have something to contribute BESIDES JUST IDEAS. The main difficulty would be in keeping the scope small enough for this game jam. I volenteer at least my character design skills and whatever else my skillset can offer as suplemental support.
 
 ## Idea 3: Re-start a previous 3D project in Godot.
-For past devtobers I have been slowly working on something in unity, BUT since then I want to distance myself from all the code I made there anyway. The project outline and progress can be found on the itch page https://daeleth.itch.io/devtober-2023, But most transferable assets are just the model and W.I.P. animations. The difficulty here is trying to find ways organise tasks so that everyone else can participate.
+For past devtobers I have been slowly working on something in unity, BUT since then I want to distance myself from all the code I made there anyway. The project outline and progress can be found on the itch page https://daeleth.itch.io/devtober-2023, But most transferable assets are just the model and W.I.P. animations. The difficulty here is trying to find ways organise tasks so that everyone can participate.
 
 ## THE UNKNOWN:
-The project isn't started, any ideas that other team members have or that we come up with together are also an option. I just wanna make it clear that I'm not trying to say we can ONLY do one of the 3 above. My goal is to collaborate this year, and I'm just going to be excited to see what happens from there.
+The project hasn't started yet, any ideas that other team members have or that we come up with together are also an option. I just wanna make it clear that I'm not trying to say we can ONLY do one of the ideas above. My goal is to collaborate this year, and I'm just going to be excited to see what happens from there.
 
 # Instructions for Collaborators
 If we talked and you agreed to be part of this gamjam group, this part is for you. It helps if you know how to use git and version control stuff, and helps if you know how to use Godot. I am a newcomer to Godot so I'll be learning as much as I can through this too, so don't worry if you are lost. The point of this project is to learn. IF you are experienced in Godot I welcome you and appreciate you even more, I might be needing your knowledge and advice.
