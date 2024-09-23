@@ -1,20 +1,21 @@
 # Devtober 2024
-Welcome to our efforts in developing a game over the month of Octover. The requirements are loose and mostly self-imposed. The goal is to just work on stuff, and post about it if you want to. As of writing this I have no idea what this game will be, but I'm putting together as much as I can to make sure collaboration can happen. The full gamjam page is here: https://itch.io/jam/devtober-2024
+A project for consitant effort in developing a game over the month of October. The requirements are loose and mostly self-imposed. The goal is to just work on stuff, and post about it if you want to. As of writing this I have no idea what this game will be, but I'm putting together as much as I can to make sure collaboration can happen. The full gamjam page is here: https://itch.io/jam/devtober-2024
 
 The bare minimum guidelines for this project are:
 - I want to use and learn Godot
 - I want to do something with art/animation
 - I want to use at least one of my characters designs
 
-For the purposes of sharing ideas with collaborators I've provided a list of my ideas below, shortened for simplicity's sake. If you are a group memeber I'll be sure to send you more details on each.
+For the purposes of sharing ideas with collaborators I've provided a list of my ideas below, shortened for simplicity's sake.
 
 ## Idea 1: 2D Arcade game
-Cartoony fun meets puzzle games in this retro-styled arcade game featuring custom hand-made animations and original music. The goal here is to make a fun and simple gameplay loop where we don't care too much about gameplay being unque, but rather just to have realistic goals with an opportunity to put our own spin on it. 
+Cartoony fun meets puzzle games in this retro-styled arcade game featuring custom hand-made animations and original music. The goal here is to make a fun and simple gameplay loop where we don't care too much about gameplay being unque, but rather just to have realistic goals with an opportunity to put our own spin on it.
+[Full WIP Ideas Document](https://docs.google.com/document/d/1_56ptP_n4veRY45rVA_g2Vw_qhZGDT1ag9vkRnXH2g4/edit?pli=1#heading=h.u6ln3yn7ddk8)
 
 ## Idea 2: Origional 3D Platformer Prototype
-The people who already showed interest in this project are all on at least one shared server for cool indie 3d platformers, so making one ourself is seems like a natural option. This option MAY not be able to be in a "complete" form in a month, but I'm not gonna say we won't try. The appeal of this project is that its all new, something the group memebers can all be "idea guys" for, BUT this only works if we all have something to contribute BESIDES JUST IDEAS. The main difficulty would be in keeping the scope small enough for this game jam. I volenteer at least my character design skills and whatever else my skillset can offer as suplemental support.
+The people who already showed interest in this project are all on discords for cool indie 3d platformers, so making one ourself is seems like a natural option. This will be much harder to get to a "complete" form in a month, but I'm not gonna be the one to say we can't try. The appeal of this option is that its all new, something the group memebers can all be "idea guys" for, BUT this only works if we all have something to contribute BESIDES JUST IDEAS. The main difficulty would be in keeping the scope small enough for this game jam. I volenteer at least my character design skills and whatever else my skillset can offer as suplemental support.
 
-## Idea 3: Re-start a previous project in Godot.
+## Idea 3: Re-start a previous 3D project in Godot.
 For past devtobers I have been slowly working on something in unity, BUT since then I want to distance myself from all the code I made there anyway. The project outline and progress can be found on the itch page https://daeleth.itch.io/devtober-2023, But most transferable assets are just the model and W.I.P. animations. The difficulty here is trying to find ways organise tasks so that everyone else can participate.
 
 ## THE UNKNOWN:
