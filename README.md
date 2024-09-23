@@ -12,7 +12,7 @@ For the purposes of sharing ideas with collaborators I've provided a list of my 
 Cartoony fun meets puzzle games in this retro-styled arcade game featuring custom animations and original music. The goal here is to make a fun and simple gameplay loop where we don't care too much about gameplay being unique. Instead we will keep expectations realistic to give the best chance at completing something.
 [Full WIP Ideas Document](https://docs.google.com/document/d/1_56ptP_n4veRY45rVA_g2Vw_qhZGDT1ag9vkRnXH2g4/edit?pli=1#heading=h.u6ln3yn7ddk8)
 
-## Idea 2: Origional 3D Platformer Prototype
+## Idea 2: Original 3D Platformer Prototype
 The people who already showed interest in this project are all on discords for cool indie 3d platformers, so making one ourself seems like a natural option. This will be much harder to get to a "complete" form in a month, but I'm not gonna be the one to say we can't try. The appeal of this option is that its all new, something the group memebers can all be "idea guys" for, BUT this only works if we all have something to contribute BESIDES JUST IDEAS. The main difficulty would be in keeping the scope small enough for this game jam. I volenteer at least my character design skills and whatever else my skillset can offer as suplemental support.
 
 ## Idea 3: Re-start a previous 3D project in Godot.
