@@ -1,5 +1,7 @@
 extends Node
 
+@onready var game_manager: Node = %GameManager
+
 # TODO
 # - add clear check
 
@@ -7,6 +9,7 @@ class Board:
 	var data: Array[Piece]
 	var width: int
 	var height: int
+	
 	func _init(w, h):
 		data.resize(w * h)
 		data.fill(null)
@@ -28,9 +31,10 @@ class Board:
 				var piece = get_piece(pos)
 				if piece:
 					fn.call(pos, piece)
-	func clear_clusters_of_size(size: int):
+	func clear_clusters_of_size(size: int) -> Array[Piece]:
 		var visited = {}
 		var cells_to_clear = []
+		var clear: Array[Piece] = []
 		for_each_piece(func(pos, piece):
 			if piece.type != Piece.Type.FULL:
 				return
@@ -59,10 +63,12 @@ class Board:
 			if len(cluster) >= size:
 				cells_to_clear.append_array(cluster)
 		)
-		for cell_to_clear in cells_to_clear:
-			set_piece(cell_to_clear, null)
-	func update() -> Board:
-		clear_clusters_of_size(4)
+		for cell_xy in cells_to_clear:
+			clear.append(get_piece(cell_xy))
+			set_piece(cell_xy, null)
+		return clear
+	func update(game_manager: Node) -> Board:
+		game_manager.add_clear(clear_clusters_of_size(4))
 		var next = Board.new(width, height)
 		# Copy all non-moving pieces to the new board. This must be done in several passes.
 		# The first pass only copies pieces against the boundaries.
@@ -126,7 +132,7 @@ func _process(delta: float) -> void:
 	time_elapsed += delta
 	if time_elapsed > UPDATE_DURATION:
 		time_elapsed -= UPDATE_DURATION
-		board = board.update()
+		board = board.update(game_manager)
 	
 	$cursor_layer.clear()
 	$cursor_layer.set_cell(cursor, 0, Vector2i(2, 0))
