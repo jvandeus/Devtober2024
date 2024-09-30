@@ -28,7 +28,41 @@ class Board:
 				var piece = get_piece(pos)
 				if piece:
 					fn.call(pos, piece)
+	func clear_clusters_of_size(size: int):
+		var visited = {}
+		var cells_to_clear = []
+		for_each_piece(func(pos, piece):
+			if piece.type != Piece.Type.FULL:
+				return
+			if visited.get(pos):
+				return
+			var cluster = []
+			var stack = [pos]
+			while not stack.is_empty():
+				var cur_pos = stack.pop_back()
+				if visited.get(cur_pos):
+					continue
+				visited[cur_pos] = true
+				cluster.append(cur_pos)
+				var up = cur_pos + Vector2i(0, -1)
+				var down = cur_pos + Vector2i(0, 1)
+				var left = cur_pos + Vector2i(-1, 0)
+				var right = cur_pos + Vector2i(1, 0)
+				for adj_pos in [up, down, left, right]:
+					if is_out_of_bounds(adj_pos):
+						continue
+					if visited.get(adj_pos):
+						continue
+					var adj_piece = get_piece(adj_pos)
+					if adj_piece and adj_piece.type == Piece.Type.FULL:
+						stack.push_back(adj_pos)
+			if len(cluster) >= size:
+				cells_to_clear.append_array(cluster)
+		)
+		for cell_to_clear in cells_to_clear:
+			set_piece(cell_to_clear, null)
 	func update() -> Board:
+		clear_clusters_of_size(4)
 		var next = Board.new(width, height)
 		# Copy all non-moving pieces to the new board. This must be done in several passes.
 		# The first pass only copies pieces against the boundaries.
