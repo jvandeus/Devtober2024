@@ -5,13 +5,16 @@ enum Type { UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, FULL }
 var type: Type
 var velocity: Vector2i
 
-func _init(t := Type.UP_LEFT, v := Vector2i(0, 0)):
+func _init(t := Type.UP_LEFT, v := Vector2i(0, 1)):
 	type = t
 	velocity = v
 
 static func rand() -> Piece:
 	var random_type = Type.values()[randi_range(0, Type.size() - 1)]
-	return Piece.new(random_type)
+	var coin_flip = randi_range(0, 1)
+	var plus_or_minus_1 = randi_range(0, 1) * 2 - 1
+	var random_velocity = Vector2i(coin_flip * plus_or_minus_1, (1 - coin_flip) * plus_or_minus_1)
+	return Piece.new(random_type, random_velocity)
 
 func can_merge_with(other: Piece) -> bool:
 	if other == null:

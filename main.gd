@@ -17,28 +17,51 @@ class Board:
 	func set_piece(pos: Vector2i, piece: Piece):
 		data[pos.x + pos.y * width] = piece
 	func get_piece(pos: Vector2i) -> Piece:
+		if is_out_of_bounds(pos):
+			return null
 		return data[pos.x + pos.y * width]
-	func update() -> Board:
-		var next = Board.new(width, height)
+	func is_out_of_bounds(pos: Vector2i) -> bool:
+		return pos.x < 0 or width <= pos.x or \
+			   pos.y < 0 or height <= pos.y
+	func for_each_piece(fn):
 		for x in range(width):
-			for y in range(height-1, -1, -1):
+			for y in range(height):
 				var pos = Vector2i(x, y)
 				var piece = get_piece(pos)
-				if piece == null:
-					continue
-				var new_pos = pos + Vector2i(0, 1)
-				if new_pos.y >= height: # bottom of board
+				if piece:
+					fn.call(pos, piece)
+	func update() -> Board:
+		var next = Board.new(width, height)
+		# Copy all non-moving pieces to the new board. This must be done in several passes.
+		# The first pass only copies pieces against the boundaries.
+		# After the first pass, more pieces may realize they cannot move, so we keep doing passes
+		# until we reach equilibrium.
+		for i in range(max(width, height)):
+			for_each_piece(func(pos, piece):
+				var next_pos = pos + piece.velocity
+				var piece_at_next_pos = next.get_piece(next_pos)
+				if next.is_out_of_bounds(next_pos) or \
+				piece_at_next_pos and not piece.can_merge_with(piece_at_next_pos):
+					set_piece(pos, null)
+					piece.velocity = Vector2i(0, 1)
 					next.set_piece(pos, piece)
-					continue
-				var other_piece = next.get_piece(new_pos)
-				if other_piece == null:
-					next.set_piece(new_pos, piece)
-					continue
-				if piece.can_merge_with(other_piece):
-					next.set_piece(new_pos, Piece.new(Piece.Type.FULL))
-					continue
-				# piece doesn't move
-				next.set_piece(pos, piece)
+					return
+			)
+		# Now that all the non-moving pieces are copied, update the moving pieces.
+		for_each_piece(func(pos, piece):
+			var next_pos = pos + piece.velocity
+			var piece_at_next_pos = next.get_piece(next_pos)
+			# The position the piece is moving to is unoccupied.
+			if not next.is_out_of_bounds(next_pos) and not piece_at_next_pos:
+				set_piece(pos, null)
+				next.set_piece(next_pos, piece)
+				return
+			# The position the piece is moving to contains a piece that it can merge with.
+			if piece_at_next_pos and piece.can_merge_with(piece_at_next_pos):
+				set_piece(pos, null)
+				next.set_piece(next_pos, Piece.new(Piece.Type.FULL))
+				return
+		)
 		return next
 
 var cursor = Vector2i(1, 2)
