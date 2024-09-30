@@ -1,8 +1,6 @@
 extends Node
 
 # TODO
-# - add velocity property to class
-# - spawn pieces using JUIK
 # - add clear check
 
 class Board:
@@ -78,8 +76,16 @@ func _input(event):
 		cursor.y = max(cursor.y - 1, 0)
 	if event.is_action_pressed("move_down"):
 		cursor.y = min(cursor.y + 1, board.height - 1)
-	if event.is_action_pressed("action"):
-		board.set_piece(cursor, Piece.rand());
+	if event.is_action_pressed("spawn_up_left"):
+		board.set_piece(cursor, Piece.new(Piece.Type.UP_LEFT));
+	if event.is_action_pressed("spawn_up_right"):
+		board.set_piece(cursor, Piece.new(Piece.Type.UP_RIGHT));
+	if event.is_action_pressed("spawn_down_left"):
+		board.set_piece(cursor, Piece.new(Piece.Type.DOWN_LEFT));
+	if event.is_action_pressed("spawn_down_right"):
+		board.set_piece(cursor, Piece.new(Piece.Type.DOWN_RIGHT));
+	if event.is_action_pressed("spawn_full"):
+		board.set_piece(cursor, Piece.new(Piece.Type.FULL));
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
