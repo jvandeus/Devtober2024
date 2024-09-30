@@ -4,10 +4,12 @@ enum Type { UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, FULL }
 
 var type: Type
 var velocity: Vector2i
+var value: int
 
 func _init(t := Type.UP_LEFT, v := Vector2i(0, 1)):
 	type = t
 	velocity = v
+	value = 5
 
 static func rand() -> Piece:
 	var random_type = Type.values()[randi_range(0, Type.size() - 1)]
