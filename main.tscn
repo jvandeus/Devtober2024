@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://qenmagh0s323"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_7mn1t"]
+[ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://tileset.png" id="2_lshss"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x677s"]
+texture = ExtResource("2_lshss")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_4rdwb"]
+sources/0 = SubResource("TileSetAtlasSource_x677s")
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_7mn1t")
+
+[node name="board_layer" type="TileMapLayer" parent="."]
+texture_filter = 1
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_4rdwb")
+
+[node name="cursor_layer" type="TileMapLayer" parent="."]
+texture_filter = 1
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_4rdwb")
