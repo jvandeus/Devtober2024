@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://qenmagh0s323"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_7mn1t"]
-[ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://tileset.png" id="2_lshss"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_7mn1t"]
+[ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_lshss"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x677s"]
 texture = ExtResource("2_lshss")
@@ -17,7 +17,7 @@ texture = ExtResource("2_lshss")
 [sub_resource type="TileSet" id="TileSet_4rdwb"]
 sources/0 = SubResource("TileSetAtlasSource_x677s")
 
-[node name="Node2D" type="Node2D"]
+[node name="Game" type="Node2D"]
 script = ExtResource("1_7mn1t")
 
 [node name="board_layer" type="TileMapLayer" parent="."]
