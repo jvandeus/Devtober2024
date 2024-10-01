@@ -3,7 +3,22 @@ extends Node
 @onready var game_manager: Node = %GameManager
 
 # TODO
-# - add clear check
+# - add current pair
+# - show next pairs
+# - move current pair around
+# - drop pairs
+# - rotate pairs
+
+class DeflectResult:
+	var is_valid := false
+	var pos: Vector2i
+	var dir: Vector2i
+	func _init(p: Vector2i, d: Vector2i, v := true):
+		pos = p
+		dir = d
+		is_valid = v
+	static func make_invalid() -> DeflectResult:
+		return DeflectResult.new(Vector2i(0, 0), Vector2i(0, 0), false)
 
 class Board:
 	var data: Array[Piece]
@@ -67,6 +82,24 @@ class Board:
 			clear.append(get_piece(cell_xy))
 			set_piece(cell_xy, null)
 		return clear
+	func try_deflect(incoming_pos: Vector2i, deflector_pos: Vector2i) -> DeflectResult:
+		var deflector_piece = get_piece(deflector_pos)
+		if not deflector_piece:
+			return DeflectResult.make_invalid()
+		var incoming_dir = deflector_pos - incoming_pos
+		if incoming_dir != Vector2i(0, 1):
+			return DeflectResult.make_invalid()
+		
+		var deflect_dir = Vector2i(0, 0)
+		match deflector_piece.type:
+			Piece.Type.DOWN_LEFT:
+				deflect_dir = Vector2i(1, 0)
+			Piece.Type.DOWN_RIGHT:
+				deflect_dir = Vector2i(-1, 0)
+		var deflected_pos = deflector_pos + deflect_dir
+		if is_out_of_bounds(deflected_pos) or get_piece(deflected_pos):
+			return DeflectResult.make_invalid()
+		return DeflectResult.new(deflected_pos, deflect_dir)
 	func update(game_manager: Node) -> Board:
 		game_manager.add_clear(clear_clusters_of_size(4))
 		var next = Board.new(width, height)
@@ -78,14 +111,17 @@ class Board:
 			for_each_piece(func(pos, piece):
 				var next_pos = pos + piece.velocity
 				var piece_at_next_pos = next.get_piece(next_pos)
-				if next.is_out_of_bounds(next_pos) or \
-				piece_at_next_pos and not piece.can_merge_with(piece_at_next_pos):
+				var piece_will_merge = piece_at_next_pos and piece.can_merge_with(piece_at_next_pos)
+				var piece_will_deflect = piece_at_next_pos and next.try_deflect(pos, next_pos).is_valid
+				if piece_will_merge or piece_will_deflect:
+					return
+				if next.is_out_of_bounds(next_pos) or piece_at_next_pos:
 					set_piece(pos, null)
 					piece.velocity = Vector2i(0, 1)
 					next.set_piece(pos, piece)
 					return
 			)
-		# Now that all the non-moving pieces are copied, update the moving pieces.
+		# Now that all the non-moving pieces are copied, copy the moving pieces.
 		for_each_piece(func(pos, piece):
 			var next_pos = pos + piece.velocity
 			var piece_at_next_pos = next.get_piece(next_pos)
@@ -99,6 +135,12 @@ class Board:
 				set_piece(pos, null)
 				next.set_piece(next_pos, Piece.new(Piece.Type.FULL))
 				return
+			# The position the piece is moving to contains a piece that can deflect it.
+			var deflect_result = next.try_deflect(pos, next_pos)
+			if deflect_result.is_valid:
+				set_piece(pos, null)
+				piece.velocity = deflect_result.dir
+				next.set_piece(deflect_result.pos, piece)
 		)
 		return next
 
