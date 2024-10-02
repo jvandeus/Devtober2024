@@ -1,6 +1,7 @@
 class_name Piece
 
 enum Type { UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, FULL }
+enum RotationDirection { CLOCKWISE, COUNTERCLOCKWISE }
 
 var type: Type
 var velocity: Vector2i
@@ -40,3 +41,28 @@ func atlas_coords() -> Vector2i:
 		Type.FULL:
 			return Vector2i(7, 0)
 	return Vector2i(0, 0)
+	
+static func rotate_type(type: Piece.Type, dir: RotationDirection) -> Piece.Type:
+	match dir:
+		RotationDirection.CLOCKWISE:
+			match type:
+				Type.UP_LEFT:
+					return Type.UP_RIGHT
+				Type.UP_RIGHT:
+					return Type.DOWN_RIGHT
+				Type.DOWN_RIGHT:
+					return Type.DOWN_LEFT
+				Type.DOWN_LEFT:
+					return Type.UP_LEFT
+		RotationDirection.COUNTERCLOCKWISE:
+			match type:
+				Type.UP_LEFT:
+					return Type.DOWN_LEFT
+				Type.DOWN_LEFT:
+					return Type.DOWN_RIGHT
+				Type.DOWN_RIGHT:
+					return Type.UP_RIGHT
+				Type.UP_RIGHT:
+					return Type.UP_LEFT
+	assert(false)
+	return Type.UP_RIGHT
