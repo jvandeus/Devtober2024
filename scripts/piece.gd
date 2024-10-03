@@ -42,10 +42,10 @@ func atlas_coords() -> Vector2i:
 			return Vector2i(7, 0)
 	return Vector2i(0, 0)
 	
-static func rotate_type(type: Piece.Type, dir: RotationDirection) -> Piece.Type:
+static func rotate_type(t: Piece.Type, dir: RotationDirection) -> Piece.Type:
 	match dir:
 		RotationDirection.CLOCKWISE:
-			match type:
+			match t:
 				Type.UP_LEFT:
 					return Type.UP_RIGHT
 				Type.UP_RIGHT:
@@ -55,7 +55,7 @@ static func rotate_type(type: Piece.Type, dir: RotationDirection) -> Piece.Type:
 				Type.DOWN_LEFT:
 					return Type.UP_LEFT
 		RotationDirection.COUNTERCLOCKWISE:
-			match type:
+			match t:
 				Type.UP_LEFT:
 					return Type.DOWN_LEFT
 				Type.DOWN_LEFT:

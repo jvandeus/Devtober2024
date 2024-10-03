@@ -1,8 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=11 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_7mn1t"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_4hy83"]
 [ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_lshss"]
+[ext_resource type="PackedScene" uid="uid://cfqmvfnn51fow" path="res://scenes/board_edge.tscn" id="5_73vuw"]
+[ext_resource type="PackedScene" uid="uid://chjuh1q6gsdp0" path="res://scenes/piece_full.tscn" id="7_44du6"]
+[ext_resource type="PackedScene" uid="uid://xmd1c7buh1cb" path="res://scenes/piece_ul.tscn" id="8_fi30t"]
+[ext_resource type="PackedScene" uid="uid://c6smxgvl74vrg" path="res://scenes/piece_ur.tscn" id="8_yn63l"]
+[ext_resource type="PackedScene" uid="uid://boy3qyikp8l1x" path="res://scenes/piece_dr.tscn" id="9_x516e"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x677s"]
 texture = ExtResource("2_lshss")
@@ -42,3 +47,32 @@ texture_filter = 1
 scale = Vector2(4, 4)
 tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_4rdwb")
+
+[node name="BoardEdge_Bottom" parent="." instance=ExtResource("5_73vuw")]
+position = Vector2(576, 576)
+
+[node name="BoardEdge_Left" parent="." instance=ExtResource("5_73vuw")]
+position = Vector2(384, 320)
+rotation = 1.57079
+
+[node name="BoardEdge_Right" parent="." instance=ExtResource("5_73vuw")]
+position = Vector2(768, 320)
+rotation = -1.57079
+
+[node name="PieceFull" parent="." instance=ExtResource("7_44du6")]
+position = Vector2(544, 288)
+
+[node name="PieceUR" parent="." instance=ExtResource("8_yn63l")]
+position = Vector2(544, 544)
+
+[node name="PieceUR2" parent="." instance=ExtResource("8_yn63l")]
+position = Vector2(544, 480)
+
+[node name="PieceDR" parent="." instance=ExtResource("9_x516e")]
+position = Vector2(544, 416)
+
+[node name="PieceUL" parent="." instance=ExtResource("8_fi30t")]
+position = Vector2(672, 224)
+
+[node name="PieceDR2" parent="." instance=ExtResource("9_x516e")]
+position = Vector2(672, 288)

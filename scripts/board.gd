@@ -149,12 +149,6 @@ var cursor = Vector2i(1, 2)
 var board = Board.new(6, 10)
 var time_elapsed = 0
 const UPDATE_DURATION = 0.1
-var multi_piece: MultiPiece
-
-func _ready():
-	multi_piece = MultiPiece.new(Piece.Type.UP_LEFT, Piece.Type.UP_RIGHT, Vector2i(0, 1))
-	multi_piece.scale = Vector2(4, 4)
-	$".".add_child(multi_piece)
 
 func _input(event):
 	if event.is_action_pressed("move_left"):
@@ -168,9 +162,9 @@ func _input(event):
 	if event.is_action_pressed("drop"):
 		pass
 	if event.is_action_pressed("rotate_cw"):
-		multi_piece.rotate_whole(Piece.RotationDirection.CLOCKWISE)
+		pass
 	if event.is_action_pressed("rotate_ccw"):
-		multi_piece.rotate_whole(Piece.RotationDirection.COUNTERCLOCKWISE)
+		pass
 	if event.is_action_pressed("spawn_up_left"):
 		board.set_piece(cursor, Piece.new(Piece.Type.UP_LEFT));
 	if event.is_action_pressed("spawn_up_right"):
@@ -188,9 +182,7 @@ func _process(delta: float) -> void:
 	if time_elapsed > UPDATE_DURATION:
 		time_elapsed -= UPDATE_DURATION
 		board = board.update(game_manager)
-	
-	multi_piece.origin = Vector2((cursor.x + 8) * 16, cursor.y * 16)
-	
+		
 	$cursor_layer.clear()
 	$cursor_layer.set_cell(cursor, 0, Vector2i(2, 0))
 	
