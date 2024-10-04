@@ -17,3 +17,6 @@ mono_crash.*.json
 
 # Sublime Text specific Ignores
 *.sublime-workspace
+
+# just ingoreing a folder to store related files so we can store files related to the project, but not upload them
+other/
