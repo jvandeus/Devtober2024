@@ -4,14 +4,16 @@ extends Node2D
 
 enum Type { UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, FULL }
 
-@onready var raycast = $RayCast2D
+@onready var raycast_velocity = $RayCastVelocity
+@onready var raycast_down = $RayCastDown
+@onready var raycast_left = $RayCastLeft
+@onready var raycast_right = $RayCastRight
+@onready var raycast_up = $RayCastUp
 @onready var sprite = $AnimatedSprite2D
 @onready var scene_PieceFull = load("res://scenes/piece_full.tscn")
 
 var type: Type
 @export var velocity := Vector2i(0, 1)
-var time_elapsed: float
-const UPDATE_TIME = 0.1
 const TILE_SIZE = 64
 
 # Called when the node enters the scene tree for the first time.
@@ -52,26 +54,30 @@ func become_full():
 	new_piece.transform = transform
 	add_sibling(new_piece)
 	queue_free()
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	time_elapsed += delta
-	if time_elapsed < UPDATE_TIME:
-		return
-	time_elapsed -= UPDATE_TIME
-	
-	raycast.target_position = velocity * TILE_SIZE
-	var collider = raycast.get_collider()
+
+func find_adj_like_pieces(visited := {}) -> Array:
+	visited[hash(self)] = true
+	var result = [self]
+	for raycast in [raycast_up, raycast_down, raycast_left, raycast_right]:
+		var collider = raycast.get_collider()
+		if collider is SinglePiece and type == collider.type and !visited.has(hash(collider)):
+			result.append_array(collider.find_adj_like_pieces(visited))
+	return result
+
+
+func update() -> bool:
+	raycast_velocity.target_position = velocity * TILE_SIZE
+	var collider = raycast_velocity.get_collider()
 	if not collider:
 		position += Vector2(TILE_SIZE * velocity)
-		return
+		return true
 	
 	
 	if collider is SinglePiece:
 		if collider.can_merge(type):
 			collider.become_full()
 			queue_free()
-			return
+			return true
 		
 		var deflect_result = collider.try_deflect(type)
 		match deflect_result:
@@ -79,12 +85,13 @@ func _process(delta: float) -> void:
 				position.y += TILE_SIZE
 				position.x -= TILE_SIZE
 				velocity = Vector2i(-1, 0)
-				return
+				return true
 			1:
 				position.y += TILE_SIZE
 				position.x += TILE_SIZE
 				velocity = Vector2i(1, 0)
-				return
+				return true
 	
 	# At this point, the piece has exhausted all options, so it cannot move.
 	velocity = Vector2i(0, 1)
+	return false

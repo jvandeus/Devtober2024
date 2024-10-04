@@ -80,7 +80,27 @@ animation = &"up_right"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_255mj")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayCastVelocity" type="RayCast2D" parent="."]
 target_position = Vector2(0, 64)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastDown" type="RayCast2D" parent="."]
+target_position = Vector2(0, 64)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-64, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+target_position = Vector2(64, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastUp" type="RayCast2D" parent="."]
+target_position = Vector2(0, -64)
 collide_with_areas = true
 collide_with_bodies = false

@@ -3,6 +3,7 @@ extends Node
 @onready var game_manager: Node = %GameManager
 
 # TODO
+# - subclass SinglePiece for each type of piece
 # - have a type of piece that occupies multiple cells and moves as a single connected unit
 # - add current pair
 # - show next pairs
