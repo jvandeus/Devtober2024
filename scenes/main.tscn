@@ -1,8 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=12 format=3 uid="uid://qenmagh0s323"]
 
-[ext_resource type="Script" path="res://scripts/board.gd" id="1_7mn1t"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_4hy83"]
 [ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_lshss"]
+[ext_resource type="PackedScene" uid="uid://dylb236f2twqb" path="res://scenes/board_node.tscn" id="4_lrt4s"]
+[ext_resource type="PackedScene" uid="uid://cfqmvfnn51fow" path="res://scenes/board_edge.tscn" id="5_73vuw"]
+[ext_resource type="PackedScene" uid="uid://chjuh1q6gsdp0" path="res://scenes/piece_full.tscn" id="7_44du6"]
+[ext_resource type="PackedScene" uid="uid://xmd1c7buh1cb" path="res://scenes/piece_ul.tscn" id="8_fi30t"]
+[ext_resource type="PackedScene" uid="uid://lvoruxhowm63" path="res://scenes/piece_dl.tscn" id="8_kunvy"]
+[ext_resource type="PackedScene" uid="uid://c6smxgvl74vrg" path="res://scenes/piece_ur.tscn" id="8_yn63l"]
+[ext_resource type="PackedScene" uid="uid://boy3qyikp8l1x" path="res://scenes/piece_dr.tscn" id="9_x516e"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x677s"]
 texture = ExtResource("2_lshss")
@@ -19,7 +25,6 @@ texture = ExtResource("2_lshss")
 sources/0 = SubResource("TileSetAtlasSource_x677s")
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_7mn1t")
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
@@ -42,3 +47,112 @@ texture_filter = 1
 scale = Vector2(4, 4)
 tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_4rdwb")
+
+[node name="BoardEdge_Bottom" parent="." instance=ExtResource("5_73vuw")]
+position = Vector2(576, 576)
+
+[node name="BoardEdge_Left" parent="." instance=ExtResource("5_73vuw")]
+position = Vector2(384, 320)
+rotation = 1.57079
+
+[node name="BoardEdge_Right" parent="." instance=ExtResource("5_73vuw")]
+position = Vector2(768, 320)
+rotation = -1.57079
+
+[node name="BoardNode" parent="." instance=ExtResource("4_lrt4s")]
+
+[node name="PieceUL" parent="BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(224, 544)
+
+[node name="PieceUL3" parent="BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(480, 480)
+
+[node name="PieceUL4" parent="BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(416, 480)
+
+[node name="PieceUL5" parent="BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(416, 416)
+
+[node name="PieceUL6" parent="BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(480, 416)
+
+[node name="PieceUL2" parent="BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(544, 416)
+
+[node name="PieceUR" parent="BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(288, 544)
+
+[node name="PieceUR4" parent="BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(480, 96)
+
+[node name="PieceUR2" parent="BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(608, 480)
+
+[node name="PieceUR5" parent="BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(544, 480)
+
+[node name="PieceUR3" parent="BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(672, 480)
+
+[node name="PieceUR6" parent="BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(736, 480)
+
+[node name="PieceUL7" parent="BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(480, 544)
+
+[node name="PieceUL8" parent="BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(416, 544)
+
+[node name="PieceUR7" parent="BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(608, 544)
+
+[node name="PieceUR8" parent="BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(544, 544)
+
+[node name="PieceUR10" parent="BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(736, 544)
+
+[node name="PieceDL" parent="BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(96, 544)
+
+[node name="PieceDL4" parent="BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(480, 288)
+
+[node name="PieceDL2" parent="BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(608, 352)
+
+[node name="PieceDL3" parent="BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(672, 352)
+
+[node name="PieceDL5" parent="BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(736, 352)
+
+[node name="PieceDR" parent="BoardNode" instance=ExtResource("9_x516e")]
+position = Vector2(160, 544)
+
+[node name="PieceDR2" parent="BoardNode" instance=ExtResource("9_x516e")]
+position = Vector2(544, 288)
+
+[node name="PieceFull5" parent="BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(32, 544)
+
+[node name="PieceFull12" parent="BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(672, 544)
+
+[node name="PieceFull6" parent="BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(416, 352)
+
+[node name="PieceFull7" parent="BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(480, 352)
+
+[node name="PieceFull8" parent="BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(544, 352)
+
+[node name="PieceFull9" parent="BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(608, 416)
+
+[node name="PieceFull10" parent="BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(672, 416)
+
+[node name="PieceFull11" parent="BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(736, 416)

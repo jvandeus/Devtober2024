@@ -1,0 +1,106 @@
+[gd_scene load_steps=10 format=3 uid="uid://lvoruxhowm63"]
+
+[ext_resource type="Script" path="res://scripts/single_piece.gd" id="1_qyioc"]
+[ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_uwgyq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yl86u"]
+atlas = ExtResource("2_uwgyq")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j0l5n"]
+atlas = ExtResource("2_uwgyq")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmx7j"]
+atlas = ExtResource("2_uwgyq")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qj8ac"]
+atlas = ExtResource("2_uwgyq")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ynex"]
+atlas = ExtResource("2_uwgyq")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i3goy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yl86u")
+}],
+"loop": true,
+"name": &"down_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j0l5n")
+}],
+"loop": true,
+"name": &"down_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmx7j")
+}],
+"loop": true,
+"name": &"full",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qj8ac")
+}],
+"loop": true,
+"name": &"up_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ynex")
+}],
+"loop": true,
+"name": &"up_right",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_255mj"]
+size = Vector2(64, 64)
+
+[node name="PieceDL" type="Area2D"]
+script = ExtResource("1_qyioc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_i3goy")
+animation = &"down_left"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_255mj")
+
+[node name="RayCastVelocity" type="RayCast2D" parent="."]
+target_position = Vector2(0, 64)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastDown" type="RayCast2D" parent="."]
+target_position = Vector2(0, 64)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-64, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+target_position = Vector2(64, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastUp" type="RayCast2D" parent="."]
+target_position = Vector2(0, -64)
+collide_with_areas = true
+collide_with_bodies = false
