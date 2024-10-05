@@ -10,7 +10,11 @@ enum Type { UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, FULL }
 @onready var raycast_right = $RayCastRight
 @onready var raycast_up = $RayCastUp
 @onready var sprite = $AnimatedSprite2D
-@onready var scene_PieceFull = load("res://scenes/piece_full.tscn")
+@onready var scene_PieceFull = preload("res://scenes/piece_full.tscn")
+@onready var shape: Path2D = $shape
+@onready var fill: Polygon2D = $fill
+@onready var line: Line2D = $line
+
 
 var type: Type
 @export var velocity := Vector2i(0, 1)
@@ -29,6 +33,16 @@ func _ready() -> void:
 			type = Type.DOWN_RIGHT
 		"full":
 			type = Type.FULL
+
+func _draw() -> void:
+#	link the line and fill with the baked points from the path.
+	if shape == null or fill == null or line == null:
+		return
+	var points = shape.curve.get_baked_points()
+	fill.polygon = points
+	line.points = points
+#	shift the color of the line to a lighter version of the polygon color
+	line.default_color = fill.color.lightened(0.7)
 
 func can_merge(other: Type):
 	var a = type
@@ -51,8 +65,8 @@ func try_deflect(other: Type) -> int:
 
 func become_full():
 	var new_piece = scene_PieceFull.instantiate()
-	new_piece.transform = transform
 	add_sibling(new_piece)
+	new_piece.transform = transform
 	queue_free()
 
 func find_adj_like_pieces(visited := {}) -> Array:
@@ -94,4 +108,6 @@ func update() -> bool:
 	
 	# At this point, the piece has exhausted all options, so it cannot move.
 	velocity = Vector2i(0, 1)
+	# draw polygons again
+	queue_redraw()
 	return false
