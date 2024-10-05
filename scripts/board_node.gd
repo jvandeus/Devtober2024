@@ -19,11 +19,11 @@ func _process(delta: float) -> void:
 	if is_clearing:
 		return
 	
-	print("update")
+	#print("update")
 	var any_piece_updated = false
 	var full_pieces = []
 	for piece in get_children():
-		print("child")
+		#print("child")
 		if piece is SinglePiece:
 			var did_update = piece.update()
 			any_piece_updated = any_piece_updated || did_update

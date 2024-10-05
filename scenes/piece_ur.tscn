@@ -1,7 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://c6smxgvl74vrg"]
+[gd_scene load_steps=12 format=3 uid="uid://c6smxgvl74vrg"]
 
 [ext_resource type="Script" path="res://scripts/single_piece.gd" id="1_rkl4b"]
 [ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_l4ivm"]
+
+[sub_resource type="Curve2D" id="Curve2D_3lxn8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -10, 7, -6.35677, 6.35677, 6.35677, -6.35677, -24, -24, -6.35677, -6.62164, 6.35677, 6.62164, 22, -24, 9.2703, -8.21083, -9.2703, 8.21083, 23, 25, 0, 0, 0, 0, -10, 7)
+}
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_m8wx8"]
+_data = [Vector2(0, 0.417726), 0.0, 0.0, 0, 0, Vector2(0.519504, 0.905019), 0.0, 0.0, 0, 0, Vector2(1, 0.421855), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yl86u"]
 atlas = ExtResource("2_l4ivm")
@@ -72,7 +82,19 @@ size = Vector2(64, 64)
 [node name="PieceUR" type="Area2D"]
 script = ExtResource("1_rkl4b")
 
+[node name="shape" type="Path2D" parent="."]
+curve = SubResource("Curve2D_3lxn8")
+
+[node name="fill" type="Polygon2D" parent="."]
+color = Color(0.113725, 0.611765, 0.898039, 1)
+
+[node name="line" type="Line2D" parent="."]
+closed = true
+width_curve = SubResource("Curve_m8wx8")
+joint_mode = 2
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_i3goy")
 animation = &"up_right"
