@@ -6,3 +6,7 @@
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("WorldBoundaryShape2D_fujyv")
+
+[node name="Line2D_debug" type="Line2D" parent="."]
+points = PackedVector2Array(-320, 0, 320, 0)
+width = 2.0
