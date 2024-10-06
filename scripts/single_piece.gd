@@ -47,11 +47,9 @@ func become_full():
 	new_piece.transform = transform
 	queue_free()
 
-
-
-
 func update() -> bool:
 	raycast_velocity.target_position = velocity * TILE_SIZE
+	raycast_velocity.force_raycast_update()
 	var collider = raycast_velocity.get_collider()
 	if not collider:
 		position += Vector2(TILE_SIZE * velocity)
