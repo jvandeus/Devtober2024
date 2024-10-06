@@ -19,15 +19,13 @@ func _process(delta: float) -> void:
 	if is_clearing:
 		return
 	
-	#print("update")
 	var any_piece_updated = false
 	var full_pieces = []
 	for piece in get_children():
-		#print("child")
 		if piece is SinglePiece:
 			var did_update = piece.update()
 			any_piece_updated = any_piece_updated || did_update
-			if piece.type == SinglePiece.Type.FULL:
+			if piece is PieceFull:
 				full_pieces.append(piece)
 	
 	var pieces_to_clear = []
@@ -35,9 +33,10 @@ func _process(delta: float) -> void:
 		var visited = {}
 		
 		for full_piece in full_pieces:
+			full_piece = full_piece as PieceFull
 			if visited.has(hash(full_piece)):
 				continue
-			var cluster = full_piece.find_adj_like_pieces(visited)
+			var cluster = full_piece.find_adj(visited)
 			if len(cluster) >= 4:
 				pieces_to_clear.append_array(cluster)
 	

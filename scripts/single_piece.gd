@@ -2,7 +2,6 @@ class_name SinglePiece
 
 extends Node2D
 
-enum Type { UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, FULL }
 enum Deflect { NONE, RIGHT, LEFT }
 
 @onready var raycast_velocity = $RayCastVelocity
@@ -17,23 +16,12 @@ enum Deflect { NONE, RIGHT, LEFT }
 @onready var line: Line2D = $line
 
 
-var type: Type
 @export var velocity := Vector2i(0, 1)
 const TILE_SIZE = 64
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	match sprite.animation:
-		"up_left":
-			type = Type.UP_LEFT
-		"up_right":
-			type = Type.UP_RIGHT
-		"down_left":
-			type = Type.DOWN_LEFT
-		"down_right":
-			type = Type.DOWN_RIGHT
-		"full":
-			type = Type.FULL
+	pass
 
 func _draw() -> void:
 #	link the line and fill with the baked points from the path.
@@ -59,14 +47,7 @@ func become_full():
 	new_piece.transform = transform
 	queue_free()
 
-func find_adj_like_pieces(visited := {}) -> Array:
-	visited[hash(self)] = true
-	var result = [self]
-	for raycast in [raycast_up, raycast_down, raycast_left, raycast_right]:
-		var collider = raycast.get_collider()
-		if collider is SinglePiece and type == collider.type and !visited.has(hash(collider)):
-			result.append_array(collider.find_adj_like_pieces(visited))
-	return result
+
 
 
 func update() -> bool:
@@ -75,7 +56,6 @@ func update() -> bool:
 	if not collider:
 		position += Vector2(TILE_SIZE * velocity)
 		return true
-	
 	
 	if collider is SinglePiece:
 		if collider.can_merge(self):
