@@ -3,6 +3,7 @@ class_name SinglePiece
 extends Node2D
 
 enum Type { UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, FULL }
+enum Deflect { NONE, RIGHT, LEFT }
 
 @onready var raycast_velocity = $RayCastVelocity
 @onready var raycast_down = $RayCastDown
@@ -44,24 +45,13 @@ func _draw() -> void:
 #	shift the color of the line to a lighter version of the polygon color
 	line.default_color = fill.color.lightened(0.7)
 
-func can_merge(other: Type):
-	var a = type
-	var b = other
-	if b < a:
-		var tmp = a
-		a = b
-		b = tmp
-	return a == Type.UP_LEFT and b == Type.DOWN_RIGHT or \
-		   a == Type.UP_RIGHT and b == Type.DOWN_LEFT
+func can_merge(other: SinglePiece) -> bool:
+	assert("please override this method")
+	return false
 
-func try_deflect(other: Type) -> int:
-	if type == Type.UP_LEFT or type == Type.UP_RIGHT or type == Type.FULL:
-		return 0
-	if type == Type.DOWN_LEFT and other != Type.UP_RIGHT:
-		return 1
-	if type == Type.DOWN_RIGHT and other != Type.UP_LEFT:
-		return -1
-	return 0
+func try_deflect(other: SinglePiece) -> Deflect:
+	assert("please override this method")
+	return Deflect.NONE
 
 func become_full():
 	var new_piece = scene_PieceFull.instantiate()
@@ -88,19 +78,18 @@ func update() -> bool:
 	
 	
 	if collider is SinglePiece:
-		if collider.can_merge(type):
+		if collider.can_merge(self):
 			collider.become_full()
 			queue_free()
 			return true
 		
-		var deflect_result = collider.try_deflect(type)
-		match deflect_result:
-			-1:
+		match collider.try_deflect(self):
+			Deflect.LEFT:
 				position.y += TILE_SIZE
 				position.x -= TILE_SIZE
 				velocity = Vector2i(-1, 0)
 				return true
-			1:
+			Deflect.RIGHT:
 				position.y += TILE_SIZE
 				position.x += TILE_SIZE
 				velocity = Vector2i(1, 0)

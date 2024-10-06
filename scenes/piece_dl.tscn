@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://lvoruxhowm63"]
 
-[ext_resource type="Script" path="res://scripts/single_piece.gd" id="1_qyioc"]
+[ext_resource type="Script" path="res://scripts/piece_dl.gd" id="1_3vm34"]
 [ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_uwgyq"]
 
 [sub_resource type="Curve2D" id="Curve2D_polt0"]
@@ -80,7 +80,7 @@ animations = [{
 size = Vector2(64, 64)
 
 [node name="PieceDL" type="Area2D"]
-script = ExtResource("1_qyioc")
+script = ExtResource("1_3vm34")
 
 [node name="shape" type="Path2D" parent="."]
 curve = SubResource("Curve2D_polt0")
