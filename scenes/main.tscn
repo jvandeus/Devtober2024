@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=18 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
@@ -17,6 +17,16 @@ shader = ExtResource("1_tjqgd")
 shader_parameter/speed_x = 0.025
 shader_parameter/speed_y = 0.025
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mydh4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jx20w"]
+bg_color = Color(0.0429148, 0.0101982, 0.00281415, 0.588235)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0, 0, 0, 1)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x677s"]
 texture = ExtResource("2_lshss")
 0:0/0 = 0
@@ -31,7 +41,13 @@ texture = ExtResource("2_lshss")
 [sub_resource type="TileSet" id="TileSet_4rdwb"]
 sources/0 = SubResource("TileSetAtlasSource_x677s")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h12lq"]
+
 [node name="Game" type="Node2D"]
+
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_4hy83")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -49,63 +65,83 @@ size_flags_vertical = 3
 texture = ExtResource("1_d7sal")
 stretch_mode = 1
 
-[node name="board_layer" type="TileMapLayer" parent="Camera2D/CanvasLayer"]
-texture_filter = 1
-scale = Vector2(4, 4)
-tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-tile_set = SubResource("TileSet_4rdwb")
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="cursor_layer" type="TileMapLayer" parent="Camera2D/CanvasLayer"]
-texture_filter = 1
-scale = Vector2(4, 4)
-tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-tile_set = SubResource("TileSet_4rdwb")
+[node name="PlayerInfo" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mydh4")
 
-[node name="BoardEdge_Bottom" parent="Camera2D/CanvasLayer" instance=ExtResource("5_73vuw")]
-position = Vector2(576, 576)
-
-[node name="BoardEdge_Left" parent="Camera2D/CanvasLayer" instance=ExtResource("5_73vuw")]
-position = Vector2(384, 320)
-rotation = 1.57079
-
-[node name="BoardEdge_Right" parent="Camera2D/CanvasLayer" instance=ExtResource("5_73vuw")]
-position = Vector2(768, 320)
-rotation = -1.57079
-
-[node name="BoardNode" parent="Camera2D/CanvasLayer" node_paths=PackedStringArray("possessed") instance=ExtResource("4_lrt4s")]
-position = Vector2(544, 32)
-possessed = NodePath("")
-
-[node name="PieceUL" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(-320, 512)
-
-[node name="PieceUL2" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(-64, 384)
-
-[node name="PieceUR" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(-256, 512)
-
-[node name="PieceDL" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_kunvy")]
-position = Vector2(-448, 512)
-
-[node name="PieceDR" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("9_x516e")]
-position = Vector2(-384, 512)
-
-[node name="PieceDL2" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_kunvy")]
-position = Vector2(-64, 512)
-
-[node name="PieceDR2" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("9_x516e")]
-position = Vector2(0, 512)
-
-[node name="PieceFull5" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("7_44du6")]
-position = Vector2(-512, 512)
-
-[node name="GameManager" type="Node" parent="Camera2D/CanvasLayer"]
-unique_name_in_owner = true
-script = ExtResource("2_4hy83")
-
-[node name="ScoreDisplay" type="Label" parent="Camera2D/CanvasLayer/GameManager"]
-offset_right = 351.0
-offset_bottom = 45.0
+[node name="ScoreDisplay" type="Label" parent="Camera2D/CanvasLayer/HBoxContainer/PlayerInfo"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme_override_font_sizes/font_size = 32
 text = "Score: 0"
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayArea" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_jx20w")
+
+[node name="board_layer" type="TileMapLayer" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea"]
+texture_filter = 1
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_4rdwb")
+
+[node name="cursor_layer" type="TileMapLayer" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea"]
+texture_filter = 1
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_4rdwb")
+
+[node name="BoardEdge_Bottom" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
+position = Vector2(451, 576)
+
+[node name="BoardEdge_Left" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
+position = Vector2(259, 320)
+rotation = 1.57079
+
+[node name="BoardEdge_Right" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
+position = Vector2(643, 320)
+rotation = -1.57079
+
+[node name="BoardNode" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea" instance=ExtResource("4_lrt4s")]
+
+[node name="PieceUL" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(96, 544)
+
+[node name="PieceUL2" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(352, 416)
+
+[node name="PieceUR" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(160, 544)
+
+[node name="PieceDL" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(-32, 544)
+
+[node name="PieceDR" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("9_x516e")]
+position = Vector2(32, 544)
+
+[node name="PieceDL2" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(352, 544)
+
+[node name="PieceDR2" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("9_x516e")]
+position = Vector2(416, 544)
+
+[node name="PieceFull5" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(-96, 544)
+
+[node name="OtherInfo" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_h12lq")
