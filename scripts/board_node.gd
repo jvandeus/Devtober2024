@@ -3,11 +3,33 @@ extends Node2D
 var is_clearing := false
 var time_elapsed := 0.0
 var UPDATE_TIME := 0.2
+var possessed : DoublePiece
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	for child in get_children():
+		if child is DoublePiece:
+			possessed = child
+			break
+	if not possessed:
+		push_warning("Unable to find child DoublePiece to possess")
 
+func _input(event: InputEvent) -> void:
+	if not possessed:
+		return
+	if event.is_action_pressed("move_up"):
+		possessed.move_up()
+	if event.is_action_pressed("move_left"):
+		possessed.move_left()
+	if event.is_action_pressed("move_right"):
+		possessed.move_right()
+	if event.is_action_pressed("move_down"):
+		possessed.move_down()
+	if event.is_action_pressed("rotate_cw"):
+		possessed.rotate_cw()
+	if event.is_action_pressed("rotate_ccw"):
+		possessed.rotate_ccw()
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

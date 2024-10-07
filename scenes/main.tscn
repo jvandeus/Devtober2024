@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=16 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://lvoruxhowm63" path="res://scenes/piece_dl.tscn" id="8_kunvy"]
 [ext_resource type="PackedScene" uid="uid://c6smxgvl74vrg" path="res://scenes/piece_ur.tscn" id="8_yn63l"]
 [ext_resource type="PackedScene" uid="uid://boy3qyikp8l1x" path="res://scenes/piece_dr.tscn" id="9_x516e"]
+[ext_resource type="PackedScene" uid="uid://bxs6r1amg4hbd" path="res://scenes/double_piece.tscn" id="11_ntlyx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dyqnh"]
 shader = ExtResource("1_tjqgd")
@@ -77,98 +78,34 @@ rotation = -1.57079
 [node name="PieceUL" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
 position = Vector2(224, 544)
 
-[node name="PieceUL3" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(480, 480)
-
-[node name="PieceUL4" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(416, 480)
-
-[node name="PieceUL5" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(416, 416)
-
-[node name="PieceUL6" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(480, 416)
-
 [node name="PieceUL2" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(544, 416)
+position = Vector2(480, 416)
 
 [node name="PieceUR" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
 position = Vector2(288, 544)
 
-[node name="PieceUR4" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(480, 96)
-
-[node name="PieceUR2" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(608, 480)
-
-[node name="PieceUR5" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(544, 480)
-
-[node name="PieceUR3" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(672, 480)
-
-[node name="PieceUR6" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(736, 480)
-
-[node name="PieceUL7" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(480, 544)
-
-[node name="PieceUL8" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(416, 544)
-
-[node name="PieceUR7" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(608, 544)
-
-[node name="PieceUR8" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(544, 544)
-
-[node name="PieceUR10" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(736, 544)
-
 [node name="PieceDL" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_kunvy")]
 position = Vector2(96, 544)
-
-[node name="PieceDL4" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_kunvy")]
-position = Vector2(480, 288)
-
-[node name="PieceDL2" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_kunvy")]
-position = Vector2(608, 352)
-
-[node name="PieceDL3" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_kunvy")]
-position = Vector2(672, 352)
-
-[node name="PieceDL5" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_kunvy")]
-position = Vector2(736, 352)
 
 [node name="PieceDR" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("9_x516e")]
 position = Vector2(160, 544)
 
+[node name="PieceDL2" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(480, 544)
+
 [node name="PieceDR2" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("9_x516e")]
-position = Vector2(544, 288)
+position = Vector2(544, 544)
 
 [node name="PieceFull5" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("7_44du6")]
 position = Vector2(32, 544)
 
-[node name="PieceFull12" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("7_44du6")]
-position = Vector2(672, 544)
+[node name="DoublePiece" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("11_ntlyx")]
+position = Vector2(480, 160)
 
-[node name="PieceFull6" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("7_44du6")]
-position = Vector2(416, 352)
+[node name="PieceDL" parent="Camera2D/CanvasLayer/BoardNode/DoublePiece" instance=ExtResource("8_kunvy")]
 
-[node name="PieceFull7" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("7_44du6")]
-position = Vector2(480, 352)
-
-[node name="PieceFull8" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("7_44du6")]
-position = Vector2(544, 352)
-
-[node name="PieceFull9" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("7_44du6")]
-position = Vector2(608, 416)
-
-[node name="PieceFull10" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("7_44du6")]
-position = Vector2(672, 416)
-
-[node name="PieceFull11" parent="Camera2D/CanvasLayer/BoardNode" instance=ExtResource("7_44du6")]
-position = Vector2(736, 416)
+[node name="PieceUL2" parent="Camera2D/CanvasLayer/BoardNode/DoublePiece" instance=ExtResource("8_fi30t")]
+position = Vector2(64, 0)
 
 [node name="GameManager" type="Node" parent="Camera2D/CanvasLayer"]
 unique_name_in_owner = true
