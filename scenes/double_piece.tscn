@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/double_piece.gd" id="1_dquy2"]
 
 [node name="DoublePiece" type="Node2D"]
+position = Vector2(32, 32)
 script = ExtResource("1_dquy2")
 
 [node name="NodePrimary" type="Node2D" parent="."]
