@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=20 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
@@ -26,6 +26,10 @@ border_width_top = 6
 border_width_right = 6
 border_width_bottom = 6
 border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_inr3q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xoo5d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x677s"]
 texture = ExtResource("2_lshss")
@@ -79,7 +83,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mydh4")
 
-[node name="ScoreDisplay" type="Label" parent="Camera2D/CanvasLayer/HBoxContainer/PlayerInfo"]
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/CanvasLayer/HBoxContainer/PlayerInfo"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="ScoreDisplay" type="Label" parent="Camera2D/CanvasLayer/HBoxContainer/PlayerInfo/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -87,59 +99,118 @@ theme_override_font_sizes/font_size = 32
 text = "Score: 0"
 metadata/_edit_use_anchors_ = true
 
-[node name="PlayArea" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Camera2D/CanvasLayer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PuzzlePanel" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer"]
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jx20w")
 
-[node name="board_layer" type="TileMapLayer" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea"]
-texture_filter = 1
-scale = Vector2(4, 4)
-tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-tile_set = SubResource("TileSet_4rdwb")
+[node name="Space_Boarders" type="MarginContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = -6
+theme_override_constants/margin_top = -6
+theme_override_constants/margin_right = -6
+theme_override_constants/margin_bottom = -6
 
-[node name="cursor_layer" type="TileMapLayer" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea"]
-texture_filter = 1
-scale = Vector2(4, 4)
-tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-tile_set = SubResource("TileSet_4rdwb")
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders"]
+custom_minimum_size = Vector2(-1, -1)
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="BoardEdge_Bottom" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
-position = Vector2(451, 576)
+[node name="EdgeTop" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_inr3q")
 
-[node name="BoardEdge_Left" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
-position = Vector2(259, 320)
+[node name="VMiddle" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_inr3q")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle"]
+layout_mode = 2
+
+[node name="EdgeLeft" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xoo5d")
+
+[node name="BoardEdge_Left" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/EdgeLeft" instance=ExtResource("5_73vuw")]
+visible = false
+position = Vector2(3, 384)
 rotation = 1.57079
+scale = Vector2(2, 2)
 
-[node name="BoardEdge_Right" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
-position = Vector2(643, 320)
+[node name="PlayArea" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer"]
+custom_minimum_size = Vector2(384, 768)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xoo5d")
+
+[node name="board_layer" type="TileMapLayer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea"]
+texture_filter = 1
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_4rdwb")
+
+[node name="cursor_layer" type="TileMapLayer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea"]
+texture_filter = 1
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_4rdwb")
+
+[node name="BoardNode" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea" instance=ExtResource("4_lrt4s")]
+
+[node name="PieceUL" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(-160, 740)
+
+[node name="PieceUL2" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_fi30t")]
+position = Vector2(96, 612)
+
+[node name="PieceUR" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_yn63l")]
+position = Vector2(-96, 740)
+
+[node name="PieceDL" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(-288, 740)
+
+[node name="PieceDR" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("9_x516e")]
+position = Vector2(-224, 740)
+
+[node name="PieceDL2" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_kunvy")]
+position = Vector2(96, 740)
+
+[node name="PieceDR2" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("9_x516e")]
+position = Vector2(160, 740)
+
+[node name="PieceFull5" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("7_44du6")]
+position = Vector2(-352, 740)
+
+[node name="EdgeRight" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xoo5d")
+
+[node name="BoardEdge_Right" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/VMiddle/HBoxContainer/EdgeRight" instance=ExtResource("5_73vuw")]
+visible = false
+position = Vector2(3, 384)
 rotation = -1.57079
+scale = Vector2(2, 2)
 
-[node name="BoardNode" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea" instance=ExtResource("4_lrt4s")]
+[node name="EdgeBottom" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_inr3q")
 
-[node name="PieceUL" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(96, 544)
-
-[node name="PieceUL2" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_fi30t")]
-position = Vector2(352, 416)
-
-[node name="PieceUR" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_yn63l")]
-position = Vector2(160, 544)
-
-[node name="PieceDL" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_kunvy")]
-position = Vector2(-32, 544)
-
-[node name="PieceDR" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("9_x516e")]
-position = Vector2(32, 544)
-
-[node name="PieceDL2" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_kunvy")]
-position = Vector2(352, 544)
-
-[node name="PieceDR2" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("9_x516e")]
-position = Vector2(416, 544)
-
-[node name="PieceFull5" parent="Camera2D/CanvasLayer/HBoxContainer/PlayArea/BoardNode" instance=ExtResource("7_44du6")]
-position = Vector2(-96, 544)
+[node name="BoardEdge_Bottom" parent="Camera2D/CanvasLayer/HBoxContainer/AspectRatioContainer/PuzzlePanel/Space_Boarders/VBoxContainer/EdgeBottom" instance=ExtResource("5_73vuw")]
+visible = false
+position = Vector2(192, 3)
 
 [node name="OtherInfo" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer"]
 layout_mode = 2
