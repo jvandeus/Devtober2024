@@ -18,10 +18,12 @@ enum Orientation { UP, LEFT, RIGHT, DOWN }
 @onready var SecondaryRight = $RotationContainer/NodeSecondary/Right
 @onready var SecondaryDown = $RotationContainer/NodeSecondary/Down
 
+signal on_placed
 var primary: SinglePiece
 var secondary: SinglePiece
 var target_orientation_index := 0
 const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT, Orientation.DOWN ]
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -90,7 +92,11 @@ func move_down():
 	translate(Vector2(0, TILE_SIZE))
 
 func place():
-	print("place")
+	NodePrimary.remove_child(primary)
+	NodeSecondary.remove_child(secondary)
+	var relative_position = NodeSecondary.transform.rotated(RotationContainer.transform.get_rotation()).origin
+	secondary.translate(relative_position)
+	on_placed.emit(primary, secondary)
 
 func rotate_cw():
 	match target_orientation():
