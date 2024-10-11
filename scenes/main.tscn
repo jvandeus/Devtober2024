@@ -1,16 +1,18 @@
-[gd_scene load_steps=31 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=33 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_4hy83"]
 [ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_lshss"]
-[ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="4_34xkp"]
+[ext_resource type="Shader" path="res://assets/shaders/mask_color.gdshader" id="4_3weut"]
 [ext_resource type="PackedScene" uid="uid://dylb236f2twqb" path="res://scenes/board_node.tscn" id="4_lrt4s"]
 [ext_resource type="Texture2D" uid="uid://cebfp0d8qg0a0" path="res://assets/screen_mask.png" id="5_6drod"]
 [ext_resource type="PackedScene" uid="uid://cfqmvfnn51fow" path="res://scenes/board_edge.tscn" id="5_73vuw"]
 [ext_resource type="Texture2D" uid="uid://chjneqbtqe1k1" path="res://assets/screen_bg.png" id="5_qihva"]
 [ext_resource type="PackedScene" uid="uid://chjuh1q6gsdp0" path="res://scenes/piece_full.tscn" id="7_44du6"]
-[ext_resource type="Shader" path="res://assets/shaders/depth.gdshader" id="7_bermo"]
+[ext_resource type="Shader" path="res://scenes/screen_border.gdshader" id="7_erhs4"]
+[ext_resource type="Environment" uid="uid://dh74fexhonevj" path="res://assets/settings/3D_Character_Camera_Environment.tres" id="7_vy1le"]
+[ext_resource type="CameraAttributesPractical" uid="uid://cu1wl5ab3gk5g" path="res://assets/settings/3D_Character_Camera_Attributes.tres" id="8_a0r8n"]
 [ext_resource type="PackedScene" uid="uid://xmd1c7buh1cb" path="res://scenes/piece_ul.tscn" id="8_fi30t"]
 [ext_resource type="PackedScene" uid="uid://lvoruxhowm63" path="res://scenes/piece_dl.tscn" id="8_kunvy"]
 [ext_resource type="PackedScene" uid="uid://c6smxgvl74vrg" path="res://scenes/piece_ur.tscn" id="8_yn63l"]
@@ -28,9 +30,8 @@ shader_parameter/speed_y = 0.025
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aub4n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8tumo"]
-shader = ExtResource("4_34xkp")
-shader_parameter/mask = ExtResource("5_6drod")
-shader_parameter/border = ExtResource("5_qihva")
+shader = ExtResource("4_3weut")
+shader_parameter/mask_color = Color(1, 0, 1, 1)
 
 [sub_resource type="Gradient" id="Gradient_q861v"]
 colors = PackedColorArray(0, 0, 0, 1, 0.223103, 0.223103, 0.223103, 1)
@@ -44,13 +45,13 @@ fill_to = Vector2(0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ei3sm"]
 render_priority = 0
-shader = ExtResource("7_bermo")
+shader = ExtResource("7_erhs4")
 shader_parameter/fill_color = Color(1, 0, 1, 1)
 shader_parameter/mask = ExtResource("5_6drod")
+shader_parameter/border = ExtResource("5_qihva")
 
 [sub_resource type="QuadMesh" id="QuadMesh_qygim"]
 material = SubResource("ShaderMaterial_ei3sm")
-flip_faces = true
 size = Vector2(4, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jx20w"]
@@ -155,16 +156,20 @@ render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="CanvasLayer/HBoxContainer/PlayerInfo/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 0.813314, 0.581825, 0, -0.581825, 0.813314, 0, 4.5532, 3.89286)
+environment = ExtResource("7_vy1le")
+attributes = ExtResource("8_a0r8n")
 current = true
-far = 1000.0
 
 [node name="Background" type="Sprite3D" parent="CanvasLayer/HBoxContainer/PlayerInfo/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
+gi_mode = 0
 double_sided = false
 texture = SubResource("GradientTexture2D_ye4ey")
 
-[node name="DepthHandler" type="MeshInstance3D" parent="CanvasLayer/HBoxContainer/PlayerInfo/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport/Camera3D"]
+[node name="ScreenBorder" type="MeshInstance3D" parent="CanvasLayer/HBoxContainer/PlayerInfo/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+ignore_occlusion_culling = true
+gi_mode = 0
 mesh = SubResource("QuadMesh_qygim")
 skeleton = NodePath("../..")
 

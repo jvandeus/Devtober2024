@@ -39,4 +39,12 @@ void fragment() {
 	//ALBEDO = mix(vec3(0.0), ALBEDO, depth_mask.x);
 	//ALBEDO = vec3(depth*0.01);
 	//ALBEDO = ALBEDO;
+	
+	// TODO: TRY THIS TO MAKE SECTIONS TRANSPARENT!!!! saw in a radom post online. Might be usefull
+	// discard = true;
+}
+
+void light() {
+    DIFFUSE_LIGHT = vec3(0.0);
+	SPECULAR_LIGHT = vec3(0.0);
 }
