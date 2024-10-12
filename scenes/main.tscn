@@ -4,7 +4,7 @@
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_4hy83"]
 [ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="4_34xkp"]
-[ext_resource type="PackedScene" uid="uid://dylb236f2twqb" path="res://scenes/board_node.tscn" id="4_lrt4s"]
+[ext_resource type="PackedScene" uid="uid://dylb236f2twqb" path="res://scenes/board.tscn" id="4_lrt4s"]
 [ext_resource type="Texture2D" uid="uid://cebfp0d8qg0a0" path="res://assets/screen_mask.png" id="5_6drod"]
 [ext_resource type="PackedScene" uid="uid://cfqmvfnn51fow" path="res://scenes/board_edge.tscn" id="5_73vuw"]
 [ext_resource type="Texture2D" uid="uid://chjneqbtqe1k1" path="res://assets/screen_bg.png" id="5_qihva"]
@@ -133,59 +133,59 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Control" type="Control" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer"]
+[node name="TopSpacer" type="Control" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 
-[node name="PlayArea" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer"]
+[node name="BoardContainer" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(384, 768)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BoardEdge_Bottom" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
+[node name="BoardEdge_Bottom" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer" instance=ExtResource("5_73vuw")]
 visible = false
 position = Vector2(192, 768)
 
-[node name="BoardEdge_Bottom_OffScreen" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
+[node name="BoardEdge_Bottom_OffScreen" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer" instance=ExtResource("5_73vuw")]
 position = Vector2(192, 1024)
 
-[node name="BoardEdge_Left" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
+[node name="BoardEdge_Left" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer" instance=ExtResource("5_73vuw")]
 visible = false
 position = Vector2(0, 448)
 rotation = 1.57079
 
-[node name="BoardEdge_Right" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea" instance=ExtResource("5_73vuw")]
+[node name="BoardEdge_Right" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer" instance=ExtResource("5_73vuw")]
 visible = false
 position = Vector2(384, 448)
 rotation = -1.57079
 
-[node name="BoardNode" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea" instance=ExtResource("4_lrt4s")]
+[node name="Board" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer" instance=ExtResource("4_lrt4s")]
 
-[node name="PieceFull" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea/BoardNode" instance=ExtResource("7_44du6")]
+[node name="PieceFull" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer/Board" instance=ExtResource("7_44du6")]
 position = Vector2(32, 992)
 
-[node name="PieceUL" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_fi30t")]
+[node name="PieceUL" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer/Board" instance=ExtResource("8_fi30t")]
 position = Vector2(224, 992)
 
-[node name="PieceUR" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_yn63l")]
+[node name="PieceUR" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer/Board" instance=ExtResource("8_yn63l")]
 position = Vector2(288, 992)
 
-[node name="PieceDL" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_kunvy")]
+[node name="PieceDL" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer/Board" instance=ExtResource("8_kunvy")]
 position = Vector2(96, 992)
 
-[node name="PieceDR" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea/BoardNode" instance=ExtResource("9_x516e")]
+[node name="PieceDR" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer/Board" instance=ExtResource("9_x516e")]
 position = Vector2(160, 992)
 
-[node name="PieceUL2" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_fi30t")]
+[node name="PieceUL2" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer/Board" instance=ExtResource("8_fi30t")]
 position = Vector2(96, 608)
 
-[node name="PieceDL3" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_kunvy")]
+[node name="PieceDL3" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer/Board" instance=ExtResource("8_kunvy")]
 position = Vector2(288, 736)
 
-[node name="PieceDL2" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea/BoardNode" instance=ExtResource("8_kunvy")]
+[node name="PieceDL2" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer/Board" instance=ExtResource("8_kunvy")]
 position = Vector2(96, 736)
 
-[node name="PieceDR2" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/PlayArea/BoardNode" instance=ExtResource("9_x516e")]
+[node name="PieceDR2" parent="Camera2D/CanvasLayer/HBoxContainer/VBoxContainer/BoardContainer/Board" instance=ExtResource("9_x516e")]
 position = Vector2(160, 736)
 
 [node name="OtherInfo" type="PanelContainer" parent="Camera2D/CanvasLayer/HBoxContainer"]
