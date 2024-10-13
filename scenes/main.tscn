@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=23 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_4hy83"]
 [ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="4_34xkp"]
+[ext_resource type="PackedScene" uid="uid://b3p18c2i1ifow" path="res://scenes/flip_board.tscn" id="4_g1vkf"]
 [ext_resource type="PackedScene" uid="uid://dylb236f2twqb" path="res://scenes/board.tscn" id="4_lrt4s"]
 [ext_resource type="Texture2D" uid="uid://cebfp0d8qg0a0" path="res://assets/screen_mask.png" id="5_6drod"]
 [ext_resource type="PackedScene" uid="uid://cfqmvfnn51fow" path="res://scenes/board_edge.tscn" id="5_73vuw"]
@@ -97,13 +98,8 @@ layout_mode = 2
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ljo8s")
 
-[node name="ScoreDisplay" type="Label" parent="CanvasLayer/Columns/UI_Left/MarginContainer/VBoxContainer/SectionTop"]
+[node name="FlipBoard" parent="CanvasLayer/Columns/UI_Left/MarginContainer/VBoxContainer/SectionTop" instance=ExtResource("4_g1vkf")]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 32
-text = "Score: 0"
-metadata/_edit_use_anchors_ = true
 
 [node name="SectionBottom" type="PanelContainer" parent="CanvasLayer/Columns/UI_Left/MarginContainer/VBoxContainer"]
 layout_mode = 2

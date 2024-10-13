@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://mdi801eoai4u"]
+
+[ext_resource type="FontVariation" uid="uid://rr6u4j4imq5q" path="res://assets/font/FlipDigitFontVariationTrimmed.tres" id="1_fq82b"]
+
+[resource]
+line_spacing = 0.0
+font = ExtResource("1_fq82b")
+font_size = 64
+shadow_size = 0
+shadow_offset = Vector2(0, 0)

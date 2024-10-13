@@ -1,0 +1,123 @@
+[gd_scene load_steps=6 format=3 uid="uid://coxra0ls2cj1g"]
+
+[ext_resource type="StyleBox" uid="uid://cs6xl7gdxh2q4" path="res://assets/font/FlipDigitPanel_Top.tres" id="1_ar3hj"]
+[ext_resource type="Script" path="res://scenes/flip_digit.gd" id="1_e8ayn"]
+[ext_resource type="LabelSettings" uid="uid://mdi801eoai4u" path="res://assets/font/FlipDigitText.tres" id="2_7b2va"]
+[ext_resource type="StyleBox" uid="uid://c4ma5uvcov3dv" path="res://assets/font/FlipDigitPanel_Bottom.tres" id="3_wcs18"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r2ln3"]
+
+[node name="FlipDigit" type="Node2D"]
+script = ExtResource("1_e8ayn")
+
+[node name="Digit" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(60, 72)
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_r2ln3")
+
+[node name="Below" type="VBoxContainer" parent="Digit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Top" type="PanelContainer" parent="Digit/Below"]
+clip_children = 2
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = ExtResource("1_ar3hj")
+
+[node name="Margin" type="MarginContainer" parent="Digit/Below/Top"]
+clip_children = 2
+clip_contents = true
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = -32
+
+[node name="Label" type="Label" parent="Digit/Below/Top/Margin"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "B"
+label_settings = ExtResource("2_7b2va")
+horizontal_alignment = 1
+
+[node name="Bottom" type="PanelContainer" parent="Digit/Below"]
+clip_children = 2
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = ExtResource("3_wcs18")
+
+[node name="Margin" type="MarginContainer" parent="Digit/Below/Bottom"]
+clip_children = 2
+clip_contents = true
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = -32
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Digit/Below/Bottom/Margin"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "B"
+label_settings = ExtResource("2_7b2va")
+horizontal_alignment = 1
+
+[node name="Above" type="VBoxContainer" parent="Digit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Top" type="PanelContainer" parent="Digit/Above"]
+clip_children = 2
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = ExtResource("1_ar3hj")
+
+[node name="Margin" type="MarginContainer" parent="Digit/Above/Top"]
+clip_children = 2
+clip_contents = true
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = -32
+
+[node name="Label" type="Label" parent="Digit/Above/Top/Margin"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "A"
+label_settings = ExtResource("2_7b2va")
+horizontal_alignment = 1
+
+[node name="Bottom" type="PanelContainer" parent="Digit/Above"]
+clip_children = 2
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = ExtResource("3_wcs18")
+
+[node name="Margin" type="MarginContainer" parent="Digit/Above/Bottom"]
+clip_children = 2
+clip_contents = true
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = -32
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Digit/Above/Bottom/Margin"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "A"
+label_settings = ExtResource("2_7b2va")
+horizontal_alignment = 1

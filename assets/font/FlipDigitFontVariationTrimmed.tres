@@ -1,0 +1,8 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://rr6u4j4imq5q"]
+
+[ext_resource type="FontFile" uid="uid://by4cynbjilsgj" path="res://assets/font/ZeroCool.ttf" id="1_uj3im"]
+
+[resource]
+base_font = ExtResource("1_uj3im")
+spacing_top = -5
+spacing_bottom = -5
