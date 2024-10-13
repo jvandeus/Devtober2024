@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://vi7ub7o3tyvd"]
+
+[ext_resource type="Shader" path="res://assets/shaders/flip_digit.gdshader" id="1_f253h"]
+
+[resource]
+shader = ExtResource("1_f253h")
+shader_parameter/scale_y = 1.0
