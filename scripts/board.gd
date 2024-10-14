@@ -1,100 +1,94 @@
+class_name Board
 extends Node2D
 
-var is_clearing := false
-var time_elapsed := 0.0
-var UPDATE_TIME := 0.2
-@export var possessed : DoublePiece
+var scene_DoublePiece = preload("res://scenes/double_piece.tscn")
 
-@onready var node_DoublePiece = load("res://scenes/double_piece.tscn")
-@onready var node_PieceUL = load("res://scenes/piece_ul.tscn")
-@onready var node_PieceDL = load("res://scenes/piece_dl.tscn")
-@onready var node_PieceUR = load("res://scenes/piece_ur.tscn")
-@onready var node_PieceDR = load("res://scenes/piece_dr.tscn")
-@onready var node_PieceFull = load("res://scenes/piece_full.tscn")
 
+const BOARD_WIDTH := 6
+const BOARD_HEIGHT := 10
+const CELL_SIZE := 64
+const UPDATE_TIME := 0.5
+
+var columns : Array
+var dp : DoublePiece
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if not possessed:
-		print("DoublePiece not found, creating one...")
-		create_next_double_piece()
-	possessed.on_placed.connect(place)
+	columns = []
+	for c in range(BOARD_WIDTH):
+		columns.append([])
+	run()
 
-func create_next_double_piece():
-	var node = node_DoublePiece.instantiate()
-	var piece_types = [node_PieceUL, node_PieceDL, node_PieceDR, node_PieceUR, node_PieceFull]
-	for i in range(2):
-		node.add_child(piece_types.pick_random().instantiate())
-	add_child(node)
-	# this is a weird hack because idk how to get the DoublePiece from the node instance
+func reindex_columns() -> void:
+	for column in columns:
+		(column as Array).clear()
 	for child in get_children():
-		if child is DoublePiece:
-			possessed = child
-			possessed.on_placed.connect(place)
+		if child is not Piece:
+			continue
+		if child.is_queued_for_deletion():
+			continue
+		var column_index = int(child.transform.origin.x / CELL_SIZE)
+		columns[column_index].append(child)
 
-func place(primary, secondary):
-	print(primary.transform)
-	print(secondary.transform)
-	add_child(primary)
-	add_child(secondary)
-	primary.translate(possessed.transform.origin)
-	secondary.translate(possessed.transform.origin)
-	possessed.queue_free()
-	create_next_double_piece()
+func create_new_double_piece() -> void:
+	dp = scene_DoublePiece.instantiate()
+	dp.transform.origin = Vector2(CELL_SIZE/2, CELL_SIZE/2)
+	dp.on_placed.connect(place)
+	add_child(dp)
 	
-func _input(event: InputEvent) -> void:
-	if not possessed:
-		return
-	if event.is_action_pressed("move_up"):
-		possessed.move_up()
-	if event.is_action_pressed("move_left"):
-		possessed.move_left()
-	if event.is_action_pressed("move_right"):
-		possessed.move_right()
-	if event.is_action_pressed("move_down"):
-		possessed.move_down()
-	if event.is_action_pressed("rotate_cw"):
-		possessed.rotate_cw()
-	if event.is_action_pressed("rotate_ccw"):
-		possessed.rotate_ccw()
-	
+func place(p1: Piece, p2: Piece) -> void:
+	add_child(p1)
+	add_child(p2)
+	run()
+
+func run() -> void:
+	reindex_columns()
+	await settle()
+	while await clear():
+		reindex_columns()
+		await settle()
+	create_new_double_piece()
+
+func sort_columns() -> void:
+	for column in columns:
+		column.sort_custom(func(a, b):
+			return a.transform.origin.y > b.transform.origin.y
+		)
+
+func settle() -> void:
+	sort_columns()
+	var changed_pieces := []
+	for column in columns:
+		for i in len(column):
+			var new_y = CELL_SIZE / 2 + CELL_SIZE * (BOARD_HEIGHT - 1 - i)
+			if column[i].transform.origin.y == new_y:
+				continue
+			changed_pieces.append(column[i])
+			column[i].fall_to(new_y)
+	for piece in changed_pieces:
+		await piece.done_animation_fall
+
+func clear() -> bool:
+	var pieces_to_clear = []
+	var visited = {}
+	for piece in get_children():
+		if piece is not Piece:
+			continue
+		if piece.is_queued_for_deletion():
+			continue
+		if visited.has(hash(piece)):
+			continue
+		var cluster = piece.get_cluster(visited)
+		if len(cluster) >= 4:
+			pieces_to_clear.append_array(cluster)
+	for piece in pieces_to_clear:
+		piece.clear()
+	for piece in pieces_to_clear:
+		await piece.done_animation_clear
+	for piece in pieces_to_clear:
+		piece.queue_free()
+	return len(pieces_to_clear) > 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	time_elapsed += delta
-	if time_elapsed < UPDATE_TIME:
-		return
-	time_elapsed -= UPDATE_TIME
-	
-	if is_clearing:
-		return
-	
-	var any_piece_updated = false
-	var full_pieces = []
-	for piece in get_children():
-		if piece is SinglePiece:
-			var did_update = piece.update()
-			any_piece_updated = any_piece_updated || did_update
-			if piece is PieceFull:
-				full_pieces.append(piece)
-	
-	var pieces_to_clear = []
-	if !any_piece_updated: # board is stable
-		var visited = {}
-		
-		for full_piece in full_pieces:
-			full_piece = full_piece as PieceFull
-			if visited.has(hash(full_piece)):
-				continue
-			var cluster = full_piece.find_adj(visited)
-			if len(cluster) >= 4:
-				pieces_to_clear.append_array(cluster)
-	
-	if len(pieces_to_clear) > 0:
-		for piece in pieces_to_clear:
-			piece.sprite.play()
-		is_clearing = true
-		await get_tree().create_timer(1.0).timeout
-		is_clearing = false
-		for piece in pieces_to_clear:
-			piece.queue_free()
+	pass

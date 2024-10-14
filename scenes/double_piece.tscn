@@ -1,10 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxs6r1amg4hbd"]
+[gd_scene load_steps=2 format=3 uid="uid://bb7ov4git200x"]
 
-[ext_resource type="Script" path="res://scripts/double_piece.gd" id="1_dquy2"]
+[ext_resource type="Script" path="res://scripts/double_piece.gd" id="1_d6x4x"]
 
 [node name="DoublePiece" type="Node2D"]
-position = Vector2(32, 32)
-script = ExtResource("1_dquy2")
+script = ExtResource("1_d6x4x")
 
 [node name="NodePrimary" type="Node2D" parent="."]
 
