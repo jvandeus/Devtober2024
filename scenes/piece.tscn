@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://2cl001epfkkn"]
+
+[ext_resource type="Script" path="res://scripts/piece.gd" id="1_jcdrj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ncmos"]
+
+[node name="Piece" type="Area2D"]
+script = ExtResource("1_jcdrj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ncmos")
+
+[node name="ApparentTransform" type="Node2D" parent="."]
+
+[node name="RayCast_Up" type="RayCast2D" parent="."]
+target_position = Vector2(0, -64)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCast_Down" type="RayCast2D" parent="."]
+target_position = Vector2(0, 64)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCast_Left" type="RayCast2D" parent="."]
+target_position = Vector2(-64, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCast_Right" type="RayCast2D" parent="."]
+target_position = Vector2(64, 0)
+collide_with_areas = true
+collide_with_bodies = false
