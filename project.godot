@@ -65,7 +65,7 @@ textures/canvas_textures/default_texture_filter=0
 
 diffuse_curve={
 "type": "sampler2D",
-"value": ""
+"value": "res://assets/shaders/cel_gradient.tres"
 }
 fresnel_smoothness={
 "type": "float",

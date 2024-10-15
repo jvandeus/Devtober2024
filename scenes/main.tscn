@@ -116,7 +116,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
 texture = SubResource("GradientTexture2D_ye4ey")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
-transform = Transform3D(0.62087, 0.7676, 0.159093, -0.760832, 0.541163, 0.358159, 0.188828, -0.343413, 0.920006, 2.20665, 2.42911, -0.212508)
+transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514, 0.592836, -0.409986, 0.69315, 2.20665, 2.42911, -0.212508)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
 environment = SubResource("Environment_41vkf")
