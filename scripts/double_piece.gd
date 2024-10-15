@@ -4,6 +4,9 @@ class_name DoublePiece
 extends Node2D
 
 const PRIMARY_INDICATOR_COLOR = Color(1, 1, 1, 0.5)
+const REPEAT_DELAY = 0.25
+const REPEAT_DURATION = 0.05
+const TIME_TO_FALL_ONE_CELL = 1
 
 enum Orientation { UP, LEFT, RIGHT, DOWN }
 
@@ -27,6 +30,10 @@ var secondary: Piece
 var orientation_index := 1
 const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT, Orientation.DOWN ]
 
+var is_left_pressed := false
+var is_right_pressed := false
+var is_down_pressed := false
+
 func _ready() -> void:
 	primary = scene_Piece.instantiate()
 	secondary = scene_Piece.instantiate()
@@ -36,19 +43,64 @@ func _ready() -> void:
 	NodeSecondary.add_child(secondary)
 	primary.transform = Transform2D()
 	secondary.transform = Transform2D()
+	start_falling()
 
 func _draw() -> void:
 	draw_circle(Vector2(0, 0), cell_size/2, PRIMARY_INDICATOR_COLOR, false, 4.0, true)
 
+func start_falling() -> void:
+	#TODO fix this to restart fall timer when down is released
+	while true:
+		await get_tree().create_timer(TIME_TO_FALL_ONE_CELL).timeout
+		if is_down_pressed:
+			continue
+		move_down()
+
+#TODO fix bug where double pieces can go out of bounds if you hold left/right and rotate repeatedly
+func hold_left() -> void:
+	move_left()
+	await get_tree().create_timer(REPEAT_DELAY).timeout
+	while is_left_pressed:
+		move_left()
+		await get_tree().create_timer(REPEAT_DURATION).timeout
+		
+func hold_right() -> void:
+	move_right()
+	await get_tree().create_timer(REPEAT_DELAY).timeout
+	while is_right_pressed:
+		move_right()
+		await get_tree().create_timer(REPEAT_DURATION).timeout
+		
+func hold_down() -> void:
+	move_down()
+	await get_tree().create_timer(REPEAT_DELAY).timeout
+	while is_down_pressed:
+		move_down()
+		await get_tree().create_timer(REPEAT_DURATION).timeout
+
+#TODO migrate input handling to board.gd
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("move_up"):
-		move_up()
+		rotate_cw()
+		
 	if event.is_action_pressed("move_left"):
-		move_left()
+		is_left_pressed = true
+		hold_left()
+	if event.is_action_released("move_left"):
+		is_left_pressed = false
+		
 	if event.is_action_pressed("move_right"):
-		move_right()
+		is_right_pressed = true
+		hold_right()
+	if event.is_action_released("move_right"):
+		is_right_pressed = false
+		
 	if event.is_action_pressed("move_down"):
-		move_down()
+		is_down_pressed = true
+		hold_down()
+	if event.is_action_released("move_down"):
+		is_down_pressed = false
+		
 	if event.is_action_pressed("rotate_cw"):
 		rotate_cw()
 	if event.is_action_pressed("rotate_ccw"):
