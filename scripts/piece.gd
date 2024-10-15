@@ -54,11 +54,10 @@ func is_animating() -> bool:
 	return apparent_transform.transform.origin != Vector2(0, 0)
 
 func clear() -> void:
-	for i in 20:
+	for i in 16:
 		is_visible = !is_visible
-		await get_tree().create_timer(0.05).timeout
+		await get_tree().create_timer(0.04).timeout
 	done_animation_clear.emit()
-	
 
 # get immmediately adjacent pieces
 func get_adj_pieces() -> Array:

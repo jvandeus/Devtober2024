@@ -49,7 +49,7 @@ func reindex_columns() -> void:
 
 func create_new_double_piece() -> void:
 	dp = scene_DoublePiece.instantiate()
-	dp.transform.origin = Vector2(cell_size/2, cell_size/2)
+	dp.transform.origin = Vector2(cell_size * int(board_width / 2) + cell_size/2, cell_size/2)
 	dp.on_placed.connect(place)
 	dp.cell_size = cell_size
 	add_child(dp)
