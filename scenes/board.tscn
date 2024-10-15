@@ -6,9 +6,9 @@
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_udi82")
-BOARD_WIDTH = null
-BOARD_HEIGHT = null
-CELL_SIZE = null
+board_width = null
+board_height = null
+cell_size = null
 
 [node name="BoardEdge_Left" type="Area2D" parent="."]
 position = Vector2(0, 320)

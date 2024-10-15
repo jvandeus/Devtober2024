@@ -12,7 +12,7 @@ enum Kind { GREEN, RED, BLUE, YELLOW }
 @onready var ray_right = $Right
 @onready var Shape = $Shape
 
-var kind: Kind
+@export var kind: Kind
 var is_visible := true
 @export var cell_size := 64
 
@@ -27,17 +27,16 @@ func _ready() -> void:
 	kind = KINDS.pick_random()
 
 func _draw() -> void:
-	if not Engine.is_editor_hint():
-		draw_line(Vector2(-8, -8), Vector2(8, 8), Color.RED, 2.0, true)
-		draw_line(Vector2(-8, 8), Vector2(8, -8), Color.RED, 2.0, true)
+	draw_line(Vector2(-8, -8), Vector2(8, 8), Color.RED, 4.0, true)
+	draw_line(Vector2(-8, 8), Vector2(8, -8), Color.RED, 4.0, true)
 	var color: Color
 	match kind:
 		Kind.GREEN: color = Color.GREEN
-		Kind.BLUE: color = Color.AQUA
+		Kind.BLUE: color = Color(0.2, 0.5, 1)
 		Kind.RED: color = Color.RED
 		Kind.YELLOW: color = Color.YELLOW
 	if is_visible:
-		draw_circle(apparent_transform.transform.origin, cell_size / 2 - 8, color, false, 2.0, true)
+		draw_circle(apparent_transform.transform.origin, cell_size / 2 - 8, color, false, 4.0, true)
 
 func fall_to(y: int) -> void:
 	var diff = transform.origin.y - y

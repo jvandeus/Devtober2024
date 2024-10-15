@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b3p18c2i1ifow" path="res://scenes/flip_board.tscn" id="4_g1vkf"]
 [ext_resource type="Texture2D" uid="uid://cebfp0d8qg0a0" path="res://assets/screen_mask.png" id="5_6drod"]
 [ext_resource type="Texture2D" uid="uid://chjneqbtqe1k1" path="res://assets/screen_bg.png" id="5_qihva"]
-[ext_resource type="PackedScene" uid="uid://dylb236f2twqb" path="res://scenes/board.tscn" id="8_hikeo"]
+[ext_resource type="PackedScene" uid="uid://bp86rnvlsxn8o" path="res://scenes/board.tscn" id="8_hikeo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dyqnh"]
 shader = ExtResource("1_tjqgd")
@@ -110,6 +110,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Board" parent="CanvasLayer" instance=ExtResource("8_hikeo")]
 position = Vector2(1040, 60)
-BOARD_WIDTH = 4
-BOARD_HEIGHT = 8
-CELL_SIZE = 120
+board_width = 5
+board_height = 9
+cell_size = 104

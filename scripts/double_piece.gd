@@ -3,6 +3,7 @@
 class_name DoublePiece
 extends Node2D
 
+const PRIMARY_INDICATOR_COLOR = Color(1, 1, 1, 0.5)
 
 enum Orientation { UP, LEFT, RIGHT, DOWN }
 
@@ -23,7 +24,7 @@ signal on_placed
 @export var cell_size := 64
 var primary: Piece
 var secondary: Piece
-var orientation_index := 0
+var orientation_index := 1
 const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT, Orientation.DOWN ]
 
 func _ready() -> void:
@@ -35,6 +36,9 @@ func _ready() -> void:
 	NodeSecondary.add_child(secondary)
 	primary.transform = Transform2D()
 	secondary.transform = Transform2D()
+
+func _draw() -> void:
+	draw_circle(Vector2(0, 0), cell_size/2, PRIMARY_INDICATOR_COLOR, false, 4.0, true)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("move_up"):
@@ -148,6 +152,7 @@ func set_angle(angle: float):
 	NodeSecondary.rotation = -angle
 
 func update_children() -> void:
+	queue_redraw()
 	if NodeSecondary: NodeSecondary.transform.origin.x = cell_size
 	for ray in [PrimaryUp, PrimaryDown, PrimaryLeft, PrimaryRight, SecondaryUp, SecondaryDown, SecondaryLeft, SecondaryRight]:
 		if ray: ray.target_position.x = cell_size
