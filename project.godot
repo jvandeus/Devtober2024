@@ -60,3 +60,26 @@ rotate_ccw={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+
+[shader_globals]
+
+diffuse_curve={
+"type": "sampler2D",
+"value": ""
+}
+fresnel_smoothness={
+"type": "float",
+"value": 0.335
+}
+outline_color={
+"type": "color",
+"value": Color(0, 0, 0, 1)
+}
+specular_smoothness={
+"type": "float",
+"value": 3.55
+}
+outline_width={
+"type": "float",
+"value": 9.0
+}
