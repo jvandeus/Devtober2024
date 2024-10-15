@@ -1,6 +1,6 @@
 class_name FlipDigit
 extends CanvasItem
-
+	
 @onready var back_top: PanelContainer = $Back/Top
 @onready var back_bottom: PanelContainer = $Back/Bottom
 @onready var front_top: PanelContainer = $Front/Top
@@ -15,39 +15,21 @@ var tween
 var target_text
 var current_text
 
-func _ready() -> void:
-	#for _i in self.get_children():
-		#print(_i)
-	front_top.pivot_offset = Vector2(front_top.size.x/2, front_top.size.y)
-	front_top.pivot_offset = Vector2(front_top.size.x/2, front_top.size.y)
+var text:
+	get:
+		return target_text if target_text else ' '
+	set(value):
+		if (typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT):
+			value = "%1d" % value
+		elif (typeof(value) == TYPE_STRING):
+			value = value[0]
+		flip_to(value)
 
-func _input(event: InputEvent) -> void:
-	var digit=null
-	if event is InputEventKey and event.pressed:
-		match event.keycode:
-			KEY_0:
-				digit = 0
-			KEY_1:
-				digit = 1
-			KEY_2:
-				digit = 2
-			KEY_3:
-				digit = 3
-			KEY_4:
-				digit = 4
-			KEY_5:
-				digit = 5
-			KEY_6:
-				digit = 6
-			KEY_7:
-				digit = 7
-			KEY_8:
-				digit = 8
-			KEY_9:
-				digit = 9
-		if digit:
-			#print(str(digit) + " was pressed")
-			flip_to(digit)
+func _ready() -> void:
+	front_top.pivot_offset = Vector2(front_top.size.x/2, front_top.size.y)
+	front_top.pivot_offset = Vector2(front_top.size.x/2, front_top.size.y)
+	target_text = " "
+
 			
 func flip_to(digit):
 	current_text = front_bottom_label.text
