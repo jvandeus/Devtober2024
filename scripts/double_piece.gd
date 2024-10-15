@@ -1,14 +1,14 @@
 class_name DoublePiece
-
 extends Node2D
 
-const TILE_SIZE = 64
+const CELL_SIZE := 64
 
 enum Orientation { UP, LEFT, RIGHT, DOWN }
 
+@onready var scene_Piece = preload("res://scenes/piece.tscn")
 @onready var NodePrimary = $NodePrimary
-@onready var RotationContainer = $RotationContainer
 @onready var NodeSecondary = $RotationContainer/NodeSecondary
+@onready var RotationContainer = $RotationContainer
 @onready var PrimaryLeft = $NodePrimary/Left
 @onready var PrimaryRight = $NodePrimary/Right
 @onready var PrimaryUp = $NodePrimary/Up
@@ -19,35 +19,35 @@ enum Orientation { UP, LEFT, RIGHT, DOWN }
 @onready var SecondaryDown = $RotationContainer/NodeSecondary/Down
 
 signal on_placed
-var primary: SinglePiece
-var secondary: SinglePiece
-var target_orientation_index := 0
+var primary: Piece
+var secondary: Piece
+var orientation_index := 0
 const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT, Orientation.DOWN ]
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for child in get_children():
-		if child is SinglePiece:
-			if not primary:
-				primary = child
-				continue
-			if not secondary:
-				secondary = child
-				break
-	if not primary:
-		push_warning("DoublePiece without primary SinglePiece")
-	if not secondary:
-		push_warning("DoublePiece without secondary SinglePiece")
-	remove_child(primary)
-	remove_child(secondary)
+	primary = scene_Piece.instantiate()
+	secondary = scene_Piece.instantiate()
 	NodePrimary.add_child(primary)
 	NodeSecondary.add_child(secondary)
 	primary.transform = Transform2D()
 	secondary.transform = Transform2D()
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("move_up"):
+		move_up()
+	if event.is_action_pressed("move_left"):
+		move_left()
+	if event.is_action_pressed("move_right"):
+		move_right()
+	if event.is_action_pressed("move_down"):
+		move_down()
+	if event.is_action_pressed("rotate_cw"):
+		rotate_cw()
+	if event.is_action_pressed("rotate_ccw"):
+		rotate_ccw()
+
 func move_left():
-	match target_orientation():
+	match get_orientation():
 		Orientation.UP, Orientation.DOWN:
 			if PrimaryLeft.is_colliding() or SecondaryLeft.is_colliding():
 				return
@@ -57,10 +57,10 @@ func move_left():
 		Orientation.RIGHT:
 			if PrimaryLeft.is_colliding():
 				return
-	translate(Vector2(-TILE_SIZE, 0))
+	translate(Vector2(-CELL_SIZE, 0))
 	
 func move_right():
-	match target_orientation():
+	match get_orientation():
 		Orientation.UP, Orientation.DOWN:
 			if PrimaryRight.is_colliding() or SecondaryRight.is_colliding():
 				return
@@ -70,13 +70,13 @@ func move_right():
 		Orientation.RIGHT:
 			if SecondaryRight.is_colliding():
 				return
-	translate(Vector2(TILE_SIZE, 0))
+	translate(Vector2(CELL_SIZE, 0))
 
 func move_up():
-	translate(Vector2(0, -TILE_SIZE))
+	translate(Vector2(0, -CELL_SIZE))
 	
 func move_down():
-	match target_orientation():
+	match get_orientation():
 		Orientation.UP:
 			if PrimaryDown.is_colliding():
 				place()
@@ -89,17 +89,19 @@ func move_down():
 			if SecondaryDown.is_colliding():
 				place()
 				return
-	translate(Vector2(0, TILE_SIZE))
+	translate(Vector2(0, CELL_SIZE))
 
 func place():
+	queue_free()
 	NodePrimary.remove_child(primary)
 	NodeSecondary.remove_child(secondary)
+	primary.transform.origin = transform.origin
 	var relative_position = NodeSecondary.transform.rotated(RotationContainer.transform.get_rotation()).origin
-	secondary.translate(relative_position)
+	secondary.transform.origin = transform.origin + relative_position
 	on_placed.emit(primary, secondary)
 
 func rotate_cw():
-	match target_orientation():
+	match get_orientation():
 		Orientation.UP:
 			if PrimaryRight.is_colliding():
 				move_left()
@@ -114,7 +116,7 @@ func rotate_cw():
 	rotate_90_cw()
 	
 func rotate_ccw():
-	match target_orientation():
+	match get_orientation():
 		Orientation.UP:
 			if PrimaryLeft.is_colliding():
 				move_right()
@@ -128,28 +130,28 @@ func rotate_ccw():
 				move_left()
 	rotate_90_ccw()
 
-func target_orientation() -> Orientation:
-	return ORIENTATION_ORDER[target_orientation_index]
+func get_orientation() -> Orientation:
+	return ORIENTATION_ORDER[orientation_index]
 
 func rotate_90_ccw():
-	target_orientation_index = (target_orientation_index + 1) % len(ORIENTATION_ORDER)
+	orientation_index = (orientation_index + 1) % len(ORIENTATION_ORDER)
 	
 func rotate_90_cw():
-	target_orientation_index = (target_orientation_index + len(ORIENTATION_ORDER) - 1) % len(ORIENTATION_ORDER)
+	orientation_index = (orientation_index + len(ORIENTATION_ORDER) - 1) % len(ORIENTATION_ORDER)
 
-func set_rotation_piecewise(angle: float):
+func set_angle(angle: float):
 	RotationContainer.rotation = angle
 	NodeSecondary.rotation = -angle
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	match target_orientation():
+	match get_orientation():
 		Orientation.UP:
-			set_rotation_piecewise(-PI/2)
+			set_angle(-PI/2)
 		Orientation.LEFT:
-			set_rotation_piecewise(PI)
+			set_angle(PI)
 		Orientation.RIGHT:
-			set_rotation_piecewise(0)
+			set_angle(0)
 		Orientation.DOWN:
-			set_rotation_piecewise(PI/2)
+			set_angle(PI/2)
 		
