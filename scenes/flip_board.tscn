@@ -9,32 +9,32 @@
 theme_override_styles/panel = SubResource("StyleBoxEmpty_drg75")
 script = ExtResource("1_cylc8")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="DigitContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="FlipDigit" parent="HBoxContainer" instance=ExtResource("3_5ksqd")]
+[node name="FlipDigit" parent="DigitContainer" instance=ExtResource("3_5ksqd")]
 layout_mode = 2
 
-[node name="FlipDigit2" parent="HBoxContainer" instance=ExtResource("3_5ksqd")]
+[node name="FlipDigit2" parent="DigitContainer" instance=ExtResource("3_5ksqd")]
 layout_mode = 2
 
-[node name="FlipDigit3" parent="HBoxContainer" instance=ExtResource("3_5ksqd")]
+[node name="FlipDigit3" parent="DigitContainer" instance=ExtResource("3_5ksqd")]
 layout_mode = 2
 
-[node name="FlipDigit4" parent="HBoxContainer" instance=ExtResource("3_5ksqd")]
+[node name="FlipDigit4" parent="DigitContainer" instance=ExtResource("3_5ksqd")]
 layout_mode = 2
 
-[node name="FlipDigit5" parent="HBoxContainer" instance=ExtResource("3_5ksqd")]
+[node name="FlipDigit5" parent="DigitContainer" instance=ExtResource("3_5ksqd")]
 layout_mode = 2
 
-[node name="FlipDigit6" parent="HBoxContainer" instance=ExtResource("3_5ksqd")]
+[node name="FlipDigit6" parent="DigitContainer" instance=ExtResource("3_5ksqd")]
 layout_mode = 2
 
-[node name="FlipDigit7" parent="HBoxContainer" instance=ExtResource("3_5ksqd")]
+[node name="FlipDigit7" parent="DigitContainer" instance=ExtResource("3_5ksqd")]
 layout_mode = 2
 
-[node name="FlipDigit8" parent="HBoxContainer" instance=ExtResource("3_5ksqd")]
+[node name="FlipDigit8" parent="DigitContainer" instance=ExtResource("3_5ksqd")]
 layout_mode = 2
 
-[node name="FlipDigit9" parent="HBoxContainer" instance=ExtResource("3_5ksqd")]
+[node name="FlipDigit9" parent="DigitContainer" instance=ExtResource("3_5ksqd")]
 layout_mode = 2

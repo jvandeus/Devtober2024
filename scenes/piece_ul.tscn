@@ -1,0 +1,128 @@
+[gd_scene load_steps=12 format=3 uid="uid://bl715y7c6eufa"]
+
+[ext_resource type="Script" path="res://scripts/piece_ul.gd" id="1_1gfg8"]
+[ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_lf3t8"]
+
+[sub_resource type="Curve2D" id="Curve2D_sdixf"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 7, 6, 5.03968, 15.1191, -5.03968, -15.1191, -21, 22, -8.18949, 6.61459, 8.18949, -6.61459, -22, -22, -5.03968, -3.77976, 5.03968, 3.77976, 24, -25, 0, 0, 0, 0, 7, 6)
+}
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_t1sqr"]
+_data = [Vector2(0, 0.768742), 0.0, 0.0, 0, 0, Vector2(0.663121, 0.211245), 0.0, 0.0, 0, 0, Vector2(0.992908, 0.772872), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yl86u"]
+atlas = ExtResource("2_lf3t8")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j0l5n"]
+atlas = ExtResource("2_lf3t8")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmx7j"]
+atlas = ExtResource("2_lf3t8")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qj8ac"]
+atlas = ExtResource("2_lf3t8")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ynex"]
+atlas = ExtResource("2_lf3t8")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i3goy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yl86u")
+}],
+"loop": true,
+"name": &"down_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j0l5n")
+}],
+"loop": true,
+"name": &"down_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmx7j")
+}],
+"loop": true,
+"name": &"full",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qj8ac")
+}],
+"loop": true,
+"name": &"up_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ynex")
+}],
+"loop": true,
+"name": &"up_right",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_255mj"]
+size = Vector2(64, 64)
+
+[node name="PieceUL" type="Area2D"]
+script = ExtResource("1_1gfg8")
+
+[node name="shape" type="Path2D" parent="."]
+curve = SubResource("Curve2D_sdixf")
+
+[node name="fill" type="Polygon2D" parent="."]
+color = Color(0.960784, 0.894118, 0.380392, 1)
+
+[node name="line" type="Line2D" parent="."]
+closed = true
+width_curve = SubResource("Curve_t1sqr")
+joint_mode = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_i3goy")
+animation = &"up_left"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_255mj")
+
+[node name="RayCastVelocity" type="RayCast2D" parent="."]
+target_position = Vector2(0, 64)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastDown" type="RayCast2D" parent="."]
+target_position = Vector2(0, 64)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-64, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+target_position = Vector2(64, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RayCastUp" type="RayCast2D" parent="."]
+target_position = Vector2(0, -64)
+collide_with_areas = true
+collide_with_bodies = false
