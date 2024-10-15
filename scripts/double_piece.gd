@@ -1,7 +1,8 @@
+@tool
+
 class_name DoublePiece
 extends Node2D
 
-const CELL_SIZE := 64
 
 enum Orientation { UP, LEFT, RIGHT, DOWN }
 
@@ -19,6 +20,7 @@ enum Orientation { UP, LEFT, RIGHT, DOWN }
 @onready var SecondaryDown = $RotationContainer/NodeSecondary/Down
 
 signal on_placed
+@export var cell_size := 64
 var primary: Piece
 var secondary: Piece
 var orientation_index := 0
@@ -27,6 +29,8 @@ const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT
 func _ready() -> void:
 	primary = scene_Piece.instantiate()
 	secondary = scene_Piece.instantiate()
+	primary.cell_size = cell_size
+	secondary.cell_size = cell_size
 	NodePrimary.add_child(primary)
 	NodeSecondary.add_child(secondary)
 	primary.transform = Transform2D()
@@ -57,7 +61,7 @@ func move_left():
 		Orientation.RIGHT:
 			if PrimaryLeft.is_colliding():
 				return
-	translate(Vector2(-CELL_SIZE, 0))
+	translate(Vector2(-cell_size, 0))
 	
 func move_right():
 	match get_orientation():
@@ -70,10 +74,10 @@ func move_right():
 		Orientation.RIGHT:
 			if SecondaryRight.is_colliding():
 				return
-	translate(Vector2(CELL_SIZE, 0))
+	translate(Vector2(cell_size, 0))
 
 func move_up():
-	translate(Vector2(0, -CELL_SIZE))
+	translate(Vector2(0, -cell_size))
 	
 func move_down():
 	match get_orientation():
@@ -89,7 +93,7 @@ func move_down():
 			if SecondaryDown.is_colliding():
 				place()
 				return
-	translate(Vector2(0, CELL_SIZE))
+	translate(Vector2(0, cell_size))
 
 func place():
 	queue_free()
@@ -143,8 +147,16 @@ func set_angle(angle: float):
 	RotationContainer.rotation = angle
 	NodeSecondary.rotation = -angle
 
+func update_children() -> void:
+	if NodeSecondary: NodeSecondary.transform.origin.x = cell_size
+	for ray in [PrimaryUp, PrimaryDown, PrimaryLeft, PrimaryRight, SecondaryUp, SecondaryDown, SecondaryLeft, SecondaryRight]:
+		if ray: ray.target_position.x = cell_size
+	if primary: primary.cell_size = cell_size
+	if secondary: secondary.cell_size = cell_size
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	update_children()
 	match get_orientation():
 		Orientation.UP:
 			set_angle(-PI/2)

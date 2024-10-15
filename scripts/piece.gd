@@ -6,13 +6,15 @@ extends Node2D
 enum Kind { GREEN, RED, BLUE, YELLOW }
 
 @onready var apparent_transform = $ApparentTransform
-@onready var raycast_up = $RayCast_Up
-@onready var raycast_down = $RayCast_Down
-@onready var raycast_left = $RayCast_Left
-@onready var raycast_right = $RayCast_Right
+@onready var ray_up = $Up
+@onready var ray_down = $Down
+@onready var ray_left = $Left
+@onready var ray_right = $Right
+@onready var Shape = $Shape
 
 var kind: Kind
 var is_visible := true
+@export var cell_size := 64
 
 const FALL_SPEED := 16.0
 const KINDS = [Kind.GREEN, Kind.RED, Kind.BLUE, Kind.YELLOW]
@@ -26,8 +28,8 @@ func _ready() -> void:
 
 func _draw() -> void:
 	if not Engine.is_editor_hint():
-		draw_line(Vector2(-8, -8), Vector2(8, 8), Color.RED, 2.0)
-		draw_line(Vector2(-8, 8), Vector2(8, -8), Color.RED, 2.0)
+		draw_line(Vector2(-8, -8), Vector2(8, 8), Color.RED, 2.0, true)
+		draw_line(Vector2(-8, 8), Vector2(8, -8), Color.RED, 2.0, true)
 	var color: Color
 	match kind:
 		Kind.GREEN: color = Color.GREEN
@@ -35,7 +37,7 @@ func _draw() -> void:
 		Kind.RED: color = Color.RED
 		Kind.YELLOW: color = Color.YELLOW
 	if is_visible:
-		draw_circle(apparent_transform.transform.origin, 24, color, false, 2)
+		draw_circle(apparent_transform.transform.origin, cell_size / 2 - 8, color, false, 2.0, true)
 
 func fall_to(y: int) -> void:
 	var diff = transform.origin.y - y
@@ -62,10 +64,10 @@ func clear() -> void:
 # get immmediately adjacent pieces
 func get_adj_pieces() -> Array:
 	var adj_pieces = []
-	for raycast in [raycast_down, raycast_up, raycast_left, raycast_right]:
-		var collider = raycast.get_collider()
+	for ray in [ray_down, ray_up, ray_left, ray_right]:
+		var collider = ray.get_collider()
 		if collider is Piece:
-			adj_pieces.append(raycast.get_collider())
+			adj_pieces.append(ray.get_collider())
 	return adj_pieces
 
 # recursive depth-first search to find the contiguous cluster of same-kind pieces touching this one
@@ -77,9 +79,14 @@ func get_cluster(visited := {}) -> Array:
 			result.append_array(piece.get_cluster(visited))
 	return result
 
+func update_children() -> void:
+	for ray in [ray_down, ray_up, ray_left, ray_right]:
+		if ray: ray.target_position.x = cell_size
+	if Shape: Shape.scale = Vector2(cell_size / 64.0, cell_size / 64.0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	update_children()
 	if not Engine.is_editor_hint():
 		animate(delta)
 	queue_redraw()
