@@ -1,33 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bp86rnvlsxn8o"]
+[gd_scene load_steps=2 format=3 uid="uid://bp86rnvlsxn8o"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_udi82"]
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jf2g1"]
-
 [node name="Board" type="Node2D"]
 script = ExtResource("1_udi82")
-
-[node name="Background" type="Panel" parent="."]
-custom_minimum_size = Vector2(384, 640)
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="BoardEdge_Left" type="Area2D" parent="."]
-position = Vector2(0, 320)
-rotation = 1.5708
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BoardEdge_Left"]
-shape = SubResource("WorldBoundaryShape2D_jf2g1")
-
-[node name="BoardEdge_Right" type="Area2D" parent="."]
-position = Vector2(384, 320)
-rotation = -1.5708
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BoardEdge_Right"]
-shape = SubResource("WorldBoundaryShape2D_jf2g1")
-
-[node name="BoardEdge_Bottom" type="Area2D" parent="."]
-position = Vector2(192, 640)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BoardEdge_Bottom"]
-shape = SubResource("WorldBoundaryShape2D_jf2g1")
