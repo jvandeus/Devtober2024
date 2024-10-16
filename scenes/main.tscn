@@ -124,7 +124,10 @@ transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514
 environment = SubResource("Environment_41vkf")
 
 [node name="Board" parent="CanvasLayer" instance=ExtResource("8_hikeo")]
-position = Vector2(960, 192)
+position = Vector2(1040, 60)
+board_width = 7
+board_height = 11
+cell_size = 90
 
 [node name="TIA-V_MASTER" parent="." instance=ExtResource("9_qcb26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
