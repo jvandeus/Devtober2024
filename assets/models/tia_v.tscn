@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnmufuphqvq7h"]
+
+[ext_resource type="PackedScene" uid="uid://b3ggx21012n74" path="res://assets/models/TIA-V/TIA-V_MASTER.glb" id="1_yfxkg"]
+[ext_resource type="Material" uid="uid://drlks6dpqyaf4" path="res://assets/models/TIA-V/materials/TIA-V_BODY_MAT.tres" id="2_3v12u"]
+[ext_resource type="Material" uid="uid://cnv5dmxnaidyr" path="res://assets/models/TIA-V/materials/TIA-V_FACE_MAT.tres" id="3_n1qd7"]
+
+[node name="TIA-V_MASTER" instance=ExtResource("1_yfxkg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000683188, 0, 0.000256836)
+
+[node name="Skeleton3D" parent="TIA-V_Armature" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.22408e-05, 0.00160229, -0.000359714)
+
+[node name="TIA-V_body" parent="TIA-V_Armature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("2_3v12u")
+
+[node name="TIA-V_eyelashes" parent="TIA-V_Armature/Skeleton3D" index="1"]
+surface_material_override/0 = ExtResource("3_n1qd7")
+
+[node name="TIA-V_mouth" parent="TIA-V_Armature/Skeleton3D" index="2"]
+surface_material_override/0 = ExtResource("3_n1qd7")
+
+[node name="Tia_Eyes" parent="TIA-V_Armature/Skeleton3D" index="3"]
+surface_material_override/0 = ExtResource("3_n1qd7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
