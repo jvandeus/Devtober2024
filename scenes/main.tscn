@@ -117,6 +117,9 @@ fov = 23.4796
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
 texture = SubResource("GradientTexture2D_ye4ey")
 
+[node name="TIA-V_MASTER" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport" instance=ExtResource("9_qcb26")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
 transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514, 0.592836, -0.409986, 0.69315, 2.20665, 2.42911, -0.212508)
 
@@ -128,6 +131,3 @@ position = Vector2(1040, 60)
 board_width = 7
 board_height = 11
 cell_size = 90
-
-[node name="TIA-V_MASTER" parent="." instance=ExtResource("9_qcb26")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
