@@ -3,21 +3,60 @@
 class_name Board
 extends Node2D
 
+
 const LINE_COLOR = Color(1, 1, 1, 0.2)
 const BG_COLOR = Color(.1, .1, .1, 0.7)
 
-var scene_DoublePiece = preload("res://scenes/double_piece.tscn")
-
-@onready var BoardEdge_Left = $BoardEdge_Left
-@onready var BoardEdge_Right = $BoardEdge_Right
-@onready var BoardEdge_Bottom = $BoardEdge_Bottom
+@onready var scene_Piece = preload("res://scenes/piece.tscn")
 
 @export var board_width := 6
 @export var board_height := 10
 @export var cell_size := 64
 
 var columns : Array
-var dp : DoublePiece
+var dp: DoublePiece
+var primary: Piece
+var secondary: Piece
+
+class DoublePiece:
+	enum Orientation { UP, LEFT, RIGHT, DOWN }
+	const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT, Orientation.DOWN ]
+	var orientation_index := 1
+	var origin := Vector2i(0, 0)
+	func _init(p_origin: Vector2i) -> void:
+		origin = p_origin
+	func get_primary_coords() -> Vector2i:
+		return origin
+	func get_secondary_coords() -> Vector2i:
+		match get_orientation():
+			Orientation.UP:
+				return origin + Vector2i(0, -1)
+			Orientation.DOWN:
+				return origin + Vector2i(0, 1)
+			Orientation.LEFT:
+				return origin + Vector2i(-1, 0)
+			Orientation.RIGHT:
+				return origin + Vector2i(1, 0)
+		assert(false)
+		return Vector2i(0, 0)
+	func get_primary_pos(cell_size: int) -> Vector2:
+		return Vector2(get_primary_coords() * cell_size) + Vector2(cell_size / 2, cell_size / 2)
+	func get_secondary_pos(cell_size: int) -> Vector2:
+		return Vector2(get_secondary_coords() * cell_size) + Vector2(cell_size / 2, cell_size / 2)
+	func get_orientation() -> Orientation:
+		return ORIENTATION_ORDER[orientation_index]
+	func rotate_ccw():
+		orientation_index = (orientation_index + 1) % len(ORIENTATION_ORDER)
+	func rotate_cw():
+		orientation_index = (orientation_index + len(ORIENTATION_ORDER) - 1) % len(ORIENTATION_ORDER)
+	func move_left():
+		origin.x -= 1
+	func move_right():
+		origin.x += 1
+	func move_up():
+		origin.y -= 1
+	func move_down():
+		origin.y += 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -27,6 +66,112 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		run()
 
+func _input(event: InputEvent) -> void:
+	if not dp:
+		return
+	if event.is_action_pressed("move_down"):
+		move_down()
+	if event.is_action_pressed("move_left"):
+		move_left()
+	if event.is_action_pressed("move_right"):
+		move_right()
+	if event.is_action_pressed("rotate_cw"):
+		rotate_cw()
+	if event.is_action_pressed("rotate_ccw"):
+		rotate_ccw()
+
+func is_occupied(pos: Vector2i) -> bool:
+	if pos.x < 0 or len(columns) <= pos.x:
+		return true
+	if pos.y >= board_height - len(columns[pos.x]):
+		return true
+	return false
+
+func move_left():
+	var primary_left = dp.get_primary_coords() + Vector2i(-1, 0)
+	var secondary_left = dp.get_secondary_coords() + Vector2i(-1, 0)
+	match dp.get_orientation():
+		DoublePiece.Orientation.UP, DoublePiece.Orientation.DOWN:
+			if is_occupied(primary_left) or is_occupied(secondary_left):
+				return
+		DoublePiece.Orientation.LEFT:
+			if is_occupied(secondary_left):
+				return
+		DoublePiece.Orientation.RIGHT:
+			if is_occupied(primary_left):
+				return
+	dp.move_left()
+	
+func move_right():
+	var primary_right = dp.get_primary_coords() + Vector2i(1, 0)
+	var secondary_right = dp.get_secondary_coords() + Vector2i(1, 0)
+	match dp.get_orientation():
+		DoublePiece.Orientation.UP, DoublePiece.Orientation.DOWN:
+			if is_occupied(primary_right) or is_occupied(secondary_right):
+				return
+		DoublePiece.Orientation.LEFT:
+			if is_occupied(primary_right):
+				return
+		DoublePiece.Orientation.RIGHT:
+			if is_occupied(secondary_right):
+				return
+	dp.move_right()
+
+func move_down():
+	var primary_down = dp.get_primary_coords() + Vector2i(0, 1)
+	var secondary_down = dp.get_secondary_coords() + Vector2i(0, 1)
+	match dp.get_orientation():
+		DoublePiece.Orientation.UP:
+			if is_occupied(primary_down):
+				place()
+				return
+		DoublePiece.Orientation.LEFT, DoublePiece.Orientation.RIGHT:
+			if is_occupied(primary_down) or is_occupied(secondary_down):
+				place()
+				return
+		DoublePiece.Orientation.DOWN:
+			if is_occupied(secondary_down):
+				place()
+				return
+	dp.move_down()
+
+func rotate_cw():
+	var primary_right = dp.get_primary_coords() + Vector2i(1, 0)
+	var primary_left = dp.get_primary_coords() + Vector2i(-1, 0)
+	var primary_down = dp.get_primary_coords() + Vector2i(0, 1)
+	match dp.get_orientation():
+		DoublePiece.Orientation.UP:
+			if is_occupied(primary_right):
+				move_left()
+		DoublePiece.Orientation.LEFT:
+			pass # no adjustment needed
+		DoublePiece.Orientation.RIGHT:
+			if is_occupied(primary_down):
+				dp.move_up()
+		DoublePiece.Orientation.DOWN:
+			if is_occupied(primary_left):
+				move_right()
+	dp.rotate_cw()
+
+func rotate_ccw():
+	var primary_right = dp.get_primary_coords() + Vector2i(1, 0)
+	var primary_left = dp.get_primary_coords() + Vector2i(-1, 0)
+	var primary_down = dp.get_primary_coords() + Vector2i(0, 1)
+	match dp.get_orientation():
+		DoublePiece.Orientation.UP:
+			if is_occupied(primary_left):
+				move_right()
+		DoublePiece.Orientation.LEFT:
+			if is_occupied(primary_down):
+				dp.move_up()
+		DoublePiece.Orientation.RIGHT:
+			pass # no adjustment needed
+		DoublePiece.Orientation.DOWN:
+			if is_occupied(primary_right):
+				move_left()
+	dp.rotate_ccw()
+
+
 func _draw() -> void:
 	draw_rect(Rect2(0, 0, board_width * cell_size, board_height * cell_size), BG_COLOR)
 	for i in range(1, board_width):
@@ -35,6 +180,12 @@ func _draw() -> void:
 	for i in range(1, board_height):
 		var y = i * cell_size
 		draw_line(Vector2(0, y), Vector2(board_width * cell_size, y), LINE_COLOR)
+	
+	if dp:
+		var primary = dp.get_primary_pos(cell_size)
+		var secondary = dp.get_secondary_pos(cell_size)
+		draw_circle(primary, cell_size / 2 - 16, LINE_COLOR, false, 4.0, true)
+		draw_circle(secondary, cell_size / 2 - 24, LINE_COLOR, false, 4.0, true)
 
 func reindex_columns() -> void:
 	for column in columns:
@@ -45,18 +196,31 @@ func reindex_columns() -> void:
 		if child.is_queued_for_deletion():
 			continue
 		var column_index = int(child.transform.origin.x / cell_size)
+		if column_index < 0 or len(columns) <= column_index:
+			push_warning("piece placed out of bounds")
+			child.queue_free()
+			continue
 		columns[column_index].append(child)
 
 func create_new_double_piece() -> void:
-	dp = scene_DoublePiece.instantiate()
-	dp.transform.origin = Vector2(cell_size * int(board_width / 2) + cell_size/2, cell_size/2)
-	dp.on_placed.connect(place)
-	dp.cell_size = cell_size
-	add_child(dp)
+	dp = DoublePiece.new(Vector2i(int(board_width / 2), 0))
+	primary = scene_Piece.instantiate()
+	secondary = scene_Piece.instantiate()
+	primary.cell_size = cell_size
+	secondary.cell_size = cell_size
+	add_child(primary)
+	add_child(secondary)
+	update_primary_and_secondary()
+
+func update_primary_and_secondary() -> void:
+	if not dp:
+		return
+	primary.transform.origin = dp.get_primary_pos(cell_size)
+	secondary.transform.origin = dp.get_secondary_pos(cell_size)
 	
-func place(p1: Piece, p2: Piece) -> void:
-	add_child(p1)
-	add_child(p2)
+	
+func place() -> void:
+	dp = null
 	run()
 
 func run() -> void:
@@ -107,15 +271,7 @@ func clear() -> bool:
 		piece.queue_free()
 	return len(pieces_to_clear) > 0
 
-func update_children() -> void:
-	queue_redraw()
-	if BoardEdge_Left:
-		BoardEdge_Left.transform.origin = Vector2(0, board_height * cell_size / 2)
-	if BoardEdge_Right:
-		BoardEdge_Right.transform.origin = Vector2(board_width * cell_size, board_height * cell_size / 2)
-	if BoardEdge_Bottom:
-		BoardEdge_Bottom.transform.origin = Vector2(board_width * cell_size / 2, board_height * cell_size)
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	update_children()
+	queue_redraw()
+	update_primary_and_secondary()

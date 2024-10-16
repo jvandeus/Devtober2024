@@ -110,6 +110,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Board" parent="CanvasLayer" instance=ExtResource("8_hikeo")]
 position = Vector2(1040, 60)
-board_width = 5
+board_width = 7
 board_height = 9
-cell_size = 104
+cell_size = 90
