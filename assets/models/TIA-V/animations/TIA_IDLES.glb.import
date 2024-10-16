@@ -1,15 +1,15 @@
 [remap]
 
-importer="scene"
+importer="animation_library"
 importer_version=1
-type="PackedScene"
-uid="uid://bac8ralcxydxy"
-path="res://.godot/imported/tia_anim_test.glb-0a176b2dc8a11212a39c78d0ab9b07c9.scn"
+type="AnimationLibrary"
+uid="uid://bchhdetjr85ln"
+path="res://.godot/imported/TIA_IDLES.glb-bfe277208accccb676705529be782296.res"
 
 [deps]
 
-source_file="res://assets/models/TIA-V/animations/tia_anim_test.glb"
-dest_files=["res://.godot/imported/tia_anim_test.glb-0a176b2dc8a11212a39c78d0ab9b07c9.scn"]
+source_file="res://assets/models/TIA-V/animations/TIA_IDLES.glb"
+dest_files=["res://.godot/imported/TIA_IDLES.glb-bfe277208accccb676705529be782296.res"]
 
 [params]
 
@@ -33,11 +33,11 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "animations": {
-"TIA-V_ArmatureAction": {
-"save_to_file/enabled": true,
+"IDLE_DITSY": {
+"save_to_file/enabled": false,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://assets/models/TIA-V/animations/anim_saves/TIA-V_ArmatureAction.res",
-"settings/loop_mode": 0,
+"save_to_file/path": "",
+"settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",
@@ -1831,11 +1831,6 @@ _subresources={
 "slice_99/save_to_file/path": "",
 "slice_99/start_frame": 0,
 "slices/amount": 0
-}
-},
-"nodes": {
-"PATH:TIA-V_Armature/Skeleton3D": {
-"rest_pose/external_animation_library": null
 }
 }
 }

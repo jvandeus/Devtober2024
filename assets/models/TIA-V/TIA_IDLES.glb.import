@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b3ggx21012n74"
-path="res://.godot/imported/TIA-V_MASTER.glb-3fd474602549ce7da86ffa699474cfbd.scn"
+uid="uid://us38bvh1x1u6"
+path="res://.godot/imported/TIA_IDLES.glb-a53179c1f8a034096138feaf17ab69da.scn"
 
 [deps]
 
-source_file="res://assets/models/TIA-V/TIA-V_MASTER.glb"
-dest_files=["res://.godot/imported/TIA-V_MASTER.glb-3fd474602549ce7da86ffa699474cfbd.scn"]
+source_file="res://assets/models/TIA-V/TIA_IDLES.glb"
+dest_files=["res://.godot/imported/TIA_IDLES.glb-a53179c1f8a034096138feaf17ab69da.scn"]
 
 [params]
 
@@ -31,14 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"nodes": {
-"PATH:TIA-V_Armature/Skeleton3D": {
-"rest_pose/external_animation_library": null,
-"retarget/bone_map": null,
-"retarget/bone_renamer/unique_node/skeleton_name": "TIA-V_skeleton"
-}
-}
-}
+_subresources={}
 gltf/naming_version=1
 gltf/embedded_image_handling=1
