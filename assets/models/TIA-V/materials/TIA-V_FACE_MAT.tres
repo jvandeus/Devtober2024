@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cnv5dmxnaidyr"]
+
+[ext_resource type="Shader" path="res://assets/shaders/3d_toon_shader/outline.gdshader" id="1_aegco"]
+[ext_resource type="Shader" path="res://assets/shaders/3d_toon_shader/tia-v_shader.gdshader" id="2_r14yy"]
+[ext_resource type="Texture2D" uid="uid://cqb8n5hi0ndpn" path="res://assets/models/TIA-V/TIA-V_MASTER_Tia_COL.png" id="3_fdav0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_matup"]
+render_priority = 0
+shader = ExtResource("1_aegco")
+
+[resource]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_matup")
+shader = ExtResource("2_r14yy")
+shader_parameter/color = Color(0.830335, 0.830335, 0.830335, 1)
+shader_parameter/specular = Color(0, 0, 0, 0.5)
+shader_parameter/fresnel = Color(0, 0, 0, 0.3)
+shader_parameter/base_texture = ExtResource("3_fdav0")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)

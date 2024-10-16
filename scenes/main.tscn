@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=20 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cebfp0d8qg0a0" path="res://assets/screen_mask.png" id="5_6drod"]
 [ext_resource type="Texture2D" uid="uid://chjneqbtqe1k1" path="res://assets/screen_bg.png" id="5_qihva"]
 [ext_resource type="PackedScene" uid="uid://bp86rnvlsxn8o" path="res://scenes/board.tscn" id="8_hikeo"]
+[ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/tia_v.tscn" id="9_qcb26"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dyqnh"]
 shader = ExtResource("1_tjqgd")
@@ -34,6 +35,17 @@ width = 4000
 height = 3000
 fill_from = Vector2(0.0042735, 1)
 fill_to = Vector2(0, 0)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fix6b"]
+sky_top_color = Color(0.683728, 0.738728, 0.81544, 1)
+
+[sub_resource type="Sky" id="Sky_cug6s"]
+sky_material = SubResource("ProceduralSkyMaterial_fix6b")
+
+[sub_resource type="Environment" id="Environment_41vkf"]
+background_mode = 2
+sky = SubResource("Sky_cug6s")
+ambient_light_color = Color(0.374139, 0.374139, 0.374139, 1)
 
 [node name="Game" type="Node2D"]
 
@@ -93,23 +105,29 @@ size_flags_vertical = 8
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
+msaa_3d = 1
+screen_space_aa = 1
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 0.813314, 0.581825, 0, -0.581825, 0.813314, 0, 4.5532, 3.89286)
+transform = Transform3D(0.9289, -0.0564509, -0.366003, 0, 0.988314, -0.152434, 0.37033, 0.141596, 0.918045, -1.12148, 1.01142, 2.51923)
+fov = 23.4796
 
 [node name="Sprite3D" type="Sprite3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
 texture = SubResource("GradientTexture2D_ye4ey")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
-transform = Transform3D(0.707107, -0.612372, 0.353553, 0, 0.5, 0.866025, -0.707107, -0.612372, 0.353553, 0, 10, 0)
+transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514, 0.592836, -0.409986, 0.69315, 2.20665, 2.42911, -0.212508)
 
-[node name="CSGTorus3D" type="CSGTorus3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+[node name="WorldEnvironment" type="WorldEnvironment" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
+environment = SubResource("Environment_41vkf")
 
 [node name="Board" parent="CanvasLayer" instance=ExtResource("8_hikeo")]
 position = Vector2(1040, 60)
 board_width = 7
 board_height = 11
 cell_size = 90
+
+[node name="TIA-V_MASTER" parent="." instance=ExtResource("9_qcb26")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)

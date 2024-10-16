@@ -1,0 +1,9 @@
+[gd_resource type="GradientTexture1D" load_steps=2 format=3 uid="uid://cgb4t28st6d3q"]
+
+[sub_resource type="Gradient" id="Gradient_vd480"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.0179584)
+
+[resource]
+resource_name = "cel_shader_curve"
+gradient = SubResource("Gradient_vd480")
