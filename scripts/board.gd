@@ -4,20 +4,6 @@ class_name Board
 extends Node2D
 
 
-const LINE_COLOR = Color(1, 1, 1, 0.2)
-const BG_COLOR = Color(.1, .1, .1, 0.7)
-
-@onready var scene_Piece = preload("res://scenes/piece.tscn")
-
-@export var board_width := 6
-@export var board_height := 10
-@export var cell_size := 64
-
-var columns : Array
-var dp: DoublePiece
-var primary: Piece
-var secondary: Piece
-
 class DoublePiece:
 	enum Orientation { UP, LEFT, RIGHT, DOWN }
 	const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT, Orientation.DOWN ]
@@ -58,12 +44,31 @@ class DoublePiece:
 	func move_down():
 		origin.y += 1
 
+const TIME_TO_FALL_ONE_CELL := 1.0
+const LINE_COLOR := Color(1, 1, 1, 0.2)
+const BG_COLOR := Color(.1, .1, .1, 0.7)
+
+@onready var scene_Piece = preload("res://scenes/piece.tscn")
+
+@export var board_width := 6
+@export var board_height := 10
+@export var cell_size := 64
+
+var columns : Array
+var dp: DoublePiece
+var primary: Piece
+var secondary: Piece
+var fall_timer: SceneTreeTimer
+
+signal intent_to_move_down
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	columns = []
 	for c in range(board_width):
 		columns.append([])
 	if not Engine.is_editor_hint():
+		start_double_piece_fall_loop()
 		run()
 
 func _input(event: InputEvent) -> void:
@@ -134,6 +139,7 @@ func move_down():
 				place()
 				return
 	dp.move_down()
+	reset_fall_timer()
 
 func rotate_cw():
 	var primary_right = dp.get_primary_coords() + Vector2i(1, 0)
@@ -212,6 +218,19 @@ func create_new_double_piece() -> void:
 	add_child(secondary)
 	update_primary_and_secondary()
 
+func start_double_piece_fall_loop() -> void:
+	while true:
+		await intent_to_move_down
+		move_down()
+
+func cancel_fall_timer() -> void:
+	if fall_timer: fall_timer.timeout.disconnect(intent_to_move_down.emit)
+	
+func reset_fall_timer() -> void:
+	if fall_timer: fall_timer.timeout.disconnect(intent_to_move_down.emit)
+	fall_timer = get_tree().create_timer(TIME_TO_FALL_ONE_CELL)
+	fall_timer.timeout.connect(intent_to_move_down.emit)
+
 func update_primary_and_secondary() -> void:
 	if not dp:
 		return
@@ -224,12 +243,14 @@ func place() -> void:
 	run()
 
 func run() -> void:
+	cancel_fall_timer()
 	reindex_columns()
 	await settle()
 	while await clear():
 		reindex_columns()
 		await settle()
 	create_new_double_piece()
+	reset_fall_timer()
 
 func sort_columns() -> void:
 	for column in columns:
