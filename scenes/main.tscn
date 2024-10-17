@@ -68,10 +68,10 @@ texture = ExtResource("1_d7sal")
 stretch_mode = 1
 
 [node name="UI_Left" type="PanelContainer" parent="CanvasLayer"]
-offset_left = 320.0
-offset_top = 160.0
-offset_right = 924.0
-offset_bottom = 928.0
+offset_left = 60.0
+offset_top = 279.0
+offset_right = 664.0
+offset_bottom = 1047.0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mydh4")
 
@@ -127,7 +127,6 @@ transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514
 environment = SubResource("Environment_41vkf")
 
 [node name="Board" parent="CanvasLayer" instance=ExtResource("8_hikeo")]
-position = Vector2(1040, 60)
-board_width = 7
-board_height = 11
-cell_size = 90
+position = Vector2(758, 79)
+board_height = 12
+cell_size = 80
