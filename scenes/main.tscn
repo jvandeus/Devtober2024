@@ -50,7 +50,6 @@ ambient_light_color = Color(0.374139, 0.374139, 0.374139, 1)
 [node name="Game" type="Node2D"]
 
 [node name="GameManager" type="Node" parent="."]
-unique_name_in_owner = true
 script = ExtResource("2_4hy83")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -68,10 +67,10 @@ texture = ExtResource("1_d7sal")
 stretch_mode = 1
 
 [node name="UI_Left" type="PanelContainer" parent="CanvasLayer"]
-offset_left = 320.0
-offset_top = 160.0
-offset_right = 924.0
-offset_bottom = 928.0
+offset_left = 86.0
+offset_top = 108.0
+offset_right = 855.0
+offset_bottom = 1037.0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mydh4")
 
@@ -107,10 +106,11 @@ transparent_bg = true
 handle_input_locally = false
 msaa_3d = 1
 screen_space_aa = 1
+size = Vector2i(737, 737)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
-transform = Transform3D(0.9289, -0.0564509, -0.366003, 0, 0.988314, -0.152434, 0.37033, 0.141596, 0.918045, -1.12148, 1.01142, 2.51923)
+transform = Transform3D(0.9289, -0.0564509, -0.366002, 0, 0.988314, -0.152434, 0.37033, 0.141596, 0.918045, -1.14881, 0.974069, 2.56243)
 fov = 23.4796
 
 [node name="Sprite3D" type="Sprite3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport/Camera3D"]
@@ -131,3 +131,5 @@ cell_size = 90
 
 [node name="TIA-V_MASTER" parent="." instance=ExtResource("9_qcb26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
+
+[connection signal="pieces_cleared" from="CanvasLayer/Board" to="GameManager" method="_on_pieces_cleared"]

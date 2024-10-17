@@ -66,6 +66,7 @@ var is_left_pressed := false
 var is_right_pressed := false
 
 signal intent_to_move_down
+signal pieces_cleared
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -325,6 +326,8 @@ func clear() -> bool:
 		await piece.done_animation_clear
 	for piece in pieces_to_clear:
 		piece.queue_free()
+	if len(pieces_to_clear) > 0:
+		pieces_cleared.emit()
 	return len(pieces_to_clear) > 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

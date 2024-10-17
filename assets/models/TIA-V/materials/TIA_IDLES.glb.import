@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://us38bvh1x1u6"
-path="res://.godot/imported/TIA_IDLES.glb-a53179c1f8a034096138feaf17ab69da.scn"
+uid="uid://dd3313r142823"
+path="res://.godot/imported/TIA_IDLES.glb-31576e211fcc4eb814ff8649d8cde614.scn"
 
 [deps]
 
-source_file="res://assets/models/TIA-V/TIA_IDLES.glb"
-dest_files=["res://.godot/imported/TIA_IDLES.glb-a53179c1f8a034096138feaf17ab69da.scn"]
+source_file="res://assets/models/TIA-V/materials/TIA_IDLES.glb"
+dest_files=["res://.godot/imported/TIA_IDLES.glb-31576e211fcc4eb814ff8649d8cde614.scn"]
 
 [params]
 
