@@ -46,8 +46,8 @@ class DoublePiece:
 const TIME_TO_FALL_ONE_CELL := 1.0
 const LINE_COLOR := Color(1, 1, 1, 0.2)
 const BG_COLOR := Color(.1, .1, .1, 0.7)
-const REPEAT_DELAY := 0.3
-const REPEAT_PERIOD := 0.06
+const REPEAT_DELAY := 0.25
+const REPEAT_PERIOD := 0.05
 const PLACING_DELAY := 0.25
 
 @onready var scene_Piece = preload("res://scenes/piece.tscn")
@@ -61,11 +61,15 @@ var dp: DoublePiece
 var primary: Piece
 var secondary: Piece
 var fall_timer: SceneTreeTimer
-var is_down_pressed := false
+var down_repeat_timer: SceneTreeTimer
+var left_repeat_timer: SceneTreeTimer
+var right_repeat_timer: SceneTreeTimer
 var is_left_pressed := false
 var is_right_pressed := false
 
 signal intent_to_move_down
+signal intent_to_move_left
+signal intent_to_move_right
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -78,22 +82,28 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("move_down"):
-		is_down_pressed = true
 		hold_down()
 	if event.is_action_released("move_down"):
-		is_down_pressed = false
+		release_down()
+	
 	if event.is_action_pressed("move_left"):
-		is_right_pressed = false
 		is_left_pressed = true
+		if is_right_pressed:
+			release_right()
 		hold_left()
 	if event.is_action_released("move_left"):
 		is_left_pressed = false
+		release_left()
+		
 	if event.is_action_pressed("move_right"):
-		is_left_pressed = false
 		is_right_pressed = true
+		if is_left_pressed:
+			release_left()
 		hold_right()
 	if event.is_action_released("move_right"):
 		is_right_pressed = false
+		release_right()
+		
 	if event.is_action_pressed("rotate_cw"):
 		if dp: rotate_cw()
 	if event.is_action_pressed("rotate_ccw"):
@@ -108,23 +118,38 @@ func is_occupied(pos: Vector2i) -> bool:
 
 func hold_down() -> void:
 	# soft drop doesn't use repeat delay
-	while is_down_pressed:
-		if dp: move_down()
-		await get_tree().create_timer(REPEAT_PERIOD).timeout
+	if dp: move_down()
+	down_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
+	down_repeat_timer.timeout.connect(hold_down)
+
+func release_down() -> void:
+	down_repeat_timer.timeout.disconnect(hold_down)
 
 func hold_left() -> void:
 	if dp: move_left()
-	await get_tree().create_timer(REPEAT_DELAY).timeout
-	while is_left_pressed:
-		if dp: move_left()
-		await get_tree().create_timer(REPEAT_PERIOD).timeout
+	left_repeat_timer = get_tree().create_timer(REPEAT_DELAY)
+	left_repeat_timer.timeout.connect(continue_holding_left)
 
+func continue_holding_left() -> void:
+	if dp: move_left()
+	left_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
+	left_repeat_timer.timeout.connect(continue_holding_left)
+
+func release_left() -> void:
+	left_repeat_timer.timeout.disconnect(continue_holding_left)
+	
 func hold_right() -> void:
 	if dp: move_right()
-	await get_tree().create_timer(REPEAT_DELAY).timeout
-	while is_right_pressed:
-		if dp: move_right()
-		await get_tree().create_timer(REPEAT_PERIOD).timeout
+	right_repeat_timer = get_tree().create_timer(REPEAT_DELAY)
+	right_repeat_timer.timeout.connect(continue_holding_right)
+
+func continue_holding_right() -> void:
+	if dp: move_right()
+	right_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
+	right_repeat_timer.timeout.connect(continue_holding_right)
+
+func release_right() -> void:
+	right_repeat_timer.timeout.disconnect(continue_holding_right)
 
 func move_left():
 	var primary_left = dp.get_primary_coords() + Vector2i(-1, 0)
