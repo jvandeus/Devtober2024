@@ -267,8 +267,13 @@ func reindex_columns() -> void:
 			continue
 		columns[column_index].append(child)
 
+# for even numbers of columns, return the index of the column left of center.
+# e.g. for 6 columns, returns 2.
+func get_center_column_index() -> int:
+	return int((board_width - 1) / 2)
+
 func create_new_double_piece() -> void:
-	dp = DoublePiece.new(Vector2i(int(board_width / 2), 0))
+	dp = DoublePiece.new(Vector2i(get_center_column_index(), 0))
 	primary = scene_Piece.instantiate()
 	secondary = scene_Piece.instantiate()
 	primary.cell_size = cell_size
