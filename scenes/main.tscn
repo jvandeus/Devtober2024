@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=22 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
 [ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="4_34xkp"]
 [ext_resource type="PackedScene" uid="uid://b3p18c2i1ifow" path="res://scenes/flip_board.tscn" id="4_g1vkf"]
+[ext_resource type="PackedScene" uid="uid://ttbte0ma1eo6" path="res://scenes/meter.tscn" id="4_qv84x"]
 [ext_resource type="Texture2D" uid="uid://cebfp0d8qg0a0" path="res://assets/screen_mask.png" id="5_6drod"]
 [ext_resource type="Texture2D" uid="uid://chjneqbtqe1k1" path="res://assets/screen_bg.png" id="5_qihva"]
 [ext_resource type="PackedScene" uid="uid://bp86rnvlsxn8o" path="res://scenes/board.tscn" id="8_hikeo"]
@@ -61,6 +62,9 @@ position = Vector2(1560, 356)
 
 [node name="BombSocket" type="Node2D" parent="."]
 position = Vector2(382, 320)
+
+[node name="HealthBar" parent="." instance=ExtResource("4_qv84x")]
+position = Vector2(1370, 686)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

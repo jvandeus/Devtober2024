@@ -5,6 +5,7 @@ extends Node2D
 
 const POINT_MULTIPLIER := 2
 var size := 10
+var damage := 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,7 +16,11 @@ func _draw() -> void:
 
 func add_points(pts: int) -> void:
 	size += POINT_MULTIPLIER * pts
+	damage += pts
 	queue_redraw()
+	
+func get_damage() -> int:
+	return damage
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

@@ -1,7 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhfyav0my2m5m"]
+[gd_scene load_steps=7 format=3 uid="uid://dhfyav0my2m5m"]
 
 [ext_resource type="Script" path="res://scripts/opponent_portrait.gd" id="1_sxr3e"]
 [ext_resource type="Texture2D" uid="uid://cs0w8a5heip13" path="res://assets/images/blockhead_idle.jpg" id="2_tte3m"]
+[ext_resource type="Texture2D" uid="uid://cgqvg320ny4e3" path="res://assets/images/blockhead_events1.jpg" id="2_uwop7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03fsh"]
+atlas = ExtResource("2_uwop7")
+region = Rect2(0, 538, 825, 538)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i867u"]
 atlas = ExtResource("2_tte3m")
@@ -9,6 +14,14 @@ region = Rect2(0, 0, 500, 500)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nmnyk"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03fsh")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 1.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i867u")

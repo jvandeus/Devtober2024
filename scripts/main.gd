@@ -4,6 +4,7 @@ extends Node2D
 @onready var board = $Board
 @onready var opponent_portrait = $OpponentPortrait
 @onready var bomb_socket = $BombSocket
+@onready var health_bar = $HealthBar
 
 var bomb: Bomb
 
@@ -26,6 +27,8 @@ func on_combo_finished():
 	bomb = null
 	tween.tween_property(bomb_in_transit, "position", opponent_portrait.transform.origin, 1)
 	await tween.finished
+	opponent_portrait.hurt()
+	health_bar.decrement(bomb_in_transit.get_damage())
 	bomb_in_transit.queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
