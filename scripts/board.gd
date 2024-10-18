@@ -67,17 +67,12 @@ var right_repeat_timer: SceneTreeTimer
 var is_left_pressed := false
 var is_right_pressed := false
 
-signal intent_to_move_down
-signal intent_to_move_left
-signal intent_to_move_right
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	columns = []
 	for c in range(board_width):
 		columns.append([])
 	if not Engine.is_editor_hint():
-		start_double_piece_fall_loop()
 		run()
 
 func _input(event: InputEvent) -> void:
@@ -282,18 +277,13 @@ func create_new_double_piece() -> void:
 	add_child(secondary)
 	update_primary_and_secondary()
 
-func start_double_piece_fall_loop() -> void:
-	while true:
-		await intent_to_move_down
-		move_down()
-
 func cancel_fall_timer() -> void:
-	if fall_timer: fall_timer.timeout.disconnect(intent_to_move_down.emit)
+	if fall_timer: fall_timer.timeout.disconnect(move_down)
 	
 func reset_fall_timer() -> void:
-	if fall_timer: fall_timer.timeout.disconnect(intent_to_move_down.emit)
+	if fall_timer: fall_timer.timeout.disconnect(move_down)
 	fall_timer = get_tree().create_timer(TIME_TO_FALL_ONE_CELL)
-	fall_timer.timeout.connect(intent_to_move_down.emit)
+	fall_timer.timeout.connect(move_down)
 
 func update_primary_and_secondary() -> void:
 	if not dp:
