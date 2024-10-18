@@ -1,14 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=21 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
-[ext_resource type="Script" path="res://scripts/game_manager.gd" id="2_4hy83"]
 [ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="4_34xkp"]
 [ext_resource type="PackedScene" uid="uid://b3p18c2i1ifow" path="res://scenes/flip_board.tscn" id="4_g1vkf"]
 [ext_resource type="Texture2D" uid="uid://cebfp0d8qg0a0" path="res://assets/screen_mask.png" id="5_6drod"]
 [ext_resource type="Texture2D" uid="uid://chjneqbtqe1k1" path="res://assets/screen_bg.png" id="5_qihva"]
 [ext_resource type="PackedScene" uid="uid://bp86rnvlsxn8o" path="res://scenes/board.tscn" id="8_hikeo"]
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/tia_v.tscn" id="9_qcb26"]
+[ext_resource type="PackedScene" uid="uid://dhfyav0my2m5m" path="res://scenes/opponent_portrait.tscn" id="11_mnnac"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dyqnh"]
 shader = ExtResource("1_tjqgd")
@@ -48,14 +49,23 @@ sky = SubResource("Sky_cug6s")
 ambient_light_color = Color(0.374139, 0.374139, 0.374139, 1)
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_kstpf")
 
-[node name="GameManager" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("2_4hy83")
+[node name="Board" parent="." instance=ExtResource("8_hikeo")]
+position = Vector2(758, 79)
+board_height = 12
+cell_size = 80
+
+[node name="OpponentPortrait" parent="." instance=ExtResource("11_mnnac")]
+position = Vector2(1560, 356)
+
+[node name="BombSocket" type="Node2D" parent="."]
+position = Vector2(382, 320)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Background" type="TextureRect" parent="CanvasLayer"]
+visible = false
 material = SubResource("ShaderMaterial_dyqnh")
 anchors_preset = 15
 anchor_right = 1.0
@@ -85,6 +95,7 @@ theme_override_constants/margin_bottom = 32
 layout_mode = 2
 
 [node name="SectionTop" type="PanelContainer" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ljo8s")
 
@@ -125,8 +136,3 @@ transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
 environment = SubResource("Environment_41vkf")
-
-[node name="Board" parent="CanvasLayer" instance=ExtResource("8_hikeo")]
-position = Vector2(758, 79)
-board_height = 12
-cell_size = 80

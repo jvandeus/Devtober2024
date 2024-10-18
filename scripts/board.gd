@@ -67,6 +67,9 @@ var right_repeat_timer: SceneTreeTimer
 var is_left_pressed := false
 var is_right_pressed := false
 
+signal on_pieces_cleared
+signal on_combo_finished
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	columns = []
@@ -299,9 +302,17 @@ func run() -> void:
 	cancel_fall_timer()
 	reindex_columns()
 	await settle()
-	while await clear():
+	
+	var num_cleared = await clear()
+	var combo = 0
+	while num_cleared > 0:
+		combo += 1
+		on_pieces_cleared.emit(num_cleared, combo)
 		reindex_columns()
 		await settle()
+		num_cleared = await clear()
+	on_combo_finished.emit()
+	
 	# small arbitrary delay
 	await get_tree().create_timer(PLACING_DELAY).timeout
 	create_new_double_piece()
@@ -326,7 +337,7 @@ func settle() -> void:
 	for piece in changed_pieces:
 		await piece.done_animation_fall
 
-func clear() -> bool:
+func clear() -> int:
 	var pieces_to_clear = []
 	var visited = {}
 	for piece in get_children():
@@ -345,7 +356,7 @@ func clear() -> bool:
 		await piece.done_animation_clear
 	for piece in pieces_to_clear:
 		piece.queue_free()
-	return len(pieces_to_clear) > 0
+	return len(pieces_to_clear)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
