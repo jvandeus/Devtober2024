@@ -4,5 +4,3 @@
 
 [node name="Meter" type="Node2D"]
 script = ExtResource("1_72xqg")
-color = null
-initial_value = null

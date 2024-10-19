@@ -6,20 +6,29 @@ extends Node2D
 @onready var bomb_socket = $BombSocket
 @onready var health_bar = $HealthBar
 @onready var attack_meter = $AttackMeter
+@onready var win_text = $WinText
 
 var bomb: Bomb
+var attack_charge_timer: SceneTreeTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	board.on_pieces_cleared.connect(on_pieces_cleared)
 	board.on_combo_finished.connect(on_combo_finished)
-	opponent_attack_loop()
-
-func opponent_attack_loop() -> void:
+	health_bar.on_empty.connect(win)
 	attack_meter.on_full.connect(opponent_attack)
-	while true:
-		await get_tree().create_timer(1).timeout
-		await attack_meter.increment(1)
+	opponent_attack_charge_loop()
+
+func win() -> void:
+	opponent_portrait.lose()
+	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
+	board.stop()
+	win_text.visible = true
+
+func opponent_attack_charge_loop() -> void:
+	await attack_meter.increment(1)
+	attack_charge_timer = get_tree().create_timer(1)
+	attack_charge_timer.timeout.connect(opponent_attack_charge_loop)
 		
 func opponent_attack() -> void:
 	attack_meter.clear()

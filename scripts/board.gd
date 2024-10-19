@@ -66,6 +66,7 @@ var left_repeat_timer: SceneTreeTimer
 var right_repeat_timer: SceneTreeTimer
 var is_left_pressed := false
 var is_right_pressed := false
+var is_stopped := false
 
 signal on_pieces_cleared
 signal on_combo_finished
@@ -79,6 +80,9 @@ func _ready() -> void:
 		run()
 
 func _input(event: InputEvent) -> void:
+	if is_stopped:
+		return
+		
 	if event.is_action_pressed("move_down"):
 		hold_down()
 	if event.is_action_released("move_down"):
@@ -279,6 +283,10 @@ func create_new_double_piece() -> void:
 	add_child(primary)
 	add_child(secondary)
 	update_primary_and_secondary()
+
+func stop() -> void:
+	is_stopped = true
+	cancel_fall_timer()
 
 func cancel_fall_timer() -> void:
 	if fall_timer: fall_timer.timeout.disconnect(move_down)

@@ -53,19 +53,28 @@ ambient_light_color = Color(0.374139, 0.374139, 0.374139, 1)
 [node name="Game" type="Node2D"]
 script = ExtResource("1_kstpf")
 
+[node name="OpponentPortrait" parent="." instance=ExtResource("11_mnnac")]
+position = Vector2(1568, 384)
+
 [node name="Board" parent="." instance=ExtResource("8_hikeo")]
-position = Vector2(758, 79)
+position = Vector2(768, 64)
 board_height = 12
 cell_size = 80
 
-[node name="OpponentPortrait" parent="." instance=ExtResource("11_mnnac")]
-position = Vector2(1560, 356)
+[node name="WinText" type="Label" parent="."]
+visible = false
+offset_left = 884.0
+offset_top = 488.0
+offset_right = 1117.0
+offset_bottom = 576.0
+theme_override_font_sizes/font_size = 64
+text = "Victory!"
 
 [node name="BombSocket" type="Node2D" parent="."]
 position = Vector2(382, 320)
 
 [node name="HealthBar" parent="." instance=ExtResource("4_qv84x")]
-position = Vector2(1408, 672)
+position = Vector2(1408, 704)
 color = Color(1, 1, 0, 1)
 max_value = 80
 initial_value = 80
