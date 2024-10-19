@@ -12,6 +12,8 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func _draw() -> void:
+	if is_too_weak_to_send():
+		return
 	draw_circle(Vector2(0, 0), size, Color.WHITE, true, -1.0, true)
 
 func add_points(pts: int) -> void:
@@ -21,6 +23,9 @@ func add_points(pts: int) -> void:
 	
 func get_damage() -> int:
 	return damage
+
+func is_too_weak_to_send() -> bool:
+	return damage <= 4
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

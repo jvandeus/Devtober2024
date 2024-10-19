@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=23 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ttbte0ma1eo6" path="res://scenes/meter.tscn" id="4_qv84x"]
 [ext_resource type="Texture2D" uid="uid://cebfp0d8qg0a0" path="res://assets/screen_mask.png" id="5_6drod"]
 [ext_resource type="Texture2D" uid="uid://chjneqbtqe1k1" path="res://assets/screen_bg.png" id="5_qihva"]
+[ext_resource type="Theme" uid="uid://di0g6mbonao3d" path="res://themes/big_text.tres" id="5_r1qfl"]
 [ext_resource type="PackedScene" uid="uid://bp86rnvlsxn8o" path="res://scenes/board.tscn" id="8_hikeo"]
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/tia_v.tscn" id="9_qcb26"]
 [ext_resource type="PackedScene" uid="uid://dhfyav0my2m5m" path="res://scenes/opponent_portrait.tscn" id="11_mnnac"]
@@ -64,7 +65,37 @@ position = Vector2(1560, 356)
 position = Vector2(382, 320)
 
 [node name="HealthBar" parent="." instance=ExtResource("4_qv84x")]
-position = Vector2(1370, 686)
+position = Vector2(1408, 672)
+color = Color(1, 1, 0, 1)
+max_value = 80
+initial_value = 80
+
+[node name="Label2" type="Label" parent="HealthBar"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -107.0
+offset_bottom = 45.0
+grow_horizontal = 0
+theme = ExtResource("5_r1qfl")
+text = "health "
+metadata/_edit_use_anchors_ = true
+
+[node name="AttackMeter" parent="." instance=ExtResource("4_qv84x")]
+position = Vector2(1408, 800)
+color = Color(1, 0, 0, 1)
+max_value = 20
+initial_value = 0
+
+[node name="Label" type="Label" parent="AttackMeter"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -96.0
+offset_bottom = 45.0
+grow_horizontal = 0
+theme = ExtResource("5_r1qfl")
+text = "attack "
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

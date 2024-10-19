@@ -5,6 +5,7 @@ extends Node2D
 @onready var opponent_portrait = $OpponentPortrait
 @onready var bomb_socket = $BombSocket
 @onready var health_bar = $HealthBar
+@onready var attack_meter = $AttackMeter
 
 var bomb: Bomb
 
@@ -12,6 +13,16 @@ var bomb: Bomb
 func _ready() -> void:
 	board.on_pieces_cleared.connect(on_pieces_cleared)
 	board.on_combo_finished.connect(on_combo_finished)
+	opponent_attack_loop()
+
+func opponent_attack_loop() -> void:
+	attack_meter.on_full.connect(opponent_attack)
+	while true:
+		await get_tree().create_timer(1).timeout
+		await attack_meter.increment(1)
+		
+func opponent_attack() -> void:
+	attack_meter.clear()
 
 func on_pieces_cleared(num_pieces: int, combo: int):
 	var points = num_pieces * combo
@@ -22,6 +33,11 @@ func on_pieces_cleared(num_pieces: int, combo: int):
 	bomb.add_points(num_pieces * combo)
 	
 func on_combo_finished():
+	if not bomb:
+		return
+	if bomb.is_too_weak_to_send():
+		bomb = null
+		return
 	var tween = create_tween()
 	var bomb_in_transit = bomb
 	bomb = null
