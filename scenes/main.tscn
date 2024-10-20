@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=21 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
+[ext_resource type="Script" path="res://scripts/score.gd" id="2_qhh88"]
 [ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="4_34xkp"]
 [ext_resource type="PackedScene" uid="uid://b3p18c2i1ifow" path="res://scenes/flip_board.tscn" id="4_g1vkf"]
 [ext_resource type="PackedScene" uid="uid://ttbte0ma1eo6" path="res://scenes/meter.tscn" id="4_qv84x"]
@@ -17,12 +18,6 @@
 shader = ExtResource("1_tjqgd")
 shader_parameter/speed_x = 0.025
 shader_parameter/speed_y = 0.025
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mydh4"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ljo8s"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aub4n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8tumo"]
 shader = ExtResource("4_34xkp")
@@ -53,6 +48,21 @@ ambient_light_color = Color(0.374139, 0.374139, 0.374139, 1)
 [node name="Game" type="Node2D"]
 script = ExtResource("1_kstpf")
 
+[node name="bg" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="bg"]
+material = SubResource("ShaderMaterial_dyqnh")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_d7sal")
+stretch_mode = 1
+
 [node name="OpponentPortrait" parent="." instance=ExtResource("11_mnnac")]
 position = Vector2(1568, 384)
 
@@ -75,7 +85,6 @@ position = Vector2(382, 320)
 
 [node name="HealthBar" parent="." instance=ExtResource("4_qv84x")]
 position = Vector2(1408, 704)
-color = Color(1, 1, 0, 1)
 max_value = 80
 initial_value = 80
 
@@ -94,7 +103,6 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(1408, 800)
 color = Color(1, 0, 0, 1)
 max_value = 20
-initial_value = 0
 
 [node name="Label" type="Label" parent="AttackMeter"]
 anchors_preset = 1
@@ -106,77 +114,52 @@ grow_horizontal = 0
 theme = ExtResource("5_r1qfl")
 text = "attack "
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Score" type="Node" parent="."]
+script = ExtResource("2_qhh88")
 
-[node name="Background" type="TextureRect" parent="CanvasLayer"]
-visible = false
-material = SubResource("ShaderMaterial_dyqnh")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource("1_d7sal")
-stretch_mode = 1
+[node name="FlipBoard" parent="Score" instance=ExtResource("4_g1vkf")]
+offset_left = 128.0
+offset_top = 64.0
+offset_right = 700.0
+offset_bottom = 136.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
 
-[node name="UI_Left" type="PanelContainer" parent="CanvasLayer"]
-offset_left = 60.0
-offset_top = 279.0
-offset_right = 664.0
-offset_bottom = 1047.0
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_mydh4")
+[node name="fg" type="CanvasLayer" parent="."]
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI_Left"]
-layout_mode = 2
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 32
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI_Left/MarginContainer"]
-layout_mode = 2
-
-[node name="SectionTop" type="PanelContainer" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_ljo8s")
-
-[node name="FlipBoard" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionTop" instance=ExtResource("4_g1vkf")]
-layout_mode = 2
-
-[node name="SectionBottom" type="PanelContainer" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_aub4n")
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="fg"]
 material = SubResource("ShaderMaterial_8tumo")
-layout_mode = 2
+offset_left = 168.0
+offset_top = 520.0
+offset_right = 680.0
+offset_bottom = 1032.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
-[node name="SubViewport" type="SubViewport" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="fg/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
 msaa_3d = 1
 screen_space_aa = 1
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
-transform = Transform3D(0.9289, -0.0564509, -0.366003, 0, 0.988314, -0.152434, 0.37033, 0.141596, 0.918045, -1.12148, 1.01142, 2.51923)
+[node name="Camera3D" type="Camera3D" parent="fg/SubViewportContainer/SubViewport"]
+transform = Transform3D(0.9289, -0.0564509, -0.366002, 0, 0.988314, -0.152434, 0.37033, 0.141596, 0.918045, -1.14881, 0.974069, 2.56243)
 fov = 23.4796
 
-[node name="Sprite3D" type="Sprite3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport/Camera3D"]
+[node name="Sprite3D" type="Sprite3D" parent="fg/SubViewportContainer/SubViewport/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
 texture = SubResource("GradientTexture2D_ye4ey")
 
-[node name="TIA-V_MASTER" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport" instance=ExtResource("9_qcb26")]
+[node name="TIA-V_MASTER" parent="fg/SubViewportContainer/SubViewport" instance=ExtResource("9_qcb26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="fg/SubViewportContainer/SubViewport"]
 transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514, 0.592836, -0.409986, 0.69315, 2.20665, 2.42911, -0.212508)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="CanvasLayer/UI_Left/MarginContainer/VBoxContainer/SectionBottom/SubViewportContainer/SubViewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="fg/SubViewportContainer/SubViewport"]
 environment = SubResource("Environment_41vkf")
+
+[connection signal="on_combo_finished" from="Board" to="." method="_on_combo_finished"]
+[connection signal="on_pieces_cleared" from="Board" to="." method="_on_pieces_cleared"]
+[connection signal="on_pieces_cleared" from="Board" to="Score" method="_on_pieces_cleared"]

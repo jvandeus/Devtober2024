@@ -5,6 +5,7 @@ var tween
 var digits: Array[FlipDigit]
 var target_text
 var queue: Array[int] = []
+var current_index: int
 @export var delay: float = 0.1
 
 @onready var digit_container: HBoxContainer = $DigitContainer
@@ -27,6 +28,7 @@ func _ready() -> void:
 		digits.push_back(digit)
 
 func set_display(input) -> void:
+	#print('set_display '+str(input))
 	var format = ''
 	var size = self.digits.size()
 	var temp_queue: Array[int] = []
@@ -45,38 +47,19 @@ func set_display(input) -> void:
 		if (self.digits[i].text != target_text[i]):
 			#print (str(i) + " = " + self.digits[i].text + ' -> ' + target_text[i])
 			temp_queue.push_back(i)
-	if (temp_queue.size() > 0):
+	if (temp_queue.size() == 1):
+		queue = temp_queue
+		self.set_digit(0)
+	elif (temp_queue.size() > 0):
 		if tween:
 			tween.kill() # Abort the previous animation.
 		queue = temp_queue
+		current_index = 0
 		tween = self.create_tween()
-		tween.tween_method(set_digit, 0, queue.size()-1, 1).set_delay(delay)
+		for i in queue.size():
+			tween.tween_callback(set_digit.bind(i)).set_delay(delay)
 
 func set_digit(index):
+	print('set_display['+str(index)+'] = '+target_text[queue[index]])
 	self.digits[queue[index]].text = target_text[queue[index]]
-
-func _input(event: InputEvent) -> void:
-	var digit=null
-	if event is InputEventKey and event.pressed:
-		match event.keycode:
-			KEY_0:
-				digit = '000000'
-			KEY_1:
-				digit = 1
-			KEY_2:
-				digit = 'wwwwwwwwwww'
-			KEY_3:
-				digit = 121289370
-			KEY_4:
-				digit = 0
-			KEY_5:
-				digit = 9999121289370
-			KEY_6:
-				digit = 'Godot?'
-			KEY_7:
-				digit = 'More like'
-			KEY_8:
-				digit = 'GO DONT'
-			KEY_9:
-				digit = 'Heh'
-		self.text = digit
+	current_index += 1
