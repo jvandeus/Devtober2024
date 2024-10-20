@@ -61,6 +61,8 @@ func _on_combo_finished():
 func _process(delta: float) -> void:
 	pass
 
-
 func _on_placed(double_peice: RefCounted) -> void:
+	pass # Replace with function body.
+
+func _on_player_move(blocked: bool) -> void:
 	pass # Replace with function body.

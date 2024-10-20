@@ -75,6 +75,8 @@ var next_secondary: Piece
 signal on_pieces_cleared
 signal on_combo_finished
 signal on_placed
+signal on_player_move(not_blocked: bool)
+signal on_player_rotate
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -123,17 +125,20 @@ func is_occupied(pos: Vector2i) -> bool:
 		return true
 	return false
 
-func hold_down() -> void:
+func hold_down(started: bool = false) -> void:
 	# soft drop doesn't use repeat delay
-	if dp: move_down()
+	if (!started):
+		if dp: on_player_move.emit(move_down(), true)
+	else:
+		if dp: move_down()
 	down_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
-	down_repeat_timer.timeout.connect(hold_down)
+	down_repeat_timer.timeout.connect(hold_down.bind(true))
 
 func release_down() -> void:
 	down_repeat_timer.timeout.disconnect(hold_down)
 
 func hold_left() -> void:
-	if dp: move_left()
+	if dp: on_player_move.emit(move_left())
 	left_repeat_timer = get_tree().create_timer(REPEAT_DELAY)
 	left_repeat_timer.timeout.connect(continue_holding_left)
 
@@ -146,7 +151,7 @@ func release_left() -> void:
 	left_repeat_timer.timeout.disconnect(continue_holding_left)
 	
 func hold_right() -> void:
-	if dp: move_right()
+	if dp: on_player_move.emit(move_right())
 	right_repeat_timer = get_tree().create_timer(REPEAT_DELAY)
 	right_repeat_timer.timeout.connect(continue_holding_right)
 
@@ -158,54 +163,57 @@ func continue_holding_right() -> void:
 func release_right() -> void:
 	right_repeat_timer.timeout.disconnect(continue_holding_right)
 
-func move_left():
+func move_left() -> bool:
 	var primary_left = dp.get_primary_coords() + Vector2i(-1, 0)
 	var secondary_left = dp.get_secondary_coords() + Vector2i(-1, 0)
 	match dp.get_orientation():
 		DoublePiece.Orientation.UP, DoublePiece.Orientation.DOWN:
 			if is_occupied(primary_left) or is_occupied(secondary_left):
-				return
+				return false
 		DoublePiece.Orientation.LEFT:
 			if is_occupied(secondary_left):
-				return
+				return false
 		DoublePiece.Orientation.RIGHT:
 			if is_occupied(primary_left):
-				return
+				return false
 	dp.move_left()
+	return true
 	
-func move_right():
+func move_right() -> bool:
 	var primary_right = dp.get_primary_coords() + Vector2i(1, 0)
 	var secondary_right = dp.get_secondary_coords() + Vector2i(1, 0)
 	match dp.get_orientation():
 		DoublePiece.Orientation.UP, DoublePiece.Orientation.DOWN:
 			if is_occupied(primary_right) or is_occupied(secondary_right):
-				return
+				return false
 		DoublePiece.Orientation.LEFT:
 			if is_occupied(primary_right):
-				return
+				return false
 		DoublePiece.Orientation.RIGHT:
 			if is_occupied(secondary_right):
-				return
+				return false
 	dp.move_right()
+	return true
 
-func move_down():
+func move_down() -> bool:
 	var primary_down = dp.get_primary_coords() + Vector2i(0, 1)
 	var secondary_down = dp.get_secondary_coords() + Vector2i(0, 1)
 	match dp.get_orientation():
 		DoublePiece.Orientation.UP:
 			if is_occupied(primary_down):
 				place()
-				return
+				return false
 		DoublePiece.Orientation.LEFT, DoublePiece.Orientation.RIGHT:
 			if is_occupied(primary_down) or is_occupied(secondary_down):
 				place()
-				return
+				return false
 		DoublePiece.Orientation.DOWN:
 			if is_occupied(secondary_down):
 				place()
-				return
+				return false
 	dp.move_down()
 	reset_fall_timer()
+	return true
 
 func rotate_cw():
 	var primary_right = dp.get_primary_coords() + Vector2i(1, 0)
@@ -223,6 +231,7 @@ func rotate_cw():
 		DoublePiece.Orientation.DOWN:
 			if is_occupied(primary_left):
 				move_right()
+	on_player_rotate.emit()
 	dp.rotate_cw()
 
 func rotate_ccw():
@@ -241,6 +250,7 @@ func rotate_ccw():
 		DoublePiece.Orientation.DOWN:
 			if is_occupied(primary_right):
 				move_left()
+	on_player_rotate.emit()
 	dp.rotate_ccw()
 
 
