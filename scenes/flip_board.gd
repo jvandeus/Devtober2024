@@ -60,6 +60,6 @@ func set_display(input) -> void:
 			tween.tween_callback(set_digit.bind(i)).set_delay(delay)
 
 func set_digit(index):
-	print('set_display['+str(index)+'] = '+target_text[queue[index]])
+	#print('set_display['+str(index)+'] = '+target_text[queue[index]])
 	self.digits[queue[index]].text = target_text[queue[index]]
 	current_index += 1

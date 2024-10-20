@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=33 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
@@ -15,6 +15,15 @@
 [ext_resource type="PackedScene" uid="uid://dhfyav0my2m5m" path="res://scenes/opponent_portrait.tscn" id="11_mnnac"]
 [ext_resource type="Script" path="res://scenes/signal_audio.gd" id="14_bx4to"]
 [ext_resource type="AudioStream" uid="uid://drlg7i2v2uik" path="res://assets/sound/knock01.wav" id="15_dcrwb"]
+[ext_resource type="AudioStream" uid="uid://cv4bx4ka1bcba" path="res://assets/sound/pop_soft03.wav" id="16_5vhk7"]
+[ext_resource type="AudioStream" uid="uid://nytpm0tpkylx" path="res://assets/sound/plonk01.wav" id="17_dyp8m"]
+[ext_resource type="AudioStream" uid="uid://dmwuk8au3v8o3" path="res://assets/sound/plonk02.wav" id="17_oxs0j"]
+[ext_resource type="AudioStream" uid="uid://cislxs6nfhbcp" path="res://assets/sound/plonk04.wav" id="17_qcbhn"]
+[ext_resource type="AudioStream" uid="uid://cf2ubs6jppwva" path="res://assets/sound/degauss_alt01.wav" id="20_7bau0"]
+[ext_resource type="AudioStream" uid="uid://4y33glpepi7l" path="res://assets/sound/degauss_alt02.wav" id="21_rxidj"]
+[ext_resource type="AudioStream" uid="uid://dbjygpq6ayxth" path="res://assets/sound/degauss_alt03.wav" id="22_8be85"]
+[ext_resource type="AudioStream" uid="uid://be8al80nrga4s" path="res://assets/sound/degauss_alt04.wav" id="23_3cfok"]
+[ext_resource type="AudioStream" uid="uid://bwsoi8rq1yixl" path="res://assets/sound/degauss_alt05.wav" id="24_e7f1a"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dyqnh"]
 shader = ExtResource("1_tjqgd")
@@ -46,6 +55,15 @@ sky_material = SubResource("ProceduralSkyMaterial_fix6b")
 background_mode = 2
 sky = SubResource("Sky_cug6s")
 ambient_light_color = Color(0.374139, 0.374139, 0.374139, 1)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uvbpt"]
+playback_mode = 2
+streams_count = 5
+stream_0/stream = ExtResource("20_7bau0")
+stream_1/stream = ExtResource("21_rxidj")
+stream_2/stream = ExtResource("22_8be85")
+stream_3/stream = ExtResource("23_3cfok")
+stream_4/stream = ExtResource("24_e7f1a")
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_kstpf")
@@ -168,8 +186,30 @@ script = ExtResource("14_bx4to")
 [node name="PlaceSFX" type="AudioStreamPlayer" parent="SignalAudio"]
 stream = ExtResource("15_dcrwb")
 
+[node name="MoveSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("17_oxs0j")
+max_polyphony = 2
+
+[node name="MoveSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("17_dyp8m")
+max_polyphony = 2
+
+[node name="BlockedSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("17_qcbhn")
+max_polyphony = 2
+
+[node name="RotateSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("16_5vhk7")
+
+[node name="ComboSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = SubResource("AudioStreamRandomizer_uvbpt")
+
 [connection signal="on_combo_finished" from="Board" to="." method="_on_combo_finished"]
 [connection signal="on_pieces_cleared" from="Board" to="." method="_on_pieces_cleared"]
 [connection signal="on_pieces_cleared" from="Board" to="Score" method="_on_pieces_cleared"]
+[connection signal="on_pieces_cleared" from="Board" to="SignalAudio" method="_on_pieces_cleared"]
 [connection signal="on_placed" from="Board" to="." method="_on_placed"]
 [connection signal="on_placed" from="Board" to="SignalAudio" method="_on_placed"]
+[connection signal="on_player_move" from="Board" to="." method="_on_player_move"]
+[connection signal="on_player_move" from="Board" to="SignalAudio" method="_on_player_move"]
+[connection signal="on_player_rotate" from="Board" to="SignalAudio" method="_on_player_rotate"]
