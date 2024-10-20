@@ -13,8 +13,8 @@ var attack_charge_timer: SceneTreeTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	board.on_pieces_cleared.connect(on_pieces_cleared)
-	board.on_combo_finished.connect(on_combo_finished)
+	#board.on_pieces_cleared.connect(_on_pieces_cleared)
+	#board.on_combo_finished.connect(_on_combo_finished)
 	health_bar.on_empty.connect(win)
 	attack_meter.on_full.connect(opponent_attack)
 	opponent_attack_charge_loop()
@@ -33,7 +33,7 @@ func opponent_attack_charge_loop() -> void:
 func opponent_attack() -> void:
 	attack_meter.clear()
 
-func on_pieces_cleared(num_pieces: int, combo: int):
+func _on_pieces_cleared(num_pieces: int, combo: int):
 	var points = num_pieces * combo
 	if not bomb:
 		bomb = scene_Bomb.instantiate()
@@ -41,7 +41,7 @@ func on_pieces_cleared(num_pieces: int, combo: int):
 		bomb.transform.origin = bomb_socket.transform.origin
 	bomb.add_points(num_pieces * combo)
 	
-func on_combo_finished():
+func _on_combo_finished():
 	if not bomb:
 		return
 	if bomb.is_too_weak_to_send():
@@ -59,3 +59,7 @@ func on_combo_finished():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+
+func _on_placed(double_peice: RefCounted) -> void:
+	pass # Replace with function body.

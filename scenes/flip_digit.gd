@@ -11,6 +11,8 @@ extends CanvasItem
 @onready var front_top_label: Label = $Front/Top/Margin/Label
 @onready var front_bottom_label: Label = $Front/Bottom/Margin/Label
 
+@onready var flip_sfx: AudioStreamPlayer = $FlipSfx
+
 var tween
 var target_text
 var current_text
@@ -32,6 +34,7 @@ func _ready() -> void:
 
 			
 func flip_to(digit):
+	flip_sfx.play()
 	current_text = front_bottom_label.text
 	if tween:
 		tween.kill() # Abort the previous animation.
