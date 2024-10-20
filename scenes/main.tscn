@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=23 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://bp86rnvlsxn8o" path="res://scenes/board.tscn" id="8_hikeo"]
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/tia_v.tscn" id="9_qcb26"]
 [ext_resource type="PackedScene" uid="uid://dhfyav0my2m5m" path="res://scenes/opponent_portrait.tscn" id="11_mnnac"]
+[ext_resource type="Script" path="res://scenes/signal_audio.gd" id="14_bx4to"]
+[ext_resource type="AudioStream" uid="uid://drlg7i2v2uik" path="res://assets/sound/knock01.wav" id="15_dcrwb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dyqnh"]
 shader = ExtResource("1_tjqgd")
@@ -160,6 +162,14 @@ transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514
 [node name="WorldEnvironment" type="WorldEnvironment" parent="fg/SubViewportContainer/SubViewport"]
 environment = SubResource("Environment_41vkf")
 
+[node name="SignalAudio" type="Node" parent="."]
+script = ExtResource("14_bx4to")
+
+[node name="PlaceSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("15_dcrwb")
+
 [connection signal="on_combo_finished" from="Board" to="." method="_on_combo_finished"]
 [connection signal="on_pieces_cleared" from="Board" to="." method="_on_pieces_cleared"]
 [connection signal="on_pieces_cleared" from="Board" to="Score" method="_on_pieces_cleared"]
+[connection signal="on_placed" from="Board" to="." method="_on_placed"]
+[connection signal="on_placed" from="Board" to="SignalAudio" method="_on_placed"]

@@ -70,6 +70,7 @@ var is_stopped := false
 
 signal on_pieces_cleared
 signal on_combo_finished
+signal on_placed
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -303,6 +304,7 @@ func update_primary_and_secondary() -> void:
 	secondary.transform.origin = dp.get_secondary_pos(cell_size)
 	
 func place() -> void:
+	on_placed.emit()
 	dp = null
 	run()
 

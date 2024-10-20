@@ -59,3 +59,7 @@ func _on_combo_finished():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+
+func _on_placed(double_peice: RefCounted) -> void:
+	pass # Replace with function body.
