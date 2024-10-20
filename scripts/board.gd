@@ -52,6 +52,8 @@ const PLACING_DELAY := 0.25
 
 @onready var scene_Piece = preload("res://scenes/piece.tscn")
 
+@onready var preview_pane = $PreviewPane
+
 @export var board_width := 6
 @export var board_height := 10
 @export var cell_size := 64
@@ -67,6 +69,8 @@ var right_repeat_timer: SceneTreeTimer
 var is_left_pressed := false
 var is_right_pressed := false
 var is_stopped := false
+var next_primary: Piece
+var next_secondary: Piece
 
 signal on_pieces_cleared
 signal on_combo_finished
@@ -277,8 +281,11 @@ func get_center_column_index() -> int:
 
 func create_new_double_piece() -> void:
 	dp = DoublePiece.new(Vector2i(get_center_column_index(), 0))
-	primary = scene_Piece.instantiate()
-	secondary = scene_Piece.instantiate()
+	var pieces = preview_pane.pop()
+	primary = pieces[0]
+	secondary = pieces[1]
+	next_primary = null
+	next_secondary = null
 	primary.cell_size = cell_size
 	secondary.cell_size = cell_size
 	add_child(primary)

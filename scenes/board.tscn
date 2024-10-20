@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bp86rnvlsxn8o"]
+[gd_scene load_steps=3 format=3 uid="uid://bp86rnvlsxn8o"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_udi82"]
+[ext_resource type="PackedScene" uid="uid://dve8jb5bcsflx" path="res://scenes/preview_pane.tscn" id="2_hovcg"]
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_udi82")
+
+[node name="PreviewPane" parent="." instance=ExtResource("2_hovcg")]
+position = Vector2(-96, 160)
+
+[node name="Label" type="Label" parent="PreviewPane"]
+offset_right = 40.0
+offset_bottom = 45.0
+text = "next"

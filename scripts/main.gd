@@ -7,6 +7,7 @@ extends Node2D
 @onready var health_bar = $HealthBar
 @onready var attack_meter = $AttackMeter
 @onready var win_text = $WinText
+@onready var preview_pane = $PreviewPane
 
 var bomb: Bomb
 var attack_charge_timer: SceneTreeTimer
