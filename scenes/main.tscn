@@ -120,10 +120,10 @@ text = "attack "
 script = ExtResource("2_qhh88")
 
 [node name="FlipBoard" parent="Score" instance=ExtResource("4_g1vkf")]
-offset_left = 128.0
-offset_top = 64.0
-offset_right = 700.0
-offset_bottom = 136.0
+offset_left = 139.0
+offset_top = 393.0
+offset_right = 711.0
+offset_bottom = 465.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 

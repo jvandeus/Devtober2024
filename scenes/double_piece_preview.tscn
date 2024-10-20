@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtmsipcmuham8"]
+
+[ext_resource type="Script" path="res://scripts/double_piece_preview.gd" id="1_1w40i"]
+
+[node name="DoublePiecePreview" type="Node2D"]
+script = ExtResource("1_1w40i")
+
+[node name="PrimarySlot" type="Node2D" parent="."]
+
+[node name="SecondarySlot" type="Node2D" parent="."]
