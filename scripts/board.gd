@@ -74,7 +74,7 @@ var next_primary: Piece
 var next_secondary: Piece
 
 signal on_pieces_cleared
-signal on_combo_finished
+signal on_settled
 signal on_placed
 signal on_player_move(not_blocked: bool)
 signal on_player_rotate
@@ -85,7 +85,7 @@ func _ready() -> void:
 	for c in range(board_width):
 		columns.append([])
 	if not Engine.is_editor_hint():
-		run()
+		start()
 
 func _input(event: InputEvent) -> void:
 	if is_stopped:
@@ -324,9 +324,9 @@ func update_primary_and_secondary() -> void:
 func place() -> void:
 	on_placed.emit()
 	dp = null
-	run()
+	simulate()
 
-func run() -> void:
+func simulate() -> void:
 	cancel_fall_timer()
 	reindex_columns()
 	await settle()
@@ -339,10 +339,10 @@ func run() -> void:
 		reindex_columns()
 		await settle()
 		num_cleared = await clear()
-	on_combo_finished.emit()
-	
-	# small arbitrary delay
-	await get_tree().create_timer(PLACING_DELAY).timeout
+	on_settled.emit()
+	# whoever is listening to on_settled is responsible for calling start again to continue the game loop
+
+func start():
 	create_new_double_piece()
 	reset_fall_timer()
 
@@ -402,14 +402,22 @@ func clear() -> int:
 	return len(pieces_to_clear)
 
 func attack1() -> void:
+	var piece_sample = []
 	var num_pieces = 0
 	for column in columns:
 		for piece in column:
+			if piece.kind == Piece.Kind.GARBAGE:
+				continue
 			num_pieces += 1
-	for column in columns:
-		for piece in column:
 			if randf() < ATTACK1_CHANCE:
-				piece.set_kind(Piece.Kind.GARBAGE)
+				piece_sample.append(piece)
+	if num_pieces == 0:
+		return
+	if len(piece_sample) == 0:
+		# retry until at least one piece is targeted
+		attack1()
+	for piece in piece_sample:
+		await piece.set_kind(Piece.Kind.GARBAGE)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

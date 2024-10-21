@@ -17,7 +17,6 @@ func _ready() -> void:
 	#board.on_pieces_cleared.connect(_on_pieces_cleared)
 	#board.on_combo_finished.connect(_on_combo_finished)
 	health_bar.on_empty.connect(win)
-	attack_meter.on_full.connect(opponent_attack)
 	opponent_attack_charge_loop()
 
 func win() -> void:
@@ -27,13 +26,14 @@ func win() -> void:
 	win_text.visible = true
 
 func opponent_attack_charge_loop() -> void:
-	await attack_meter.increment(1)
+	if not attack_meter.is_full():
+		await attack_meter.increment(1)
 	attack_charge_timer = get_tree().create_timer(1)
 	attack_charge_timer.timeout.connect(opponent_attack_charge_loop)
 		
 func opponent_attack() -> void:
 	attack_meter.clear()
-	board.attack1()
+	await board.attack1()
 
 func _on_pieces_cleared(num_pieces: int, combo: int):
 	var points = num_pieces * combo
@@ -43,12 +43,19 @@ func _on_pieces_cleared(num_pieces: int, combo: int):
 		bomb.transform.origin = bomb_socket.transform.origin
 	bomb.add_points(num_pieces * combo)
 	
-func _on_combo_finished():
-	if not bomb:
+func _on_settled():
+	var queue = []
+	if bomb and bomb.can_send():
+		queue.append(player_attack)
+	if attack_meter.is_full():
+		queue.append(opponent_attack)
+	for fn in queue:
+		await fn.call()
+	if board.is_stopped:
 		return
-	if bomb.is_too_weak_to_send():
-		bomb = null
-		return
+	board.start()
+
+func player_attack():
 	var tween = create_tween()
 	var bomb_in_transit = bomb
 	bomb = null

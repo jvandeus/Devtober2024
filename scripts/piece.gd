@@ -27,8 +27,9 @@ func _ready() -> void:
 	kind = KINDS.pick_random()
 
 func _draw() -> void:
-	draw_line(Vector2(-8, -8), Vector2(8, 8), Color.RED, 4.0, true)
-	draw_line(Vector2(-8, 8), Vector2(8, -8), Color.RED, 4.0, true)
+	# draw a red X marking the transform
+	#draw_line(Vector2(-8, -8), Vector2(8, 8), Color.RED, 4.0, true)
+	#draw_line(Vector2(-8, 8), Vector2(8, -8), Color.RED, 4.0, true)
 	var color: Color
 	match kind:
 		Kind.GREEN: color = Color.GREEN
@@ -84,6 +85,10 @@ func update_children() -> void:
 	if Shape: Shape.scale = Vector2(cell_size / 64.0, cell_size / 64.0)
 
 func set_kind(k: Kind) -> void:
+	$AnimatedSprite2D.visible = true
+	$AnimatedSprite2D.play("shine")
+	await $AnimatedSprite2D.animation_finished
+	$AnimatedSprite2D.visible = false
 	kind = k
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
