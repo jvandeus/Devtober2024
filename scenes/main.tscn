@@ -20,6 +20,7 @@
 [ext_resource type="AudioStream" uid="uid://dmwuk8au3v8o3" path="res://assets/sound/plonk02.wav" id="17_oxs0j"]
 [ext_resource type="AudioStream" uid="uid://cislxs6nfhbcp" path="res://assets/sound/plonk04.wav" id="17_qcbhn"]
 [ext_resource type="AudioStream" uid="uid://cf2ubs6jppwva" path="res://assets/sound/degauss_alt01.wav" id="20_7bau0"]
+[ext_resource type="Script" path="res://scripts/audio_sequence.gd" id="20_xqkpy"]
 [ext_resource type="AudioStream" uid="uid://4y33glpepi7l" path="res://assets/sound/degauss_alt02.wav" id="21_rxidj"]
 [ext_resource type="AudioStream" uid="uid://dbjygpq6ayxth" path="res://assets/sound/degauss_alt03.wav" id="22_8be85"]
 [ext_resource type="AudioStream" uid="uid://be8al80nrga4s" path="res://assets/sound/degauss_alt04.wav" id="23_3cfok"]
@@ -55,15 +56,6 @@ sky_material = SubResource("ProceduralSkyMaterial_fix6b")
 background_mode = 2
 sky = SubResource("Sky_cug6s")
 ambient_light_color = Color(0.374139, 0.374139, 0.374139, 1)
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uvbpt"]
-playback_mode = 2
-streams_count = 5
-stream_0/stream = ExtResource("20_7bau0")
-stream_1/stream = ExtResource("21_rxidj")
-stream_2/stream = ExtResource("22_8be85")
-stream_3/stream = ExtResource("23_3cfok")
-stream_4/stream = ExtResource("24_e7f1a")
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_kstpf")
@@ -212,7 +204,8 @@ max_polyphony = 2
 stream = ExtResource("16_5vhk7")
 
 [node name="ComboSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = SubResource("AudioStreamRandomizer_uvbpt")
+script = ExtResource("20_xqkpy")
+streams = Array[AudioStreamWAV]([ExtResource("20_7bau0"), ExtResource("21_rxidj"), ExtResource("22_8be85"), ExtResource("23_3cfok"), ExtResource("24_e7f1a")])
 
 [connection signal="on_lose" from="Board" to="." method="_on_lose"]
 [connection signal="on_pieces_cleared" from="Board" to="." method="_on_pieces_cleared"]
