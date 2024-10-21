@@ -5,7 +5,8 @@ extends Node
 @onready var move_sfx_2: AudioStreamPlayer = $MoveSFX2
 @onready var blocked_sfx: AudioStreamPlayer = $BlockedSFX
 @onready var rotate_sfx: AudioStreamPlayer = $RotateSFX
-@onready var combo_sfx: AudioStreamPlayer = $ComboSFX
+@onready var combo_sfx: AudioStreamSequence = $ComboSFX
+@export var pitch_increment: float = 0.25
 
 func _on_placed() -> void:
 	place_sfx.play()
@@ -23,11 +24,11 @@ func _on_player_rotate() -> void:
 	rotate_sfx.play()
 
 func _on_pieces_cleared(num_pieces: int, combo: int) -> void:
+	if combo_sfx.streams.size() <= 0: return
 	if combo == 1:
-		reset_randomizer(combo_sfx)
-	combo_sfx.play();
+		reset_sequence(combo_sfx)
+	combo_sfx.pitch_scale = 1.0 + floor(combo / combo_sfx.streams.size())
+	combo_sfx.play_next();
 
-func reset_randomizer(sfx):
-	#THIS DOESN'T WORK!! - I tried everything to make a list that would "reset" except the AudioPlayerInteractive one.
-	sfx.stop()
-	sfx.seek(0.0)
+func reset_sequence(sfx):
+	combo_sfx.reset()
