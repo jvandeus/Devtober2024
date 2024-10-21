@@ -100,11 +100,21 @@ offset_bottom = 576.0
 theme_override_font_sizes/font_size = 64
 text = "Victory!"
 
+[node name="LoseText" type="Label" parent="."]
+visible = false
+offset_left = 884.0
+offset_top = 488.0
+offset_right = 1117.0
+offset_bottom = 576.0
+theme_override_font_sizes/font_size = 64
+text = "Defeat!"
+
 [node name="BombSocket" type="Node2D" parent="."]
 position = Vector2(382, 320)
 
 [node name="HealthBar" parent="." instance=ExtResource("4_qv84x")]
 position = Vector2(1408, 704)
+base_color = Color(1, 1, 0, 1)
 max_value = 80
 initial_value = 80
 
@@ -121,7 +131,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="AttackMeter" parent="." instance=ExtResource("4_qv84x")]
 position = Vector2(1408, 800)
-color = Color(1, 0, 0, 1)
+base_color = Color(1, 0, 0, 1)
 max_value = 20
 
 [node name="Label" type="Label" parent="AttackMeter"]
@@ -204,7 +214,7 @@ stream = ExtResource("16_5vhk7")
 [node name="ComboSFX" type="AudioStreamPlayer" parent="SignalAudio"]
 stream = SubResource("AudioStreamRandomizer_uvbpt")
 
-[connection signal="on_combo_finished" from="Board" to="." method="_on_combo_finished"]
+[connection signal="on_lose" from="Board" to="." method="_on_lose"]
 [connection signal="on_pieces_cleared" from="Board" to="." method="_on_pieces_cleared"]
 [connection signal="on_pieces_cleared" from="Board" to="Score" method="_on_pieces_cleared"]
 [connection signal="on_pieces_cleared" from="Board" to="SignalAudio" method="_on_pieces_cleared"]
@@ -213,3 +223,4 @@ stream = SubResource("AudioStreamRandomizer_uvbpt")
 [connection signal="on_player_move" from="Board" to="." method="_on_player_move"]
 [connection signal="on_player_move" from="Board" to="SignalAudio" method="_on_player_move"]
 [connection signal="on_player_rotate" from="Board" to="SignalAudio" method="_on_player_rotate"]
+[connection signal="on_settled" from="Board" to="." method="_on_settled"]

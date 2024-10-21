@@ -9,13 +9,16 @@ func _ready() -> void:
 func hurt() -> void:
 	$AnimatedSprite2D.play("hurt")
 	timer = get_tree().create_timer(1)
-	timer.timeout.connect(idle)
+	await timer.timeout
+	idle()
+	
+func attack() -> void:
+	$AnimatedSprite2D.play("attack")
 	
 func idle() -> void:
 	$AnimatedSprite2D.play("idle")
 
 func win() -> void:
-	timer.timeout.disconnect(idle)
 	$AnimatedSprite2D.play("victory")
 	
 func lose() -> void:

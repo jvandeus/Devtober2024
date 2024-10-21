@@ -43,6 +43,7 @@ class DoublePiece:
 	func move_down():
 		origin.y += 1
 
+const ATTACK1_CHANCE := 0.2
 const TIME_TO_FALL_ONE_CELL := 1.0
 const LINE_COLOR := Color(1, 1, 1, 0.2)
 const BG_COLOR := Color(.1, .1, .1, 0.7)
@@ -73,10 +74,11 @@ var next_primary: Piece
 var next_secondary: Piece
 
 signal on_pieces_cleared
-signal on_combo_finished
+signal on_settled
 signal on_placed
 signal on_player_move(not_blocked: bool)
 signal on_player_rotate
+signal on_lose
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -84,7 +86,7 @@ func _ready() -> void:
 	for c in range(board_width):
 		columns.append([])
 	if not Engine.is_editor_hint():
-		run()
+		start()
 
 func _input(event: InputEvent) -> void:
 	if is_stopped:
@@ -323,9 +325,9 @@ func update_primary_and_secondary() -> void:
 func place() -> void:
 	on_placed.emit()
 	dp = null
-	run()
+	simulate()
 
-func run() -> void:
+func simulate() -> void:
 	cancel_fall_timer()
 	reindex_columns()
 	await settle()
@@ -338,10 +340,15 @@ func run() -> void:
 		reindex_columns()
 		await settle()
 		num_cleared = await clear()
-	on_combo_finished.emit()
 	
-	# small arbitrary delay
-	await get_tree().create_timer(PLACING_DELAY).timeout
+	if len(columns[get_center_column_index()]) >= board_height:
+		on_lose.emit()
+		return
+	
+	on_settled.emit()
+	# whoever is listening to on_settled is responsible for calling start again to continue the game loop
+
+func start():
 	create_new_double_piece()
 	reset_fall_timer()
 
@@ -372,11 +379,26 @@ func clear() -> int:
 			continue
 		if piece.is_queued_for_deletion():
 			continue
+		if piece.kind == Piece.Kind.GARBAGE:
+			continue
 		if visited.has(hash(piece)):
 			continue
 		var cluster = piece.get_cluster(visited)
 		if len(cluster) >= 4:
 			pieces_to_clear.append_array(cluster)
+	
+	# find garbage adjacent to any clearing pieces
+	var garbage_to_clear = []
+	var visited_garbage = {}
+	for piece in pieces_to_clear:
+		for adj in piece.get_adj_pieces():
+			if visited_garbage.has(hash(adj)):
+				continue
+			if adj.kind == Piece.Kind.GARBAGE:
+				garbage_to_clear.append(adj)
+				visited_garbage[hash(adj)] = true
+	pieces_to_clear.append_array(garbage_to_clear)
+	
 	for piece in pieces_to_clear:
 		piece.clear()
 	for piece in pieces_to_clear:
@@ -384,6 +406,24 @@ func clear() -> int:
 	for piece in pieces_to_clear:
 		piece.queue_free()
 	return len(pieces_to_clear)
+
+func attack1() -> void:
+	var piece_sample = []
+	var num_pieces = 0
+	for column in columns:
+		for piece in column:
+			if piece.kind == Piece.Kind.GARBAGE:
+				continue
+			num_pieces += 1
+			if randf() < ATTACK1_CHANCE:
+				piece_sample.append(piece)
+	if num_pieces == 0:
+		return
+	if len(piece_sample) == 0:
+		# retry until at least one piece is targeted
+		attack1()
+	for piece in piece_sample:
+		await piece.set_kind(Piece.Kind.GARBAGE)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
