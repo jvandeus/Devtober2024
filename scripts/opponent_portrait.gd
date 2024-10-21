@@ -19,7 +19,6 @@ func idle() -> void:
 	$AnimatedSprite2D.play("idle")
 
 func win() -> void:
-	timer.timeout.disconnect(idle)
 	$AnimatedSprite2D.play("victory")
 	
 func lose() -> void:

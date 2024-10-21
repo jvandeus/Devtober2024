@@ -34,6 +34,9 @@ func increment(amount: int) -> void:
 func is_full() -> bool:
 	return value == max_value
 
+func is_empty() -> bool:
+	return value == 0
+
 func clear() -> void:
 	color_tween.stop()
 	color_tween = null

@@ -7,6 +7,7 @@ extends Node2D
 @onready var health_bar = $HealthBar
 @onready var attack_meter = $AttackMeter
 @onready var win_text = $WinText
+@onready var lose_text = $LoseText
 @onready var preview_pane = $PreviewPane
 
 var bomb: Bomb
@@ -21,9 +22,15 @@ func _ready() -> void:
 
 func win() -> void:
 	opponent_portrait.lose()
-	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	board.stop()
+	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	win_text.visible = true
+
+func _on_lose() -> void:
+	opponent_portrait.win()
+	board.stop()
+	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
+	lose_text.visible = true
 
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():
@@ -48,11 +55,11 @@ func _on_pieces_cleared(num_pieces: int, combo: int):
 func _on_settled():
 	var queue = []
 	if bomb and bomb.can_send():
-		queue.append(player_attack)
+		await player_attack()
+	if board.is_stopped:
+		return
 	if attack_meter.is_full():
-		queue.append(opponent_attack)
-	for fn in queue:
-		await fn.call()
+		await opponent_attack()
 	if board.is_stopped:
 		return
 	board.start()
@@ -65,7 +72,10 @@ func player_attack():
 	await tween.finished
 	health_bar.decrement(bomb_in_transit.get_damage())
 	bomb_in_transit.queue_free()
-	await opponent_portrait.hurt()
+	if health_bar.is_empty():
+		opponent_portrait.lose()
+	else:
+		opponent_portrait.hurt()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

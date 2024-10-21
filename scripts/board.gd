@@ -78,6 +78,7 @@ signal on_settled
 signal on_placed
 signal on_player_move(not_blocked: bool)
 signal on_player_rotate
+signal on_lose
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -339,6 +340,11 @@ func simulate() -> void:
 		reindex_columns()
 		await settle()
 		num_cleared = await clear()
+	
+	if len(columns[get_center_column_index()]) >= board_height:
+		on_lose.emit()
+		return
+	
 	on_settled.emit()
 	# whoever is listening to on_settled is responsible for calling start again to continue the game loop
 
