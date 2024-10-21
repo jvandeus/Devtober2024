@@ -3,7 +3,7 @@
 class_name Piece
 extends Node2D
 
-enum Kind { GREEN, RED, BLUE, YELLOW }
+enum Kind { GREEN, RED, BLUE, YELLOW, GARBAGE }
 
 @onready var apparent_transform = $ApparentTransform
 @onready var ray_up = $Up
@@ -35,6 +35,7 @@ func _draw() -> void:
 		Kind.BLUE: color = Color(0.2, 0.5, 1)
 		Kind.RED: color = Color.RED
 		Kind.YELLOW: color = Color.YELLOW
+		Kind.GARBAGE: color = Color.GRAY
 	if is_visible:
 		draw_circle(apparent_transform.transform.origin, cell_size / 2 - 8, color, false, 4.0, true)
 
@@ -54,7 +55,7 @@ func is_animating() -> bool:
 	return apparent_transform.transform.origin != Vector2(0, 0)
 
 func clear() -> void:
-	for i in 16:
+	for i in 20:
 		is_visible = !is_visible
 		await get_tree().create_timer(0.04).timeout
 	done_animation_clear.emit()
@@ -81,6 +82,9 @@ func update_children() -> void:
 	for ray in [ray_down, ray_up, ray_left, ray_right]:
 		if ray: ray.target_position.x = cell_size
 	if Shape: Shape.scale = Vector2(cell_size / 64.0, cell_size / 64.0)
+
+func set_kind(k: Kind) -> void:
+	kind = k
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

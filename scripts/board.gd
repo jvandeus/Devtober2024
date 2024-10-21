@@ -43,6 +43,7 @@ class DoublePiece:
 	func move_down():
 		origin.y += 1
 
+const ATTACK1_CHANCE := 0.2
 const TIME_TO_FALL_ONE_CELL := 1.0
 const LINE_COLOR := Color(1, 1, 1, 0.2)
 const BG_COLOR := Color(.1, .1, .1, 0.7)
@@ -372,11 +373,26 @@ func clear() -> int:
 			continue
 		if piece.is_queued_for_deletion():
 			continue
+		if piece.kind == Piece.Kind.GARBAGE:
+			continue
 		if visited.has(hash(piece)):
 			continue
 		var cluster = piece.get_cluster(visited)
 		if len(cluster) >= 4:
 			pieces_to_clear.append_array(cluster)
+	
+	# find garbage adjacent to any clearing pieces
+	var garbage_to_clear = []
+	var visited_garbage = {}
+	for piece in pieces_to_clear:
+		for adj in piece.get_adj_pieces():
+			if visited_garbage.has(hash(adj)):
+				continue
+			if adj.kind == Piece.Kind.GARBAGE:
+				garbage_to_clear.append(adj)
+				visited_garbage[hash(adj)] = true
+	pieces_to_clear.append_array(garbage_to_clear)
+	
 	for piece in pieces_to_clear:
 		piece.clear()
 	for piece in pieces_to_clear:
@@ -384,6 +400,16 @@ func clear() -> int:
 	for piece in pieces_to_clear:
 		piece.queue_free()
 	return len(pieces_to_clear)
+
+func attack1() -> void:
+	var num_pieces = 0
+	for column in columns:
+		for piece in column:
+			num_pieces += 1
+	for column in columns:
+		for piece in column:
+			if randf() < ATTACK1_CHANCE:
+				piece.set_kind(Piece.Kind.GARBAGE)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

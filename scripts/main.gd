@@ -33,6 +33,7 @@ func opponent_attack_charge_loop() -> void:
 		
 func opponent_attack() -> void:
 	attack_meter.clear()
+	board.attack1()
 
 func _on_pieces_cleared(num_pieces: int, combo: int):
 	var points = num_pieces * combo

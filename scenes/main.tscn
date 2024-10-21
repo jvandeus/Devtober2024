@@ -123,6 +123,7 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(1408, 800)
 color = Color(1, 0, 0, 1)
 max_value = 20
+initial_value = 17
 
 [node name="Label" type="Label" parent="AttackMeter"]
 anchors_preset = 1
