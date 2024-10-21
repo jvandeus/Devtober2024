@@ -1,10 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://dhfyav0my2m5m"]
+[gd_scene load_steps=12 format=3 uid="uid://dhfyav0my2m5m"]
 
 [ext_resource type="Script" path="res://scripts/opponent_portrait.gd" id="1_sxr3e"]
 [ext_resource type="Texture2D" uid="uid://dsa2xbmca8rhj" path="res://assets/images/blockhead_events2.jpg" id="2_6idp8"]
 [ext_resource type="Texture2D" uid="uid://cs0w8a5heip13" path="res://assets/images/blockhead_idle.jpg" id="2_tte3m"]
 [ext_resource type="Texture2D" uid="uid://cgqvg320ny4e3" path="res://assets/images/blockhead_events1.jpg" id="2_uwop7"]
 [ext_resource type="Texture2D" uid="uid://d3asng72omcqp" path="res://assets/images/blockhead_events3.jpg" id="5_vr4hm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aame3"]
+atlas = ExtResource("2_uwop7")
+region = Rect2(0, 0, 825, 538)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aqhhl"]
 atlas = ExtResource("2_6idp8")
@@ -24,6 +28,14 @@ region = Rect2(0, 0, 766, 559)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nmnyk"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aame3")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_aqhhl")
@@ -62,4 +74,4 @@ script = ExtResource("1_sxr3e")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_nmnyk")
-animation = &"victory"
+animation = &"attack"

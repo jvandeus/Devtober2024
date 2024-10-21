@@ -32,8 +32,10 @@ func opponent_attack_charge_loop() -> void:
 	attack_charge_timer.timeout.connect(opponent_attack_charge_loop)
 		
 func opponent_attack() -> void:
+	opponent_portrait.attack()
 	attack_meter.clear()
 	await board.attack1()
+	opponent_portrait.idle()
 
 func _on_pieces_cleared(num_pieces: int, combo: int):
 	var points = num_pieces * combo
@@ -61,9 +63,9 @@ func player_attack():
 	bomb = null
 	tween.tween_property(bomb_in_transit, "position", opponent_portrait.transform.origin, 1)
 	await tween.finished
-	opponent_portrait.hurt()
 	health_bar.decrement(bomb_in_transit.get_damage())
 	bomb_in_transit.queue_free()
+	await opponent_portrait.hurt()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

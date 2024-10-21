@@ -11,6 +11,7 @@ enum Kind { GREEN, RED, BLUE, YELLOW, GARBAGE }
 @onready var ray_left = $Left
 @onready var ray_right = $Right
 @onready var Shape = $Shape
+@onready var change_sfx = $ChangeSFX
 
 @export var kind: Kind
 var is_visible := true
@@ -85,6 +86,7 @@ func update_children() -> void:
 	if Shape: Shape.scale = Vector2(cell_size / 64.0, cell_size / 64.0)
 
 func set_kind(k: Kind) -> void:
+	change_sfx.play()
 	$AnimatedSprite2D.visible = true
 	$AnimatedSprite2D.play("shine")
 	await $AnimatedSprite2D.animation_finished

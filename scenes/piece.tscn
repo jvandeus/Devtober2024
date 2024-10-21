@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://2cl001epfkkn"]
+[gd_scene load_steps=10 format=3 uid="uid://2cl001epfkkn"]
 
 [ext_resource type="Script" path="res://scripts/piece.gd" id="1_jcdrj"]
 [ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_5ixdn"]
+[ext_resource type="AudioStream" uid="uid://b6x0pjjvb152x" path="res://assets/sound/laser01.wav" id="3_xsm8o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ncmos"]
 
@@ -82,3 +83,6 @@ visible = false
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_gbdnc")
 animation = &"none"
+
+[node name="ChangeSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_xsm8o")
