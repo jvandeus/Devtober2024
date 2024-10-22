@@ -72,6 +72,14 @@ animations = [{
 [node name="OpponentPortrait" type="Node2D"]
 script = ExtResource("1_sxr3e")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="CharBG" type="Polygon2D" parent="."]
+color = Color(0.817521, 0.817521, 0.817521, 1)
+polygon = PackedVector2Array(-304, -232, -352, 8, -240, 264, 296, 232, 384, -48, 312, -256)
+
+[node name="CharMask" type="Polygon2D" parent="."]
+clip_children = 1
+polygon = PackedVector2Array(-288, -224, -344, 8, -232, 256, 280, 224, 376, -32, 296, -248)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharMask"]
 sprite_frames = SubResource("SpriteFrames_nmnyk")
-animation = &"attack"
+animation = &"hurt"
