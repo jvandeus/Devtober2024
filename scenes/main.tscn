@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=38 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
@@ -30,6 +30,13 @@
 [ext_resource type="AudioStream" uid="uid://pe03wann1pq1" path="res://assets/sound/boing05.wav" id="31_xcqtw"]
 [ext_resource type="AudioStream" uid="uid://dhxuuljn2uaxx" path="res://assets/sound/impact_technic02.wav" id="32_73bde"]
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_62hhw"]
+streams_count = 4
+stream_0/stream = ExtResource("27_sm2rh")
+stream_1/stream = ExtResource("28_wjm3y")
+stream_2/stream = ExtResource("29_0o21r")
+stream_3/stream = ExtResource("30_qw0te")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dyqnh"]
 shader = ExtResource("1_tjqgd")
 shader_parameter/speed_x = 0.025
@@ -59,13 +66,6 @@ background_mode = 2
 sky = SubResource("Sky_cug6s")
 ambient_light_color = Color(0.374139, 0.374139, 0.374139, 1)
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_62hhw"]
-streams_count = 4
-stream_0/stream = ExtResource("27_sm2rh")
-stream_1/stream = ExtResource("28_wjm3y")
-stream_2/stream = ExtResource("29_0o21r")
-stream_3/stream = ExtResource("30_qw0te")
-
 [node name="Game" type="Node2D"]
 script = ExtResource("1_kstpf")
 
@@ -93,6 +93,46 @@ stream = ExtResource("16_5vhk7")
 [node name="ComboSFX" type="AudioStreamPlayer" parent="SignalAudio"]
 script = ExtResource("20_xqkpy")
 streams = Array[AudioStreamWAV]([ExtResource("20_7bau0"), ExtResource("21_rxidj"), ExtResource("22_8be85"), ExtResource("23_3cfok"), ExtResource("24_e7f1a")])
+
+[node name="PlaceSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("15_dcrwb")
+
+[node name="MoveSFX3" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("17_oxs0j")
+max_polyphony = 2
+
+[node name="MoveSFX4" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("17_dyp8m")
+max_polyphony = 2
+
+[node name="BlockedSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("17_qcbhn")
+max_polyphony = 2
+
+[node name="RotateSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("16_5vhk7")
+
+[node name="ComboSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+script = ExtResource("20_xqkpy")
+streams = Array[AudioStreamWAV]([ExtResource("20_7bau0"), ExtResource("21_rxidj"), ExtResource("22_8be85"), ExtResource("23_3cfok"), ExtResource("24_e7f1a")])
+
+[node name="FallStartSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("26_wjwbw")
+volume_db = -3.0
+max_polyphony = 4
+
+[node name="FallEndSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = SubResource("AudioStreamRandomizer_62hhw")
+volume_db = -5.0
+max_polyphony = 4
+
+[node name="PlayerAttackLaunchSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("31_xcqtw")
+
+[node name="PlayerAttackLandSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("32_73bde")
+
+[node name="EnemyAttackLaunchSFX" type="AudioStreamPlayer" parent="SignalAudio"]
 
 [node name="bg" type="CanvasLayer" parent="."]
 layer = -1
@@ -221,55 +261,15 @@ transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
 environment = SubResource("Environment_41vkf")
 
-[node name="SignalAudio" type="Node" parent="."]
+[node name="SignalAudio2" type="Node" parent="."]
 script = ExtResource("14_bx4to")
-
-[node name="PlaceSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("15_dcrwb")
-
-[node name="MoveSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("17_oxs0j")
-max_polyphony = 2
-
-[node name="MoveSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("17_dyp8m")
-max_polyphony = 2
-
-[node name="BlockedSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("17_qcbhn")
-max_polyphony = 2
-
-[node name="RotateSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("16_5vhk7")
-
-[node name="ComboSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-script = ExtResource("20_xqkpy")
-streams = Array[AudioStreamWAV]([ExtResource("20_7bau0"), ExtResource("21_rxidj"), ExtResource("22_8be85"), ExtResource("23_3cfok"), ExtResource("24_e7f1a")])
-
-[node name="FallStartSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("26_wjwbw")
-volume_db = -3.0
-max_polyphony = 4
-
-[node name="FallEndSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = SubResource("AudioStreamRandomizer_62hhw")
-volume_db = -5.0
-max_polyphony = 4
-
-[node name="PlayerAttackLaunchSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("31_xcqtw")
-
-[node name="PlayerAttackLandSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("32_73bde")
-
-[node name="EnemyAttackLaunchSFX" type="AudioStreamPlayer" parent="SignalAudio"]
 
 [connection signal="on_fall_end" from="Board" to="SignalAudio" method="_on_fall_end"]
 [connection signal="on_fall_start" from="Board" to="SignalAudio" method="_on_fall_start"]
 [connection signal="on_lose" from="Board" to="." method="_on_lose"]
 [connection signal="on_pieces_cleared" from="Board" to="." method="_on_pieces_cleared"]
-[connection signal="on_pieces_cleared" from="Board" to="Score" method="_on_pieces_cleared"]
 [connection signal="on_pieces_cleared" from="Board" to="SignalAudio" method="_on_pieces_cleared"]
+[connection signal="on_pieces_cleared" from="Board" to="Score" method="_on_pieces_cleared"]
 [connection signal="on_placed" from="Board" to="." method="_on_placed"]
 [connection signal="on_placed" from="Board" to="SignalAudio" method="_on_placed"]
 [connection signal="on_player_move" from="Board" to="." method="_on_player_move"]
