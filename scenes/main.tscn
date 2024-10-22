@@ -1,14 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=30 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
 [ext_resource type="Shader" path="res://assets/shaders/scroll.gdshader" id="1_tjqgd"]
 [ext_resource type="Script" path="res://scripts/score.gd" id="2_qhh88"]
-[ext_resource type="Shader" path="res://assets/shaders/mask.gdshader" id="4_34xkp"]
 [ext_resource type="PackedScene" uid="uid://b3p18c2i1ifow" path="res://scenes/flip_board.tscn" id="4_g1vkf"]
 [ext_resource type="PackedScene" uid="uid://ttbte0ma1eo6" path="res://scenes/meter.tscn" id="4_qv84x"]
-[ext_resource type="Texture2D" uid="uid://cebfp0d8qg0a0" path="res://assets/screen_mask.png" id="5_6drod"]
-[ext_resource type="Texture2D" uid="uid://chjneqbtqe1k1" path="res://assets/screen_bg.png" id="5_qihva"]
 [ext_resource type="Theme" uid="uid://di0g6mbonao3d" path="res://themes/big_text.tres" id="5_r1qfl"]
 [ext_resource type="PackedScene" uid="uid://bp86rnvlsxn8o" path="res://scenes/board.tscn" id="8_hikeo"]
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/tia_v.tscn" id="9_qcb26"]
@@ -31,10 +28,8 @@ shader = ExtResource("1_tjqgd")
 shader_parameter/speed_x = 0.025
 shader_parameter/speed_y = 0.025
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8tumo"]
-shader = ExtResource("4_34xkp")
-shader_parameter/mask = ExtResource("5_6drod")
-shader_parameter/border = ExtResource("5_qihva")
+[sub_resource type="ViewportTexture" id="ViewportTexture_b2jd3"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="Gradient" id="Gradient_q861v"]
 colors = PackedColorArray(0, 0, 0, 1, 0.223103, 0.223103, 0.223103, 1)
@@ -59,6 +54,31 @@ ambient_light_color = Color(0.374139, 0.374139, 0.374139, 1)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_kstpf")
+
+[node name="SignalAudio" type="Node" parent="."]
+script = ExtResource("14_bx4to")
+
+[node name="PlaceSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("15_dcrwb")
+
+[node name="MoveSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("17_oxs0j")
+max_polyphony = 2
+
+[node name="MoveSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("17_dyp8m")
+max_polyphony = 2
+
+[node name="BlockedSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("17_qcbhn")
+max_polyphony = 2
+
+[node name="RotateSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+stream = ExtResource("16_5vhk7")
+
+[node name="ComboSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+script = ExtResource("20_xqkpy")
+streams = Array[AudioStreamWAV]([ExtResource("20_7bau0"), ExtResource("21_rxidj"), ExtResource("22_8be85"), ExtResource("23_3cfok"), ExtResource("24_e7f1a")])
 
 [node name="bg" type="CanvasLayer" parent="."]
 layer = -1
@@ -102,7 +122,7 @@ theme_override_font_sizes/font_size = 64
 text = "Defeat!"
 
 [node name="BombSocket" type="Node2D" parent="."]
-position = Vector2(382, 320)
+position = Vector2(384, 360)
 
 [node name="HealthBar" parent="." instance=ExtResource("4_qv84x")]
 position = Vector2(1408, 704)
@@ -140,72 +160,52 @@ text = "attack "
 script = ExtResource("2_qhh88")
 
 [node name="FlipBoard" parent="Score" instance=ExtResource("4_g1vkf")]
-offset_left = 139.0
-offset_top = 393.0
-offset_right = 711.0
-offset_bottom = 465.0
+offset_left = 1272.0
+offset_top = 896.0
+offset_right = 1844.0
+offset_bottom = 968.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
-[node name="fg" type="CanvasLayer" parent="."]
+[node name="CharLeft" type="Node2D" parent="."]
+position = Vector2(384, 768)
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="fg"]
-material = SubResource("ShaderMaterial_8tumo")
-offset_left = 168.0
-offset_top = 520.0
-offset_right = 680.0
-offset_bottom = 1032.0
-size_flags_horizontal = 8
-size_flags_vertical = 8
+[node name="CharBG" type="Polygon2D" parent="CharLeft"]
+color = Color(0.817521, 0.817521, 0.817521, 1)
+polygon = PackedVector2Array(-200, -192, -264, 80, -192, 224, 232, 184, 264, -72, 160, -224)
 
-[node name="SubViewport" type="SubViewport" parent="fg/SubViewportContainer"]
+[node name="CharMask_left" type="Polygon2D" parent="CharLeft"]
+clip_children = 1
+polygon = PackedVector2Array(-184, -176, -264, 80, -192, 208, 232, 184, 248, -64, 160, -224)
+
+[node name="Char3D" type="Sprite2D" parent="CharLeft/CharMask_left"]
+texture = SubResource("ViewportTexture_b2jd3")
+
+[node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true
 handle_input_locally = false
 msaa_3d = 1
 screen_space_aa = 1
+size = Vector2i(640, 512)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="fg/SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
 transform = Transform3D(0.9289, -0.0564509, -0.366002, 0, 0.988314, -0.152434, 0.37033, 0.141596, 0.918045, -1.14881, 0.974069, 2.56243)
 fov = 23.4796
 
-[node name="Sprite3D" type="Sprite3D" parent="fg/SubViewportContainer/SubViewport/Camera3D"]
+[node name="Sprite3D" type="Sprite3D" parent="SubViewport/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
+visible = false
 texture = SubResource("GradientTexture2D_ye4ey")
 
-[node name="TIA-V_MASTER" parent="fg/SubViewportContainer/SubViewport" instance=ExtResource("9_qcb26")]
+[node name="TIA-V_MASTER" parent="SubViewport" instance=ExtResource("9_qcb26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="fg/SubViewportContainer/SubViewport"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
 transform = Transform3D(0.803069, 0.236603, -0.5469, 0.06022, 0.880869, 0.469514, 0.592836, -0.409986, 0.69315, 2.20665, 2.42911, -0.212508)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="fg/SubViewportContainer/SubViewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
 environment = SubResource("Environment_41vkf")
-
-[node name="SignalAudio" type="Node" parent="."]
-script = ExtResource("14_bx4to")
-
-[node name="PlaceSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("15_dcrwb")
-
-[node name="MoveSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("17_oxs0j")
-max_polyphony = 2
-
-[node name="MoveSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("17_dyp8m")
-max_polyphony = 2
-
-[node name="BlockedSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("17_qcbhn")
-max_polyphony = 2
-
-[node name="RotateSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-stream = ExtResource("16_5vhk7")
-
-[node name="ComboSFX" type="AudioStreamPlayer" parent="SignalAudio"]
-script = ExtResource("20_xqkpy")
-streams = Array[AudioStreamWAV]([ExtResource("20_7bau0"), ExtResource("21_rxidj"), ExtResource("22_8be85"), ExtResource("23_3cfok"), ExtResource("24_e7f1a")])
 
 [connection signal="on_lose" from="Board" to="." method="_on_lose"]
 [connection signal="on_pieces_cleared" from="Board" to="." method="_on_pieces_cleared"]
