@@ -79,6 +79,8 @@ signal on_placed
 signal on_player_move(not_blocked: bool)
 signal on_player_rotate
 signal on_lose
+signal on_fall_start(p: Piece)
+signal on_fall_end(p: Piece)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -296,6 +298,7 @@ func create_new_double_piece() -> void:
 	var pieces = preview_pane.pop()
 	primary = pieces[0]
 	secondary = pieces[1]
+	on_piece_fall_start
 	next_primary = null
 	next_secondary = null
 	primary.cell_size = cell_size
@@ -303,6 +306,10 @@ func create_new_double_piece() -> void:
 	add_child(primary)
 	add_child(secondary)
 	update_primary_and_secondary()
+	
+func bind_piece(p):
+	#p.start_animation_fall.connect(self.on_piece_fall_start.bind(p))
+	pass
 
 func stop() -> void:
 	is_stopped = true
@@ -369,7 +376,9 @@ func settle() -> void:
 			changed_pieces.append(column[i])
 			column[i].fall_to(new_y)
 	for piece in changed_pieces:
+		self.on_piece_fall_start(piece)
 		await piece.done_animation_fall
+		self.on_piece_fall_end(piece)
 
 func clear() -> int:
 	var pieces_to_clear = []
@@ -424,6 +433,15 @@ func attack1() -> void:
 		attack1()
 	for piece in piece_sample:
 		await piece.set_kind(Piece.Kind.GARBAGE)
+
+func on_piece_fall_start(p: Piece) -> void:
+	on_fall_start.emit(p)
+	pass
+
+func on_piece_fall_end(p: Piece) -> void:
+	on_fall_end.emit(p)
+	pass
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

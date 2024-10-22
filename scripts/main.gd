@@ -9,6 +9,7 @@ extends Node2D
 @onready var win_text = $WinText
 @onready var lose_text = $LoseText
 @onready var preview_pane = $PreviewPane
+@onready var signal_audio: Node = $SignalAudio
 
 var bomb: Bomb
 var attack_charge_timer: SceneTreeTimer
@@ -68,9 +69,11 @@ func player_attack():
 	var tween = create_tween()
 	var bomb_in_transit = bomb
 	bomb = null
+	signal_audio._on_player_attack_launch()
 	tween.tween_property(bomb_in_transit, "position", opponent_portrait.transform.origin, 1)
 	await tween.finished
 	health_bar.decrement(bomb_in_transit.get_damage())
+	signal_audio._on_player_attack_land()
 	bomb_in_transit.queue_free()
 	if health_bar.is_empty():
 		opponent_portrait.lose()

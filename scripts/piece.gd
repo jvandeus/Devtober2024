@@ -20,7 +20,9 @@ var is_visible := true
 const FALL_SPEED := 16.0
 const KINDS = [Kind.GREEN, Kind.RED, Kind.BLUE, Kind.YELLOW]
 
+signal start_animation_fall
 signal done_animation_fall
+signal start_animation_clear
 signal done_animation_clear
 
 # Called when the node enters the scene tree for the first time.
@@ -42,6 +44,7 @@ func _draw() -> void:
 		draw_circle(apparent_transform.transform.origin, cell_size / 2 - 8, color, false, 4.0, true)
 
 func fall_to(y: int) -> void:
+	start_animation_fall.emit()
 	var diff = transform.origin.y - y
 	transform.origin.y = y
 	apparent_transform.transform.origin.y = diff
@@ -57,6 +60,7 @@ func is_animating() -> bool:
 	return apparent_transform.transform.origin != Vector2(0, 0)
 
 func clear() -> void:
+	start_animation_clear.emit()
 	for i in 20:
 		is_visible = !is_visible
 		await get_tree().create_timer(0.04).timeout
