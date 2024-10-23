@@ -49,6 +49,7 @@ animations = [{
 
 [node name="Piece" type="Area2D"]
 script = ExtResource("1_jcdrj")
+kind = 2
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ncmos")
