@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dyxyxq5xlkwj2"]
+
+[ext_resource type="Shader" path="res://assets/shaders/shard_noise.gdshader" id="1_6lobh"]
+
+[sub_resource type="Gradient" id="Gradient_b4hjm"]
+colors = PackedColorArray(0.6014, 0.871707, 0.97, 1, 0.82992, 0.6097, 0.91, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_da8kt"]
+gradient = SubResource("Gradient_b4hjm")
+
+[resource]
+shader = ExtResource("1_6lobh")
+shader_parameter/colorMode = 3
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/timescale = 0.03
+shader_parameter/hScrollSpeedFactor = 1.0
+shader_parameter/vScrollSpeedFactor = 1.0
+shader_parameter/entropyFactor = 0.7
+shader_parameter/sharpness = 1000.0
+shader_parameter/color_map = SubResource("GradientTexture1D_da8kt")
