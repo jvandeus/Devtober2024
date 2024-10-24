@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfyrutguwtqom"
-path="res://.godot/imported/mockup1.png-bc9daf25451676335699943b82a5c261.ctex"
+uid="uid://chlyh5ywarwq3"
+path="res://.godot/imported/atk.png-d03cd672de001006e6cb1874fa0ac480.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/mockup1.png"
-dest_files=["res://.godot/imported/mockup1.png-bc9daf25451676335699943b82a5c261.ctex"]
+source_file="res://assets/images/atk.png"
+dest_files=["res://.godot/imported/atk.png-d03cd672de001006e6cb1874fa0ac480.ctex"]
 
 [params]
 

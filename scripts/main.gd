@@ -25,6 +25,7 @@ func win() -> void:
 	opponent_portrait.lose()
 	board.stop()
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
+	attack_meter.stop_shaking()
 	win_text.visible = true
 
 func _on_lose() -> void:

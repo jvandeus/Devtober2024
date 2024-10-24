@@ -6,7 +6,13 @@
 [node name="HealthBar" type="Node2D"]
 script = ExtResource("1_sd863")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="drop_shadow" type="Polygon2D" parent="."]
+position = Vector2(-311, -19)
+color = Color(0, 0, 0, 0.196078)
+antialiased = true
+polygon = PackedVector2Array(295, 36, 321, 186, 904, 56, 886, 8)
+
+[node name="outer_polygon" type="Polygon2D" parent="."]
 position = Vector2(-295, -36)
 color = Color(0.356863, 0.360784, 0.356863, 1)
 antialiased = true
