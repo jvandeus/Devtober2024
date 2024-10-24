@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://cswmbgtum80hc"]
+
+[ext_resource type="Script" path="res://scripts/attack_meter.gd" id="1_2y73a"]
+[ext_resource type="Texture2D" uid="uid://chlyh5ywarwq3" path="res://assets/images/atk.png" id="2_lu2i2"]
+
+[node name="AttackMeter" type="Node2D"]
+script = ExtResource("1_2y73a")
+
+[node name="container" type="Node2D" parent="."]
+
+[node name="drop_shadow" type="Polygon2D" parent="container"]
+position = Vector2(-311, -20)
+color = Color(0, 0, 0, 0.196078)
+antialiased = true
+polygon = PackedVector2Array(295, 36, 289, 103, 915, 72, 863, -57)
+
+[node name="outer_polygon" type="Polygon2D" parent="container"]
+position = Vector2(-295, -36)
+color = Color(0.356863, 0.360784, 0.356863, 1)
+antialiased = true
+polygon = PackedVector2Array(295, 36, 289, 103, 915, 72, 863, -57)
+
+[node name="mask" type="Polygon2D" parent="container"]
+clip_children = 2
+position = Vector2(-295, -36)
+color = Color(0.286275, 0.286275, 0.286275, 1)
+antialiased = true
+polygon = PackedVector2Array(419, 32, 417, 79, 868, 45, 846, -34)
+
+[node name="rect" type="Polygon2D" parent="container/mask"]
+position = Vector2(414, 56)
+rotation = -0.0872665
+color = Color(0.960784, 0.894118, 0.380392, 1)
+antialiased = true
+polygon = PackedVector2Array(-3.5812, 39.8394, 6.56908, -39.5708, 437.584, -65.0848, 459.876, 44.3504)
+
+[node name="icon" type="Sprite2D" parent="container"]
+position = Vector2(69, 26)
+texture = ExtResource("2_lu2i2")
