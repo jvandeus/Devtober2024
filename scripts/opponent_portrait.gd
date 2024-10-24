@@ -23,7 +23,7 @@ func win() -> void:
 	animator.play("victory")
 	
 func lose() -> void:
-	timer.timeout.disconnect(idle)
+	if timer: timer.timeout.disconnect(idle)
 	animator.play("defeat")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

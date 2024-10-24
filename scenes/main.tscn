@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=40 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
@@ -23,6 +23,7 @@
 [ext_resource type="AudioStream" uid="uid://be8al80nrga4s" path="res://assets/sound/degauss_alt04.wav" id="23_3cfok"]
 [ext_resource type="Material" uid="uid://dyxyxq5xlkwj2" path="res://assets/shaders/shard_noise.tres" id="23_cj46f"]
 [ext_resource type="AudioStream" uid="uid://bwsoi8rq1yixl" path="res://assets/sound/degauss_alt05.wav" id="24_e7f1a"]
+[ext_resource type="PackedScene" uid="uid://c2vo5y6ew8noo" path="res://scenes/health_bar.tscn" id="26_sbdry"]
 [ext_resource type="AudioStream" uid="uid://dyxwmw2pc4q74" path="res://assets/sound/degauss01.wav" id="26_wjwbw"]
 [ext_resource type="AudioStream" uid="uid://rhh8wa4k0jw6" path="res://assets/sound/thunk_mesh01.wav" id="27_sm2rh"]
 [ext_resource type="AudioStream" uid="uid://bimv0khyrwh4" path="res://assets/sound/thunk_mesh02.wav" id="28_wjm3y"]
@@ -189,21 +190,9 @@ text = "Defeat!"
 [node name="BombSocket" type="Node2D" parent="."]
 position = Vector2(384, 360)
 
-[node name="HealthBar" parent="." instance=ExtResource("4_qv84x")]
-position = Vector2(1408, 704)
-max_value = 80
-initial_value = 80
-
-[node name="Label2" type="Label" parent="HealthBar"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -107.0
-offset_bottom = 45.0
-grow_horizontal = 0
-theme = ExtResource("5_r1qfl")
-text = "health "
-metadata/_edit_use_anchors_ = true
+[node name="HealthBar" parent="." instance=ExtResource("26_sbdry")]
+position = Vector2(1270, 683)
+initial_value = 10
 
 [node name="AttackMeter" parent="." instance=ExtResource("4_qv84x")]
 position = Vector2(1408, 800)
