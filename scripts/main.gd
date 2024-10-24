@@ -10,6 +10,8 @@ extends Node2D
 @onready var lose_text = $LoseText
 @onready var preview_pane = $PreviewPane
 @onready var signal_audio: Node = $SignalAudio
+@onready var tia_v: Node3D = $"3D_Stuff/SubViewportContainer/SubViewport/TIA-V_MASTER"
+@onready var transition_player: AnimationPlayer = $TransitionCanvas/Transition_Player
 
 var bomb: Bomb
 var attack_charge_timer: SceneTreeTimer
@@ -20,13 +22,15 @@ func _ready() -> void:
 	#board.on_combo_finished.connect(_on_combo_finished)
 	health_bar.on_empty.connect(win)
 	opponent_attack_charge_loop()
-
+	
 func win() -> void:
 	opponent_portrait.lose()
 	board.stop()
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	attack_meter.stop_shaking()
 	win_text.visible = true
+	SceneTransition.change_scene()
+	
 
 func _on_lose() -> void:
 	opponent_portrait.win()
@@ -41,6 +45,7 @@ func opponent_attack_charge_loop() -> void:
 	attack_charge_timer.timeout.connect(opponent_attack_charge_loop)
 		
 func opponent_attack() -> void:
+	tia_v.play_dmg()
 	opponent_portrait.attack()
 	attack_meter.clear()
 	await board.attack1()
@@ -67,6 +72,7 @@ func _on_settled():
 	board.start()
 
 func player_attack():
+	tia_v.play_atk()
 	var tween = create_tween()
 	var bomb_in_transit = bomb
 	bomb = null
