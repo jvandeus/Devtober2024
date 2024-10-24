@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://72otjl2w5yiq"]
+
+[ext_resource type="PackedScene" uid="uid://cf14717h4pio8" path="res://assets/cutscenes/victories/victory_cheery/TIA-V_VictoryCheery_cam.glb" id="1_byumk"]
+[ext_resource type="Script" path="res://assets/cutscenes/victories/victory_cheery/cine_victory_cheery.gd" id="2_rgndm"]
+[ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="3_0gw6v"]
+[ext_resource type="AnimationLibrary" uid="uid://d0os2vilfc5ab" path="res://assets/cutscenes/victories/victory_cheery/TIA-V_VictoryCheery_skel.glb" id="4_67jwd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j5j3p"]
+sky_top_color = Color(0.520422, 0.591633, 0.690789, 1)
+sky_horizon_color = Color(0.680105, 0.690158, 0.705947, 1)
+ground_horizon_color = Color(0.680105, 0.690158, 0.705947, 1)
+
+[sub_resource type="Sky" id="Sky_6sln3"]
+sky_material = SubResource("ProceduralSkyMaterial_j5j3p")
+
+[sub_resource type="Environment" id="Environment_wfg43"]
+background_mode = 2
+sky = SubResource("Sky_6sln3")
+tonemap_mode = 2
+
+[node name="TIA-V_VictoryCheery_cam" instance=ExtResource("1_byumk")]
+script = ExtResource("2_rgndm")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="0"]
+environment = SubResource("Environment_wfg43")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
+transform = Transform3D(-0.866023, -0.204963, 0.456063, 0, 0.91212, 0.409923, -0.500003, 0.355003, -0.789917, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="Dolly_Camera" parent="." index="2"]
+transform = Transform3D(0.982538, 1.70781e-06, -0.186061, -6.28415e-09, 1, 9.14558e-06, 0.186061, -8.98471e-06, 0.982538, -0.836949, 1.25803, 3.96834)
+
+[node name="TIA-V_MASTER2" parent="." index="4" instance=ExtResource("3_0gw6v")]
+
+[node name="TIA_player" type="AnimationPlayer" parent="TIA-V_MASTER2" index="2"]
+libraries = {
+"TIA-V_VictoryCheery_skel": ExtResource("4_67jwd")
+}
