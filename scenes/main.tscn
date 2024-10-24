@@ -43,7 +43,7 @@ stream_3/stream = ExtResource("30_qw0te")
 size = Vector2(600, 600)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_b2jd3"]
-viewport_path = NodePath("SubViewport")
+viewport_path = NodePath("3D_Stuff/SubViewport")
 
 [sub_resource type="Gradient" id="Gradient_q861v"]
 colors = PackedColorArray(0, 0, 0, 1, 0.223103, 0.223103, 0.223103, 1)
@@ -194,7 +194,7 @@ position = Vector2(384, 360)
 
 [node name="HealthBar" parent="." instance=ExtResource("26_sbdry")]
 position = Vector2(1256, 574)
-initial_value = 10
+initial_value = 100
 
 [node name="AttackMeter" parent="." instance=ExtResource("27_frg8t")]
 position = Vector2(1278, 757)
@@ -226,16 +226,7 @@ texture = SubResource("ViewportTexture_b2jd3")
 
 [node name="3D_Stuff" type="CanvasLayer" parent="."]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="3D_Stuff"]
-material = SubResource("ShaderMaterial_8tumo")
-offset_left = 168.0
-offset_top = 520.0
-offset_right = 680.0
-offset_bottom = 1032.0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-
-[node name="SubViewport" type="SubViewport" parent="3D_Stuff/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="3D_Stuff"]
 transparent_bg = true
 handle_input_locally = false
 msaa_3d = 1
@@ -243,28 +234,25 @@ screen_space_aa = 1
 size = Vector2i(640, 512)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="3D_Stuff/SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="3D_Stuff/SubViewport"]
 transform = Transform3D(0.9289, -0.0564509, -0.366002, 0, 0.988314, -0.152434, 0.37033, 0.141596, 0.918045, -1.14881, 0.974069, 2.56243)
 fov = 23.4796
 
-[node name="Sprite3D" type="Sprite3D" parent="3D_Stuff/SubViewportContainer/SubViewport/Camera3D"]
+[node name="Sprite3D" type="Sprite3D" parent="3D_Stuff/SubViewport/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
 visible = false
 texture = SubResource("GradientTexture2D_ye4ey")
 
-[node name="TIA-V_MASTER" parent="3D_Stuff/SubViewportContainer/SubViewport" instance=ExtResource("9_qcb26")]
+[node name="TIA-V_MASTER" parent="3D_Stuff/SubViewport" instance=ExtResource("9_qcb26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="3D_Stuff/SubViewportContainer/SubViewport"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="3D_Stuff/SubViewport"]
 transform = Transform3D(0.969995, 0.0996622, -0.221758, 0, 0.91212, 0.409923, 0.243124, -0.397623, 0.884752, 1.69313, 1.48518, 0)
 shadow_enabled = true
 directional_shadow_max_distance = 1.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="3D_Stuff/SubViewportContainer/SubViewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="3D_Stuff/SubViewport"]
 environment = SubResource("Environment_ny7oq")
-
-[node name="SignalAudio2" type="Node" parent="."]
-script = ExtResource("14_bx4to")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false

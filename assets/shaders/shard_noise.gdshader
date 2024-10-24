@@ -3,14 +3,14 @@
 
 shader_type canvas_item;
 
-uniform uint colorMode = 0; 
+uniform uint colorMode = 0;
 
 uniform vec4 color : source_color;
-uniform float timescale = 0.2; 
-uniform float hScrollSpeedFactor = 1.; 
+uniform float timescale = 0.2;
+uniform float hScrollSpeedFactor = 1.;
 uniform float vScrollSpeedFactor = 1.;
 uniform float entropyFactor = 1.;
-uniform float sharpness = 10.; 
+uniform float sharpness = 10.;
 
 uniform sampler2D color_map: hint_default_black;
 
@@ -58,14 +58,14 @@ vec4 mainImage( in vec2 _uv )
             (shard_noise(8.0*uv,sharpness) * .25) +
             (shard_noise(4.0*uv,sharpness) * .5)
         ),1.);
-    
+
     return C;
 }
 
-void fragment() 
+void fragment()
 {
     vec4 noise = mainImage(UV);
-    
+
     switch (colorMode)
     {
         case 0:

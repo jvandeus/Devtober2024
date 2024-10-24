@@ -10,8 +10,8 @@ extends Node2D
 @onready var lose_text = $LoseText
 @onready var preview_pane = $PreviewPane
 @onready var signal_audio: Node = $SignalAudio
-@onready var tia_v: Node3D = $"3D_Stuff/SubViewportContainer/SubViewport/TIA-V_MASTER"
-@onready var transition_player: AnimationPlayer = $TransitionCanvas/Transition_Player
+@onready var tia_v: Node3D = $"3D_Stuff/SubViewport/TIA-V_MASTER"
+#@onready var transition_player: AnimationPlayer = $TransitionCanvas/Transition_Player
 
 var bomb: Bomb
 var attack_charge_timer: SceneTreeTimer
