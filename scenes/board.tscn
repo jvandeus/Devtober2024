@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bp86rnvlsxn8o"]
+[gd_scene load_steps=6 format=3 uid="uid://bp86rnvlsxn8o"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_udi82"]
 [ext_resource type="PackedScene" uid="uid://dve8jb5bcsflx" path="res://scenes/preview_pane.tscn" id="2_hovcg"]
+[ext_resource type="LabelSettings" uid="uid://mdi801eoai4u" path="res://assets/font/FlipDigitText.tres" id="3_8snu6"]
+[ext_resource type="Script" path="res://scripts/tile_layer.gd" id="4_nl3g8"]
+[ext_resource type="Script" path="res://scripts/poly_bg.gd" id="4_s57gr"]
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_udi82")
@@ -10,6 +13,21 @@ script = ExtResource("1_udi82")
 position = Vector2(-96, 160)
 
 [node name="Label" type="Label" parent="PreviewPane"]
-offset_right = 40.0
-offset_bottom = 45.0
+offset_left = -344.0
+offset_top = -160.0
+offset_right = -186.0
+offset_bottom = -96.0
 text = "next"
+label_settings = ExtResource("3_8snu6")
+
+[node name="PolyBg" type="Polygon2D" parent="."]
+color = Color(0.356863, 0.360784, 0.356863, 1)
+polygon = PackedVector2Array(-32, -24, -16, 376, -24, 800, 408, 784, 400, 296, 408, -40)
+script = ExtResource("4_s57gr")
+
+[node name="PolyRef" type="Polygon2D" parent="."]
+color = Color(0.356863, 0.360784, 0.356863, 1)
+polygon = PackedVector2Array(0, 0, 0, 320, 0, 768, 384, 768, 384, 320, 384, 0)
+
+[node name="TileLayer" type="Node2D" parent="."]
+script = ExtResource("4_nl3g8")
