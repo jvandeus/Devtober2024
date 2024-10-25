@@ -52,8 +52,10 @@ const REPEAT_PERIOD := 0.05
 const PLACING_DELAY := 0.25
 
 @onready var scene_Piece = preload("res://scenes/piece.tscn")
-
 @onready var preview_pane = $PreviewPane
+@onready var tiles: Node2D = $TileLayer
+@onready var poly_bg: PolygonBG = $PolyBg
+@onready var poly_ref: Polygon2D = $PolyRef
 
 @export var board_width := 6
 @export var board_height := 10
@@ -84,6 +86,15 @@ signal on_fall_end(p: Piece)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# send board info to tile layer, so it can use it in its _draw call
+	tiles.board_width = board_width
+	tiles.board_height = board_height
+	tiles.cell_size = cell_size
+	tiles.BG_COLOR = BG_COLOR
+	tiles.BG_COLOR = LINE_COLOR
+	# resize the background to fit the tiles
+	poly_bg.resize(poly_ref.polygon, board_width, board_height, cell_size)
+	
 	columns = []
 	for c in range(board_width):
 		columns.append([])
@@ -259,14 +270,6 @@ func rotate_ccw():
 
 
 func _draw() -> void:
-	draw_rect(Rect2(0, 0, board_width * cell_size, board_height * cell_size), BG_COLOR)
-	for i in range(1, board_width):
-		var x = i * cell_size
-		draw_line(Vector2(x, 0), Vector2(x, board_height * cell_size), LINE_COLOR)
-	for i in range(1, board_height):
-		var y = i * cell_size
-		draw_line(Vector2(0, y), Vector2(board_width * cell_size, y), LINE_COLOR)
-	
 	if dp:
 		var primary = dp.get_primary_pos(cell_size)
 		var secondary = dp.get_secondary_pos(cell_size)
