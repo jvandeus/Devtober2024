@@ -2,23 +2,15 @@
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_udi82"]
 [ext_resource type="PackedScene" uid="uid://dve8jb5bcsflx" path="res://scenes/preview_pane.tscn" id="2_hovcg"]
-[ext_resource type="LabelSettings" uid="uid://mdi801eoai4u" path="res://assets/font/FlipDigitText.tres" id="3_8snu6"]
 [ext_resource type="Script" path="res://scripts/tile_layer.gd" id="4_nl3g8"]
 [ext_resource type="Script" path="res://scripts/poly_bg.gd" id="4_s57gr"]
+[ext_resource type="Script" path="res://scripts/connector.gd" id="6_cm71g"]
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_udi82")
 
 [node name="PreviewPane" parent="." instance=ExtResource("2_hovcg")]
-position = Vector2(-96, 160)
-
-[node name="Label" type="Label" parent="PreviewPane"]
-offset_left = -344.0
-offset_top = -160.0
-offset_right = -186.0
-offset_bottom = -96.0
-text = "next"
-label_settings = ExtResource("3_8snu6")
+position = Vector2(-128, 128)
 
 [node name="PolyBg" type="Polygon2D" parent="."]
 color = Color(0.356863, 0.360784, 0.356863, 1)
@@ -31,3 +23,34 @@ polygon = PackedVector2Array(0, 0, 0, 320, 0, 768, 384, 768, 384, 320, 384, 0)
 
 [node name="TileLayer" type="Node2D" parent="."]
 script = ExtResource("4_nl3g8")
+
+[node name="CableConnector" type="Node2D" parent="."]
+position = Vector2(192, 0)
+script = ExtResource("6_cm71g")
+
+[node name="y" type="Line2D" parent="CableConnector"]
+points = PackedVector2Array(-16, -24, -40, -192)
+width = 8.0
+default_color = Color(0.960784, 0.894118, 0.380392, 1)
+
+[node name="g" type="Line2D" parent="CableConnector"]
+position = Vector2(10, 0)
+points = PackedVector2Array(-18, -24, -42, -192)
+width = 8.0
+default_color = Color(0.305882, 0.772549, 0.498039, 1)
+
+[node name="b" type="Line2D" parent="CableConnector"]
+position = Vector2(18, 0)
+points = PackedVector2Array(-18, -24, -42, -192)
+width = 8.0
+default_color = Color(0.113725, 0.611765, 0.898039, 1)
+
+[node name="r" type="Line2D" parent="CableConnector"]
+position = Vector2(24, 0)
+points = PackedVector2Array(-16, -24, -40, -192)
+width = 8.0
+default_color = Color(0.976471, 0.513726, 0.411765, 1)
+
+[node name="base" type="Polygon2D" parent="CableConnector"]
+color = Color(0.356863, 0.360784, 0.356863, 1)
+polygon = PackedVector2Array(-40, 0, -48, -56, 40, -64, 40, 0)

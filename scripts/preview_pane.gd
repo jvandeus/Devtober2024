@@ -2,6 +2,10 @@ class_name PreviewPane
 extends Node2D
 
 @onready var scene_DoublePiecePreview = preload("res://scenes/double_piece_preview.tscn")
+@onready var poly_bg: Polygon2D = $PolyBg
+@onready var poly_bg_inner: Polygon2D = $PolyBgInner
+@onready var poly_ref: Polygon2D = $PolyRef
+@onready var connector: CableConnector = $CableConnector
 
 @onready var Slot1 = $Slot1
 @onready var Slot2 = $Slot2
@@ -11,8 +15,11 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Slot2.transform.origin = Vector2(-(cell_size / 2 + cell_size * 2), 0)
-	Slot3.transform.origin = Vector2(- cell_size * 5, 0)
+	# position origins for slots/peices - i think?
+	var offset = -cell_size*0.5
+	Slot1.transform.origin = Vector2(offset, offset)
+	Slot2.transform.origin = Vector2(-(cell_size * 3 / 2)+offset, offset)
+	Slot3.transform.origin = Vector2(-(cell_size * 3)+offset, offset)
 	for slot in [Slot1, Slot2, Slot3]:
 		var preview = scene_DoublePiecePreview.instantiate()
 		preview.cell_size = cell_size
@@ -32,6 +39,8 @@ func pop() -> Array:
 	Slot3.add_child(p4)
 	return p1.queue_free_and_yield_pieces()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func resize(ref_points: PackedVector2Array, board_width: int, board_height: int, cell_size: int):
+	poly_bg.resize(poly_ref.polygon, board_width, board_height, cell_size)
+	poly_bg_inner.resize(poly_ref.polygon, board_width, board_height, cell_size)
+	connector.resize(poly_ref.polygon, board_width, board_height, cell_size)
+	
