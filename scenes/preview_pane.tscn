@@ -1,12 +1,86 @@
-[gd_scene load_steps=2 format=3 uid="uid://dve8jb5bcsflx"]
+[gd_scene load_steps=6 format=3 uid="uid://dve8jb5bcsflx"]
 
 [ext_resource type="Script" path="res://scripts/preview_pane.gd" id="1_oruot"]
+[ext_resource type="FontVariation" uid="uid://rr6u4j4imq5q" path="res://assets/font/FlipDigitFontVariationTrimmed.tres" id="2_dk0t4"]
+[ext_resource type="Script" path="res://scripts/connector.gd" id="2_h7ayn"]
+[ext_resource type="Script" path="res://scripts/poly_bg.gd" id="3_bflrp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_v2ymd"]
+line_spacing = 0.0
+font = ExtResource("2_dk0t4")
+font_size = 48
+shadow_size = 0
+shadow_offset = Vector2(0, 0)
 
 [node name="PreviewPane" type="Node2D"]
 script = ExtResource("1_oruot")
+
+[node name="CableConnector" type="Node2D" parent="."]
+position = Vector2(-32, -128)
+script = ExtResource("2_h7ayn")
+
+[node name="y" type="Line2D" parent="CableConnector"]
+points = PackedVector2Array(-16, -24, 0, -192)
+width = 8.0
+default_color = Color(0.960784, 0.894118, 0.380392, 1)
+
+[node name="g" type="Line2D" parent="CableConnector"]
+position = Vector2(10, 0)
+points = PackedVector2Array(-18, -24, -2, -192)
+width = 8.0
+default_color = Color(0.305882, 0.772549, 0.498039, 1)
+
+[node name="b" type="Line2D" parent="CableConnector"]
+position = Vector2(18, 0)
+points = PackedVector2Array(-18, -24, -2, -192)
+width = 8.0
+default_color = Color(0.113725, 0.611765, 0.898039, 1)
+
+[node name="r" type="Line2D" parent="CableConnector"]
+position = Vector2(24, 0)
+points = PackedVector2Array(-16, -24, 0, -192)
+width = 8.0
+default_color = Color(0.976471, 0.513726, 0.411765, 1)
+
+[node name="base" type="Polygon2D" parent="CableConnector"]
+color = Color(0.356863, 0.360784, 0.356863, 1)
+polygon = PackedVector2Array(-32, 0, -40, -56, 40, -48, 32, 0)
+
+[node name="PolyBg" type="Polygon2D" parent="."]
+color = Color(0.356863, 0.360784, 0.356863, 1)
+polygon = PackedVector2Array(16, 16, -288, 16, -264, -128, -88, -128, -88, -152, 24, -152)
+script = ExtResource("3_bflrp")
+
+[node name="PolyBgInner" type="Polygon2D" parent="."]
+color = Color(0.178449, 0.180829, 0.17845, 1)
+polygon = PackedVector2Array(8, 8, -272, 8, -264, -72, -72, -72, -72, -136, 16, -136)
+script = ExtResource("3_bflrp")
+
+[node name="PolyRef" type="Polygon2D" parent="."]
+visible = false
+color = Color(0.356863, 0.360784, 0.356863, 1)
+polygon = PackedVector2Array(0, 0, -256, 0, -256, -64, -64, -64, -64, -128, 0, -128)
 
 [node name="Slot1" type="Node2D" parent="."]
 
 [node name="Slot2" type="Node2D" parent="."]
 
 [node name="Slot3" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -256.0
+offset_top = -120.0
+offset_right = -138.0
+offset_bottom = -75.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 4
+text = "next"
+label_settings = SubResource("LabelSettings_v2ymd")
+horizontal_alignment = 1
+vertical_alignment = 1

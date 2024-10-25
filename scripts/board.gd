@@ -56,6 +56,7 @@ const PLACING_DELAY := 0.25
 @onready var tiles: Node2D = $TileLayer
 @onready var poly_bg: PolygonBG = $PolyBg
 @onready var poly_ref: Polygon2D = $PolyRef
+@onready var connector: CableConnector = $CableConnector
 
 @export var board_width := 6
 @export var board_height := 10
@@ -92,8 +93,12 @@ func _ready() -> void:
 	tiles.cell_size = cell_size
 	tiles.BG_COLOR = BG_COLOR
 	tiles.BG_COLOR = LINE_COLOR
-	# resize the background to fit the tiles
+	
+	# resize the elements to fit the tiles and board
 	poly_bg.resize(poly_ref.polygon, board_width, board_height, cell_size)
+	connector.resize(poly_ref.polygon, board_width, board_height, cell_size)
+#	# hard-coding the size of the "board" of the preview pane for now
+	preview_pane.resize(poly_ref.polygon, -4, -2, 64)
 	
 	columns = []
 	for c in range(board_width):
