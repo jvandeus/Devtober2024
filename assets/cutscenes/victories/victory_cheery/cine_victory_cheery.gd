@@ -7,6 +7,9 @@ signal disable_anim_tree
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	bruh()
+	
+func bruh():
 	ap.play("Dolly_Camera")
 	tia.disable_anim_tree()
 

@@ -1,7 +1,7 @@
 extends Node3D
 @onready var ap: AnimationPlayer = $AnimationPlayer
-var al: StringName = "TIA-V_anim_library/"
 @onready var anim_tree: AnimationTree = $AnimationTree
+var al: StringName = "TIA-V_anim_library/"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -12,10 +12,20 @@ func disable_anim_tree():
 	
 	
 func play_dmg():
-	ap.play(al+"HITSTUN_01")
+	var r = randi_range(0, 1)
+	var playback = anim_tree["parameters/playback"]
+	#playback.travel("HitstunState/STUN 1")
+	match r:
+		0:
+			print(r)
+		1:
+			print(r)
+			
 	
 func play_atk():
-	ap.play(al+"ATK_PITCHER")
+	var playback = anim_tree["parameters/playback"]
+	playback.travel("Attack")
+	#ap.play(al+"ATK_PITCHER")
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	pass
@@ -23,4 +33,4 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 #		ap.play(al+"IDLE_DITSY")
 
 func _on_pieces_cleared() -> void:
-	self.play_dmg()
+	play_dmg()

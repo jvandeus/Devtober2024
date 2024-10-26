@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://n67yrgrb5o75"]
+[gd_scene load_steps=6 format=3 uid="uid://n67yrgrb5o75"]
 
 [ext_resource type="Script" path="res://scenes/scene_transition.gd" id="1_mcbh2"]
 
@@ -17,6 +17,62 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WipeRect_1:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-816, 450)]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WipeRect_1:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-816, -0.005, 0, 0.005, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WipeRect_1:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(450, -0.005, 0, 0.005, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("WipeRect_2:position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1583, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("WipeRect_2:position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-2091, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
 
 [sub_resource type="Animation" id="Animation_lbfjc"]
 resource_name = "dissolve"
@@ -34,10 +90,88 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_twqmw"]
+resource_name = "wipe_rects"
+length = 0.66667
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WipeRect_1:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2),
+"points": PackedFloat32Array(-697, -0.25, 0, 0.25, 0, 525, -0.0333333, 0, 0.0888889, 0, 1933, -0.0888889, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.1, 0.366667)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WipeRect_1:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2),
+"points": PackedFloat32Array(471, -0.25, 0, 0.25, 0, -924, -0.0333333, 0, 0.0888889, 0, -2492, -0.0888889, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.1, 0.366667)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WipeRect_2:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(2, 2, 2),
+"points": PackedFloat32Array(-688, 0, 0, 0.0222222, 0, 670, -0.0222222, 0, 0.0777778, 0, 1634, -0.0777778, 0, 0, 0),
+"times": PackedFloat32Array(0.0333333, 0.1, 0.333333)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WipeRect_2:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(2, 2, 2),
+"points": PackedFloat32Array(464, 0, 0, 0.0222222, 0, -1090, -0.0222222, 0, 0.0777778, 0, -2150, -0.0777778, 0, 0, 0),
+"times": PackedFloat32Array(0.0333333, 0.1, 0.333333)
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1, 0.1001),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [null],
+"method": &"trans_scene"
+}, {
+"args": [null],
+"method": &"trans_scene"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:scene")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"res://assets/cutscenes/victories/CINE_victory_cheery.tscn"]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ganqa"]
 _data = {
 "RESET": SubResource("Animation_ahg8d"),
-"dissolve": SubResource("Animation_lbfjc")
+"dissolve": SubResource("Animation_lbfjc"),
+"wipe_rects": SubResource("Animation_twqmw")
 }
 
 [node name="SceneTransition" type="CanvasLayer"]
@@ -59,3 +193,30 @@ metadata/_edit_use_anchors_ = true
 libraries = {
 "": SubResource("AnimationLibrary_ganqa")
 }
+
+[node name="WipeRect_1" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -816.0
+offset_top = 450.0
+offset_right = -816.0
+offset_bottom = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.717668
+scale = Vector2(1.30889, 1.70061)
+color = Color(0.888171, 0.559923, 0.875385, 1)
+
+[node name="WipeRect_2" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1583.0
+offset_top = -2091.0
+offset_right = 1583.0
+offset_bottom = -2091.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.717668
+scale = Vector2(1.30889, 1.25342)

@@ -167,7 +167,7 @@ texture = SubResource("PlaceholderTexture2D_7nvu5")
 position = Vector2(1528, 273)
 
 [node name="Board" parent="." instance=ExtResource("8_hikeo")]
-position = Vector2(678, 79)
+position = Vector2(678, 80)
 board_height = 12
 cell_size = 80
 
@@ -211,17 +211,26 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 
 [node name="CharLeft" type="Node2D" parent="."]
-position = Vector2(384, 768)
+position = Vector2(330, 765)
 
-[node name="CharBG" type="Polygon2D" parent="CharLeft"]
-color = Color(0.817521, 0.817521, 0.817521, 1)
+[node name="PortraitOutline" type="Polygon2D" parent="CharLeft"]
+visibility_layer = 3
+scale = Vector2(1.05742, 1.05742)
+color = Color(0.713276, 0.56692, 0.975564, 1)
+polygon = PackedVector2Array(-200, -192, -264, 80, -192, 224, 232, 184, 264, -72, 160, -224)
+
+[node name="PortraitInner" type="Polygon2D" parent="CharLeft/PortraitOutline"]
+scale = Vector2(0.9457, 0.9457)
+color = Color(0.579842, 0.4953, 0.602008, 1)
 polygon = PackedVector2Array(-200, -192, -264, 80, -192, 224, 232, 184, 264, -72, 160, -224)
 
 [node name="CharMask_left" type="Polygon2D" parent="CharLeft"]
 clip_children = 1
-polygon = PackedVector2Array(-184, -176, -264, 80, -192, 208, 232, 184, 248, -64, 160, -224)
+scale = Vector2(1.07235, 1.05621)
+polygon = PackedVector2Array(-186.506, -181.783, -247.12, 75.7427, -179.978, 212.08, 216.346, 173.262, 247.12, -65.3281, 149.204, -213.026)
 
 [node name="Char3D" type="Sprite2D" parent="CharLeft/CharMask_left"]
+position = Vector2(0, 24)
 texture = SubResource("ViewportTexture_b2jd3")
 
 [node name="3D_Stuff" type="CanvasLayer" parent="."]
@@ -231,11 +240,13 @@ transparent_bg = true
 handle_input_locally = false
 msaa_3d = 1
 screen_space_aa = 1
+scaling_3d_mode = 2
+scaling_3d_scale = 1.53
 size = Vector2i(640, 512)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="3D_Stuff/SubViewport"]
-transform = Transform3D(0.9289, -0.0564509, -0.366002, 0, 0.988314, -0.152434, 0.37033, 0.141596, 0.918045, -1.14881, 0.974069, 2.56243)
+transform = Transform3D(1.35392, -0.0822802, -0.533468, 0, 1.44052, -0.222181, 0.539776, 0.206384, 1.3381, -0.882375, 1.05742, 1.89413)
 fov = 23.4796
 
 [node name="Sprite3D" type="Sprite3D" parent="3D_Stuff/SubViewport/Camera3D"]
