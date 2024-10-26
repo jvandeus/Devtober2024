@@ -5,9 +5,9 @@ extends Node2D
 var value: float = 0
 const COLOR_CHARGING: Color = Color("F5E461")
 const COLOR_READY: Color = Color.WHITE
-const SHAKE_DURATION := 0.1
-const SHAKE_AMPLITUDE := 10
-var tween_shake: Tween
+const SHAKE_DURATION := 0.05
+const SHAKE_AMPLITUDE := 4
+var shake_timer: SceneTreeTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,7 +17,7 @@ func increment(amount : int) -> void:
 	value = min(max_value, value + amount)
 	if is_full():
 		$container/mask/rect.color = COLOR_READY
-		start_shaking()
+		shake()
 
 func clear() -> void:
 	value = 0
@@ -28,16 +28,17 @@ func clear() -> void:
 func is_full() -> bool:
 	return value == max_value
 
-func start_shaking() -> void:
-	tween_shake = create_tween()
-	tween_shake\
-		.tween_property($container, "position", Vector2(0, SHAKE_AMPLITUDE).rotated(randf() * 2 * PI), SHAKE_DURATION)\
-		.set_custom_interpolator(func(v): return 1.0)
-	tween_shake.finished.connect(start_shaking)
-	
+func shake() -> void:
+	if $container.position.x < 0:
+		$container.position.x = SHAKE_AMPLITUDE
+	else:
+		$container.position.x = -SHAKE_AMPLITUDE
+	shake_timer = get_tree().create_timer(SHAKE_DURATION)
+	shake_timer.timeout.connect(shake)
+
 func stop_shaking() -> void:
-	if tween_shake and tween_shake.finished.is_connected(start_shaking):
-		tween_shake.finished.disconnect(start_shaking)
+	if shake_timer:
+		shake_timer.timeout.disconnect(shake)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
