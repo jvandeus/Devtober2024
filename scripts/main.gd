@@ -65,7 +65,10 @@ func _on_settled():
 	if board.is_stopped:
 		return
 	if attack_meter.is_full():
-		await opponent_attack()
+		opponent_attack()
+		# assumption: opponent_attack triggers another on_settled,
+		# so we won't try to restart the board here
+		return
 	if board.is_stopped:
 		return
 	board.start()

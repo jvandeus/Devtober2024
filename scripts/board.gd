@@ -301,11 +301,10 @@ func reindex_columns() -> void:
 func get_center_column_index() -> int:
 	return int((board_width - 1) / 2)
 
-func create_new_double_piece() -> void:
+func create_new_double_piece(p1: Piece, p2: Piece) -> void:
 	dp = DoublePiece.new(Vector2i(get_center_column_index(), 0))
-	var pieces = preview_pane.pop()
-	primary = pieces[0]
-	secondary = pieces[1]
+	primary = p1
+	secondary = p2
 	on_piece_fall_start
 	next_primary = null
 	next_secondary = null
@@ -336,8 +335,10 @@ func reset_fall_timer() -> void:
 func update_primary_and_secondary() -> void:
 	if not dp:
 		return
-	primary.transform.origin = dp.get_primary_pos(cell_size)
-	secondary.transform.origin = dp.get_secondary_pos(cell_size)
+	if primary:
+		primary.transform.origin = dp.get_primary_pos(cell_size)
+	if secondary:
+		secondary.transform.origin = dp.get_secondary_pos(cell_size)
 	
 func place() -> void:
 	on_placed.emit()
@@ -366,9 +367,8 @@ func simulate() -> void:
 	# whoever is listening to on_settled is responsible for calling start again to continue the game loop
 
 func start():
-	if dp:
-		return
-	create_new_double_piece()
+	var pieces = await preview_pane.pop()
+	create_new_double_piece(pieces[0], pieces[1])
 	reset_fall_timer()
 
 func sort_columns() -> void:
