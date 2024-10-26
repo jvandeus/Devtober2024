@@ -46,7 +46,7 @@ class DoublePiece:
 const ATTACK1_CHANCE := 0.2
 const TIME_TO_FALL_ONE_CELL := 1.0
 const LINE_COLOR := Color(1, 1, 1, 0.2)
-const BG_COLOR := Color(.1, .1, .1, 0.7)
+const BG_COLOR := Color("404040")
 const REPEAT_DELAY := 0.25
 const REPEAT_PERIOD := 0.05
 const PLACING_DELAY := 0.25
@@ -91,8 +91,8 @@ func _ready() -> void:
 	tiles.board_width = board_width
 	tiles.board_height = board_height
 	tiles.cell_size = cell_size
-	tiles.BG_COLOR = BG_COLOR
-	tiles.BG_COLOR = LINE_COLOR
+	tiles.bg_color = BG_COLOR
+	tiles.line_color = LINE_COLOR
 	
 	# resize the elements to fit the tiles and board
 	poly_bg.resize(poly_ref.polygon, board_width, board_height, cell_size)

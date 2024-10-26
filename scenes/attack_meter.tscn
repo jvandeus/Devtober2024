@@ -23,7 +23,7 @@ polygon = PackedVector2Array(295, 36, 289, 103, 915, 72, 863, -57)
 [node name="mask" type="Polygon2D" parent="container"]
 clip_children = 2
 position = Vector2(-295, -36)
-color = Color(0.286275, 0.286275, 0.286275, 1)
+color = Color(0.25098, 0.25098, 0.25098, 1)
 antialiased = true
 polygon = PackedVector2Array(419, 32, 417, 79, 868, 45, 846, -34)
 

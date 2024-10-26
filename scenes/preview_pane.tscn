@@ -43,18 +43,18 @@ width = 8.0
 default_color = Color(0.976471, 0.513726, 0.411765, 1)
 
 [node name="base" type="Polygon2D" parent="CableConnector"]
-color = Color(0.356863, 0.360784, 0.356863, 1)
+color = Color(0.376471, 0.376471, 0.376471, 1)
 polygon = PackedVector2Array(-32, 0, -40, -56, 40, -48, 32, 0)
 
 [node name="PolyBg" type="Polygon2D" parent="."]
 position = Vector2(31, 30)
-color = Color(0.356863, 0.360784, 0.356863, 1)
+color = Color(0.376471, 0.376471, 0.376471, 1)
 polygon = PackedVector2Array(16, 16, -288, 16, -264, -128, -88, -128, -88, -152, 24, -152)
 script = ExtResource("3_bflrp")
 
 [node name="PolyBgInner" type="Polygon2D" parent="."]
 position = Vector2(31, 30)
-color = Color(0.178449, 0.180829, 0.17845, 1)
+color = Color(0.25098, 0.25098, 0.25098, 1)
 polygon = PackedVector2Array(8, 8, -272, 8, -264, -72, -72, -72, -72, -136, 16, -136)
 script = ExtResource("3_bflrp")
 
