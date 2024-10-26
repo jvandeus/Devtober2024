@@ -324,10 +324,12 @@ func stop() -> void:
 	cancel_fall_timer()
 
 func cancel_fall_timer() -> void:
-	if fall_timer: fall_timer.timeout.disconnect(move_down)
+	if fall_timer and fall_timer.timeout.is_connected(move_down):
+		fall_timer.timeout.disconnect(move_down)
 	
 func reset_fall_timer() -> void:
-	if fall_timer: fall_timer.timeout.disconnect(move_down)
+	if fall_timer and fall_timer.timeout.is_connected(move_down):
+		fall_timer.timeout.disconnect(move_down)
 	fall_timer = get_tree().create_timer(TIME_TO_FALL_ONE_CELL)
 	fall_timer.timeout.connect(move_down)
 

@@ -8,7 +8,6 @@ extends Node2D
 @onready var attack_meter = $AttackMeter
 @onready var win_text = $WinText
 @onready var lose_text = $LoseText
-@onready var preview_pane = $PreviewPane
 @onready var signal_audio: Node = $SignalAudio
 @onready var tia_v: Node3D = $"3D_Stuff/SubViewport/TIA-V_MASTER"
 #@onready var transition_player: AnimationPlayer = $TransitionCanvas/Transition_Player
@@ -90,9 +89,3 @@ func player_attack():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-
-func _on_placed(double_peice: RefCounted) -> void:
-	pass # Replace with function body.
-
-func _on_player_move(blocked: bool) -> void:
-	pass # Replace with function body.

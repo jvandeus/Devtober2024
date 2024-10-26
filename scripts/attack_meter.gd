@@ -15,12 +15,15 @@ func _ready() -> void:
 
 func increment(amount : int) -> void:
 	value = min(max_value, value + amount)
-	if value == max_value:
+	if is_full():
+		$container/mask/rect.color = COLOR_READY
 		start_shaking()
 
 func clear() -> void:
 	value = 0
 	$container.position = Vector2(0, 0)
+	$container/mask/rect.color = COLOR_CHARGING
+	stop_shaking()
 
 func is_full() -> bool:
 	return value == max_value
@@ -33,13 +36,9 @@ func start_shaking() -> void:
 	tween_shake.finished.connect(start_shaking)
 	
 func stop_shaking() -> void:
-	if tween_shake: tween_shake.finished.disconnect(start_shaking)
+	if tween_shake and tween_shake.finished.is_connected(start_shaking):
+		tween_shake.finished.disconnect(start_shaking)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	$container/mask/rect.scale.x = value / max_value
-	if is_full():
-		$container/mask/rect.color = COLOR_READY
-	else:
-		$container/mask/rect.color = COLOR_CHARGING
-		stop_shaking()
