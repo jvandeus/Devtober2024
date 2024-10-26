@@ -366,6 +366,8 @@ func simulate() -> void:
 	# whoever is listening to on_settled is responsible for calling start again to continue the game loop
 
 func start():
+	if dp:
+		return
 	create_new_double_piece()
 	reset_fall_timer()
 
@@ -443,6 +445,18 @@ func attack1() -> void:
 		attack1()
 	for piece in piece_sample:
 		await piece.set_kind(Piece.Kind.GARBAGE)
+
+func attack2() -> void:
+	const ROWS_OF_GARBAGE = 2
+	for row in ROWS_OF_GARBAGE:
+		for col in len(columns):
+			var p = scene_Piece.instantiate()
+			p.kind = Piece.Kind.GARBAGE
+			p.queue_redraw()
+			p.cell_size = cell_size
+			p.transform.origin = Vector2(cell_size / 2 + col * cell_size, cell_size / 2 - (1 + row) * cell_size)
+			add_child(p)
+	await simulate()
 
 func on_piece_fall_start(p: Piece) -> void:
 	on_fall_start.emit(p)

@@ -27,6 +27,9 @@ signal done_animation_clear
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	pass
+	
+func randomize() -> void:
 	kind = KINDS.pick_random()
 
 func _draw() -> void:

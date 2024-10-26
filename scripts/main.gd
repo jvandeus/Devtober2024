@@ -47,7 +47,7 @@ func opponent_attack() -> void:
 	tia_v.play_dmg()
 	opponent_portrait.attack()
 	attack_meter.clear()
-	await board.attack1()
+	await board.attack2()
 	opponent_portrait.idle()
 
 func _on_pieces_cleared(num_pieces: int, combo: int):
