@@ -1,11 +1,9 @@
-[gd_scene load_steps=31 format=3 uid="uid://2cl001epfkkn"]
+[gd_scene load_steps=30 format=3 uid="uid://2cl001epfkkn"]
 
 [ext_resource type="Script" path="res://scripts/piece.gd" id="1_jcdrj"]
 [ext_resource type="Texture2D" uid="uid://cxoskkn0hmvfp" path="res://assets/tileset.png" id="2_5ixdn"]
 [ext_resource type="Texture2D" uid="uid://bfnmnr0nwuf34" path="res://assets/images/pieces.png" id="2_5k17f"]
 [ext_resource type="AudioStream" uid="uid://b6x0pjjvb152x" path="res://assets/sound/laser01.wav" id="3_xsm8o"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ncmos"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y4i7r"]
 atlas = ExtResource("2_5k17f")
@@ -238,37 +236,8 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="Piece" type="Area2D"]
+[node name="Piece" type="Node2D"]
 script = ExtResource("1_jcdrj")
-kind = 3
-
-[node name="Shape" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_ncmos")
-
-[node name="ApparentTransform" type="Node2D" parent="."]
-
-[node name="Up" type="RayCast2D" parent="."]
-rotation = -1.5708
-target_position = Vector2(64, 0)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Left" type="RayCast2D" parent="."]
-rotation = 3.14159
-target_position = Vector2(64, 0)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Right" type="RayCast2D" parent="."]
-target_position = Vector2(64, 0)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Down" type="RayCast2D" parent="."]
-rotation = 1.5708
-target_position = Vector2(64, 0)
-collide_with_areas = true
-collide_with_bodies = false
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gbdnc")
