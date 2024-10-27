@@ -74,12 +74,12 @@ script = ExtResource("1_sxr3e")
 
 [node name="CharBG" type="Polygon2D" parent="."]
 color = Color(0.817521, 0.817521, 0.817521, 1)
-polygon = PackedVector2Array(-304, -232, -352, 8, -240, 264, 296, 232, 384, -48, 312, -256)
+polygon = PackedVector2Array(-232, -192, -320, 40, -240, 232, 248, 192, 320, -80, 168, -224)
 
 [node name="CharMask" type="Polygon2D" parent="."]
 clip_children = 1
-polygon = PackedVector2Array(-288, -224, -344, 8, -232, 256, 280, 224, 376, -32, 296, -248)
+polygon = PackedVector2Array(-224, -184, -312, 24, -240, 208, 240, 184, 312, -72, 160, -216)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharMask"]
 sprite_frames = SubResource("SpriteFrames_nmnyk")
-animation = &"hurt"
+animation = &"idle"

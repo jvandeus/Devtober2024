@@ -164,7 +164,7 @@ size_flags_vertical = 3
 texture = SubResource("PlaceholderTexture2D_7nvu5")
 
 [node name="OpponentPortrait" parent="." instance=ExtResource("11_mnnac")]
-position = Vector2(1528, 273)
+position = Vector2(1568, 256)
 
 [node name="Board" parent="." instance=ExtResource("8_hikeo")]
 position = Vector2(678, 79)
