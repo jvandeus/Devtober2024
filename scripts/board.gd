@@ -46,10 +46,11 @@ class DoublePiece:
 const ATTACK1_CHANCE := 0.2
 const TIME_TO_FALL_ONE_CELL := 1.0
 const LINE_COLOR := Color(1, 1, 1, 0.2)
-const BG_COLOR := Color(.1, .1, .1, 0.7)
+const BG_COLOR := Color("404040")
 const REPEAT_DELAY := 0.25
 const REPEAT_PERIOD := 0.05
 const PLACING_DELAY := 0.25
+const CLEAR_DURATION := 0.8
 
 @onready var scene_Piece = preload("res://scenes/piece.tscn")
 @onready var preview_pane = $PreviewPane
@@ -91,8 +92,8 @@ func _ready() -> void:
 	tiles.board_width = board_width
 	tiles.board_height = board_height
 	tiles.cell_size = cell_size
-	tiles.BG_COLOR = BG_COLOR
-	tiles.BG_COLOR = LINE_COLOR
+	tiles.bg_color = BG_COLOR
+	tiles.line_color = LINE_COLOR
 	
 	# resize the elements to fit the tiles and board
 	poly_bg.resize(poly_ref.polygon, board_width, board_height, cell_size)
@@ -301,11 +302,10 @@ func reindex_columns() -> void:
 func get_center_column_index() -> int:
 	return int((board_width - 1) / 2)
 
-func create_new_double_piece() -> void:
+func create_new_double_piece(p1: Piece, p2: Piece) -> void:
 	dp = DoublePiece.new(Vector2i(get_center_column_index(), 0))
-	var pieces = preview_pane.pop()
-	primary = pieces[0]
-	secondary = pieces[1]
+	primary = p1
+	secondary = p2
 	on_piece_fall_start
 	next_primary = null
 	next_secondary = null
@@ -324,18 +324,22 @@ func stop() -> void:
 	cancel_fall_timer()
 
 func cancel_fall_timer() -> void:
-	if fall_timer: fall_timer.timeout.disconnect(move_down)
+	if fall_timer and fall_timer.timeout.is_connected(move_down):
+		fall_timer.timeout.disconnect(move_down)
 	
 func reset_fall_timer() -> void:
-	if fall_timer: fall_timer.timeout.disconnect(move_down)
+	if fall_timer and fall_timer.timeout.is_connected(move_down):
+		fall_timer.timeout.disconnect(move_down)
 	fall_timer = get_tree().create_timer(TIME_TO_FALL_ONE_CELL)
 	fall_timer.timeout.connect(move_down)
 
 func update_primary_and_secondary() -> void:
 	if not dp:
 		return
-	primary.transform.origin = dp.get_primary_pos(cell_size)
-	secondary.transform.origin = dp.get_secondary_pos(cell_size)
+	if primary:
+		primary.transform.origin = dp.get_primary_pos(cell_size)
+	if secondary:
+		secondary.transform.origin = dp.get_secondary_pos(cell_size)
 	
 func place() -> void:
 	on_placed.emit()
@@ -364,7 +368,8 @@ func simulate() -> void:
 	# whoever is listening to on_settled is responsible for calling start again to continue the game loop
 
 func start():
-	create_new_double_piece()
+	var pieces = await preview_pane.pop()
+	create_new_double_piece(pieces[0], pieces[1])
 	reset_fall_timer()
 
 func sort_columns() -> void:
@@ -375,18 +380,19 @@ func sort_columns() -> void:
 
 func settle() -> void:
 	sort_columns()
-	var changed_pieces := []
+	var tweens = []
 	for column in columns:
 		for i in len(column):
 			var new_y = cell_size / 2 + cell_size * (board_height - 1 - i)
 			if column[i].transform.origin.y == new_y:
 				continue
-			changed_pieces.append(column[i])
-			column[i].fall_to(new_y)
-	for piece in changed_pieces:
-		self.on_piece_fall_start(piece)
-		await piece.done_animation_fall
-		self.on_piece_fall_end(piece)
+			tweens.append(column[i].fall_to(new_y))
+	for tween in tweens:
+		self.on_piece_fall_start(null)
+		if not tween.is_running():
+			continue
+		await tween.finished
+		self.on_piece_fall_end(null)
 
 func clear() -> int:
 	var pieces_to_clear = []
@@ -416,12 +422,15 @@ func clear() -> int:
 				visited_garbage[hash(adj)] = true
 	pieces_to_clear.append_array(garbage_to_clear)
 	
+	if len(pieces_to_clear) == 0:
+		return 0
+	
 	for piece in pieces_to_clear:
-		piece.clear()
-	for piece in pieces_to_clear:
-		await piece.done_animation_clear
+		piece.play_clear_animation()
+	await get_tree().create_timer(CLEAR_DURATION).timeout
 	for piece in pieces_to_clear:
 		piece.queue_free()
+	
 	return len(pieces_to_clear)
 
 func attack1() -> void:
@@ -441,6 +450,18 @@ func attack1() -> void:
 		attack1()
 	for piece in piece_sample:
 		await piece.set_kind(Piece.Kind.GARBAGE)
+
+func attack2() -> void:
+	const ROWS_OF_GARBAGE = 2
+	for row in ROWS_OF_GARBAGE:
+		for col in len(columns):
+			var p = scene_Piece.instantiate()
+			p.kind = Piece.Kind.GARBAGE
+			p.queue_redraw()
+			p.cell_size = cell_size
+			p.transform.origin = Vector2(cell_size / 2 + col * cell_size, cell_size / 2 - (1 + row) * cell_size)
+			add_child(p)
+	await simulate()
 
 func on_piece_fall_start(p: Piece) -> void:
 	on_fall_start.emit(p)

@@ -18,6 +18,8 @@ func _ready() -> void:
 	secondary = scene_Piece.instantiate()
 	primary.cell_size = cell_size
 	secondary.cell_size = cell_size
+	primary.randomize()
+	secondary.randomize()
 	PrimarySlot.add_child(primary)
 	SecondarySlot.add_child(secondary)
 

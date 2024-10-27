@@ -6,40 +6,41 @@
 [node name="HealthBar" type="Node2D"]
 script = ExtResource("1_sd863")
 
-[node name="drop_shadow" type="Polygon2D" parent="."]
+[node name="container" type="Node2D" parent="."]
+
+[node name="drop_shadow" type="Polygon2D" parent="container"]
 position = Vector2(-311, -19)
 color = Color(0, 0, 0, 0.196078)
 antialiased = true
 polygon = PackedVector2Array(295, 36, 321, 186, 904, 56, 886, 8)
 
-[node name="outer_polygon" type="Polygon2D" parent="."]
+[node name="outer_polygon" type="Polygon2D" parent="container"]
 position = Vector2(-295, -36)
 color = Color(0.356863, 0.360784, 0.356863, 1)
 antialiased = true
 polygon = PackedVector2Array(295, 36, 321, 186, 904, 56, 886, 8)
 
-[node name="mask" type="Polygon2D" parent="."]
+[node name="mask" type="Polygon2D" parent="container"]
 clip_children = 2
 position = Vector2(-295, -36)
-color = Color(0.286275, 0.286275, 0.286275, 1)
+color = Color(0.25098, 0.25098, 0.25098, 1)
 antialiased = true
 polygon = PackedVector2Array(400, 54, 414, 139, 881, 52, 868, 20)
 
-[node name="rect_follow" type="Polygon2D" parent="mask"]
+[node name="rect_follow" type="Polygon2D" parent="container/mask"]
 position = Vector2(403, 99)
 rotation = -0.10472
-scale = Vector2(1, 1)
 color = Color(0.960784, 0.894118, 0.380392, 1)
 antialiased = true
 polygon = PackedVector2Array(6.23898, 65.0083, -1.05725, -66.4747, 464.215, -63.8259, 493.961, 35.8294)
 
-[node name="rect" type="Polygon2D" parent="mask"]
+[node name="rect" type="Polygon2D" parent="container/mask"]
 position = Vector2(403, 99)
 rotation = -0.10472
 color = Color(0.976471, 0.513726, 0.411765, 1)
 antialiased = true
 polygon = PackedVector2Array(6.23898, 65.0083, -1.05725, -66.4747, 464.215, -63.8259, 493.961, 35.8294)
 
-[node name="heart" type="Sprite2D" parent="."]
+[node name="heart" type="Sprite2D" parent="container"]
 position = Vector2(62, 69)
 texture = ExtResource("2_14gfk")
