@@ -1,5 +1,3 @@
-@tool
-
 class_name Piece
 extends Node2D
 
@@ -14,7 +12,6 @@ enum Kind { GREEN, RED, BLUE, YELLOW, GARBAGE }
 @onready var change_sfx = $ChangeSFX
 
 @export var kind: Kind
-var is_visible := true
 @export var cell_size := 64
 
 const FALL_SPEED := 16.0
@@ -27,24 +24,29 @@ signal done_animation_clear
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	idle()
 	
+func idle() -> void:
+	match kind:
+		Kind.GREEN: $Sprite.play("idle_green")
+		Kind.RED: $Sprite.play("idle_red")
+		Kind.YELLOW: $Sprite.play("idle_yellow")
+		Kind.BLUE: $Sprite.play("idle_blue")
+		Kind.GARBAGE: $Sprite.play("idle_garbage")
+
+func play_clear_animation() -> void:
+	match kind:
+		Kind.GREEN: $Sprite.play("clear_green")
+		Kind.RED: $Sprite.play("clear_red")
+		Kind.YELLOW: $Sprite.play("clear_yellow")
+		Kind.BLUE: $Sprite.play("clear_blue")
+		Kind.GARBAGE: $Sprite.play("clear_garbage")
+
 func randomize() -> void:
 	kind = KINDS.pick_random()
 
 func _draw() -> void:
-	# draw a red X marking the transform
-	#draw_line(Vector2(-8, -8), Vector2(8, 8), Color.RED, 4.0, true)
-	#draw_line(Vector2(-8, 8), Vector2(8, -8), Color.RED, 4.0, true)
-	var color: Color
-	match kind:
-		Kind.GREEN: color = Color.GREEN
-		Kind.BLUE: color = Color(0.2, 0.5, 1)
-		Kind.RED: color = Color.RED
-		Kind.YELLOW: color = Color.YELLOW
-		Kind.GARBAGE: color = Color.GRAY
-	if is_visible:
-		draw_circle(apparent_transform.transform.origin, cell_size / 2 - 8, color, false, 4.0, true)
+	pass
 
 func fall_to(y: int) -> void:
 	start_animation_fall.emit()
@@ -65,7 +67,7 @@ func is_animating() -> bool:
 func clear() -> void:
 	start_animation_clear.emit()
 	for i in 20:
-		is_visible = !is_visible
+		play_clear_animation()
 		await get_tree().create_timer(0.04).timeout
 	done_animation_clear.emit()
 
@@ -103,6 +105,5 @@ func set_kind(k: Kind) -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	update_children()
-	if not Engine.is_editor_hint():
-		animate(delta)
+	animate(delta)
 	queue_redraw()
