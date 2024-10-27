@@ -9,6 +9,7 @@ extends Node2D
 @onready var win_text = $WinText
 @onready var lose_text = $LoseText
 @onready var signal_audio: Node = $SignalAudio
+@onready var bg_music = $BGMusic
 @onready var tia_v: Node3D = $"3D_Stuff/SubViewport/TIA-V_MASTER"
 #@onready var transition_player: AnimationPlayer = $TransitionCanvas/Transition_Player
 
@@ -21,6 +22,7 @@ func _ready() -> void:
 	#board.on_combo_finished.connect(_on_combo_finished)
 	health_bar.on_empty.connect(win)
 	opponent_attack_charge_loop()
+	bg_music.play()
 	
 func win() -> void:
 	opponent_portrait.lose()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=41 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
@@ -31,6 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://dmmqocx1eue7j" path="res://assets/mockup1.png" id="31_37sp6"]
 [ext_resource type="AudioStream" uid="uid://pe03wann1pq1" path="res://assets/sound/boing05.wav" id="31_xcqtw"]
 [ext_resource type="AudioStream" uid="uid://dhxuuljn2uaxx" path="res://assets/sound/impact_technic02.wav" id="32_73bde"]
+[ext_resource type="AudioStream" uid="uid://ps7hvlh2oncw" path="res://assets/music/blockhead_loop.ogg" id="32_uyumv"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_62hhw"]
 streams_count = 4
@@ -258,6 +259,9 @@ environment = SubResource("Environment_ny7oq")
 visible = false
 texture = ExtResource("31_37sp6")
 centered = false
+
+[node name="BGMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("32_uyumv")
 
 [connection signal="on_fall_end" from="Board" to="SignalAudio" method="_on_fall_end"]
 [connection signal="on_fall_start" from="Board" to="SignalAudio" method="_on_fall_start"]
