@@ -394,42 +394,103 @@ func settle() -> void:
 		await tween.finished
 		self.on_piece_fall_end(null)
 
+func assert_in_bounds(coords: Vector2i) -> void:
+	assert(coords.x >= 0)
+	assert(coords.x < len(columns))
+	assert(coords.y >= 0)
+	assert(coords.y < len(columns[coords.x]))
+
+# get coords adjacent to the given coords
+# assumes there is a piece at coords
+# used for finding pieces to clear
+func get_adj(coords: Vector2i) -> Array:
+	assert_in_bounds(coords)
+	var x = coords.x
+	var y = coords.y
+	var result = []
+	# left
+	if x > 0 and y < len(columns[x - 1]):
+		result.append(Vector2i(x - 1, y))
+	# right
+	if x < len(columns) - 1 and y < len(columns[x + 1]):
+		result.append(Vector2i(x + 1, y))
+	# down
+	if y < len(columns[x]) - 1:
+		result.append(Vector2i(x, y + 1))
+	# up
+	if y > 0:
+		result.append(Vector2i(x, y - 1))
+	return result
+
+# gives the kind of the piece at the coords
+# assumes there is a piece at coords
+# used for finding pieces to clear
+func kind_at(coords: Vector2i) -> Piece.Kind:
+	assert_in_bounds(coords)
+	var piece = columns[coords.x][coords.y]
+	assert(piece)
+	return piece.kind
+	
+	
+# gives the piece at the coords
+# assumes there is a piece at coords
+# used for finding pieces to clear
+func piece_at(coords: Vector2i) -> Piece:
+	assert_in_bounds(coords)
+	var piece = columns[coords.x][coords.y]
+	assert(piece)
+	return piece
+
+# recursive depth-first search to find the contiguous cluster of same-kind
+# pieces touching the one at given coords
+func get_cluster(coords: Vector2i, visited := {}) -> Array:
+	assert_in_bounds(coords)
+	visited[coords] = true
+	var result = [coords]
+	for adj in get_adj(coords):
+		if kind_at(coords) == kind_at(adj) and !visited.has(adj):
+			result.append_array(get_cluster(adj, visited))
+	return result
+
+func all_coords() -> Array:
+	var result = []
+	for x in len(columns):
+		for y in len(columns[x]):
+			result.append(Vector2i(x, y))
+	return result
+
 func clear() -> int:
-	var pieces_to_clear = []
+	var pieces_to_clear = [] # coords of pieces to clear
 	var visited = {}
-	for piece in get_children():
-		if piece is not Piece:
+	for coords in all_coords():
+		if kind_at(coords) == Piece.Kind.GARBAGE:
 			continue
-		if piece.is_queued_for_deletion():
+		if visited.has(coords):
 			continue
-		if piece.kind == Piece.Kind.GARBAGE:
-			continue
-		if visited.has(hash(piece)):
-			continue
-		var cluster = piece.get_cluster(visited)
+		var cluster = get_cluster(coords, visited)
 		if len(cluster) >= 4:
 			pieces_to_clear.append_array(cluster)
 	
 	# find garbage adjacent to any clearing pieces
 	var garbage_to_clear = []
 	var visited_garbage = {}
-	for piece in pieces_to_clear:
-		for adj in piece.get_adj_pieces():
-			if visited_garbage.has(hash(adj)):
+	for coords in pieces_to_clear:
+		for adj in get_adj(coords):
+			if visited_garbage.has(adj):
 				continue
-			if adj.kind == Piece.Kind.GARBAGE:
+			if kind_at(adj) == Piece.Kind.GARBAGE:
 				garbage_to_clear.append(adj)
-				visited_garbage[hash(adj)] = true
+				visited_garbage[adj] = true
 	pieces_to_clear.append_array(garbage_to_clear)
 	
 	if len(pieces_to_clear) == 0:
 		return 0
 	
-	for piece in pieces_to_clear:
-		piece.play_clear_animation()
+	for coords in pieces_to_clear:
+		piece_at(coords).play_clear_animation()
 	await get_tree().create_timer(CLEAR_DURATION).timeout
-	for piece in pieces_to_clear:
-		piece.queue_free()
+	for coords in pieces_to_clear:
+		piece_at(coords).queue_free()
 	
 	return len(pieces_to_clear)
 
