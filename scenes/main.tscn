@@ -198,7 +198,6 @@ initial_value = 100
 
 [node name="AttackMeter" parent="." instance=ExtResource("27_frg8t")]
 position = Vector2(1278, 757)
-initial_value = 17
 
 [node name="Score" type="Node" parent="."]
 script = ExtResource("2_qhh88")

@@ -50,6 +50,7 @@ const BG_COLOR := Color("404040")
 const REPEAT_DELAY := 0.25
 const REPEAT_PERIOD := 0.05
 const PLACING_DELAY := 0.25
+const CLEAR_DURATION := 0.8
 
 @onready var scene_Piece = preload("res://scenes/piece.tscn")
 @onready var preview_pane = $PreviewPane
@@ -379,18 +380,19 @@ func sort_columns() -> void:
 
 func settle() -> void:
 	sort_columns()
-	var changed_pieces := []
+	var tweens = []
 	for column in columns:
 		for i in len(column):
 			var new_y = cell_size / 2 + cell_size * (board_height - 1 - i)
 			if column[i].transform.origin.y == new_y:
 				continue
-			changed_pieces.append(column[i])
-			column[i].fall_to(new_y)
-	for piece in changed_pieces:
-		self.on_piece_fall_start(piece)
-		await piece.done_animation_fall
-		self.on_piece_fall_end(piece)
+			tweens.append(column[i].fall_to(new_y))
+	for tween in tweens:
+		self.on_piece_fall_start(null)
+		if not tween.is_running():
+			continue
+		await tween.finished
+		self.on_piece_fall_end(null)
 
 func clear() -> int:
 	var pieces_to_clear = []
@@ -420,12 +422,15 @@ func clear() -> int:
 				visited_garbage[hash(adj)] = true
 	pieces_to_clear.append_array(garbage_to_clear)
 	
+	if len(pieces_to_clear) == 0:
+		return 0
+	
 	for piece in pieces_to_clear:
-		piece.clear()
-	for piece in pieces_to_clear:
-		await piece.done_animation_clear
+		piece.play_clear_animation()
+	await get_tree().create_timer(CLEAR_DURATION).timeout
 	for piece in pieces_to_clear:
 		piece.queue_free()
+	
 	return len(pieces_to_clear)
 
 func attack1() -> void:

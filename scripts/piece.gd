@@ -14,13 +14,8 @@ enum Kind { GREEN, RED, BLUE, YELLOW, GARBAGE }
 @export var kind: Kind
 @export var cell_size := 64
 
-const FALL_SPEED := 16.0
+const FALL_SPEED := 1000.0 # pixels per second
 const KINDS = [Kind.GREEN, Kind.RED, Kind.BLUE, Kind.YELLOW]
-
-signal start_animation_fall
-signal done_animation_fall
-signal start_animation_clear
-signal done_animation_clear
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -45,31 +40,13 @@ func play_clear_animation() -> void:
 func randomize() -> void:
 	kind = KINDS.pick_random()
 
-func _draw() -> void:
-	pass
-
-func fall_to(y: int) -> void:
-	start_animation_fall.emit()
-	var diff = transform.origin.y - y
-	transform.origin.y = y
-	apparent_transform.transform.origin.y = diff
-
-func animate(delta: float) -> void:
-	var offset: Vector2 = apparent_transform.transform.origin
-	if offset.distance_to(Vector2(0, 0)) < FALL_SPEED:
-		apparent_transform.transform.origin = Vector2(0, 0)
-		done_animation_fall.emit()
-	apparent_transform.translate(offset.normalized() * -FALL_SPEED)
-
-func is_animating() -> bool:
-	return apparent_transform.transform.origin != Vector2(0, 0)
-
-func clear() -> void:
-	start_animation_clear.emit()
-	for i in 20:
-		play_clear_animation()
-		await get_tree().create_timer(0.04).timeout
-	done_animation_clear.emit()
+func fall_to(y: int) -> Tween:
+	var distance = abs(position.y - y)
+	var target = position
+	target.y = y
+	var tween = create_tween()
+	tween.tween_property(self, "position", target, distance / FALL_SPEED)
+	return tween
 
 # get immmediately adjacent pieces
 func get_adj_pieces() -> Array:
@@ -105,5 +82,3 @@ func set_kind(k: Kind) -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	update_children()
-	animate(delta)
-	queue_redraw()
