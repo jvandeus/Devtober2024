@@ -369,6 +369,8 @@ func simulate() -> void:
 
 func start():
 	var pieces = await preview_pane.pop()
+	pieces[0].cell_size = cell_size
+	pieces[1].cell_size = cell_size
 	create_new_double_piece(pieces[0], pieces[1])
 	reset_fall_timer()
 

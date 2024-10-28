@@ -8,6 +8,7 @@ enum Kind { GREEN, RED, BLUE, YELLOW, GARBAGE }
 @export var kind: Kind
 @export var cell_size := 64
 
+const DEFAULT_CELL_SIZE = 80
 const FALL_SPEED := 1000.0 # pixels per second
 const KINDS = [Kind.GREEN, Kind.RED, Kind.BLUE, Kind.YELLOW]
 
@@ -48,3 +49,7 @@ func set_kind(k: Kind) -> void:
 	await $AnimatedSprite2D.animation_finished
 	$AnimatedSprite2D.visible = false
 	kind = k
+
+func _process(delta: float) -> void:
+	var scale = 0.5 * float(cell_size) / DEFAULT_CELL_SIZE
+	$Sprite.scale = Vector2(scale, scale)
