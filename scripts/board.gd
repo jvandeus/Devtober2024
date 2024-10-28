@@ -24,10 +24,6 @@ class DoublePiece:
 				return origin + Vector2i(1, 0)
 		assert(false)
 		return Vector2i(0, 0)
-	func get_primary_pos(cell_size: int) -> Vector2:
-		return Vector2(get_primary_coords() * cell_size) + Vector2(cell_size / 2, cell_size / 2)
-	func get_secondary_pos(cell_size: int) -> Vector2:
-		return Vector2(get_secondary_coords() * cell_size) + Vector2(cell_size / 2, cell_size / 2)
 	func get_orientation() -> Orientation:
 		return ORIENTATION_ORDER[orientation_index]
 	func rotate_ccw():
@@ -274,14 +270,6 @@ func rotate_ccw():
 	on_player_rotate.emit()
 	dp.rotate_ccw()
 
-
-func _draw() -> void:
-	if dp:
-		var primary = dp.get_primary_pos(cell_size)
-		var secondary = dp.get_secondary_pos(cell_size)
-		draw_circle(primary, cell_size / 2 - 16, LINE_COLOR, false, 4.0, true)
-		draw_circle(secondary, cell_size / 2 - 24, LINE_COLOR, false, 4.0, true)
-
 func reindex_columns() -> void:
 	for column in columns:
 		(column as Array).clear()
@@ -337,9 +325,9 @@ func update_primary_and_secondary() -> void:
 	if not dp:
 		return
 	if primary:
-		primary.transform.origin = dp.get_primary_pos(cell_size)
+		primary.transform.origin = inv_coords2pos(dp.get_primary_coords())
 	if secondary:
-		secondary.transform.origin = dp.get_secondary_pos(cell_size)
+		secondary.transform.origin = inv_coords2pos(dp.get_secondary_coords())
 	
 func place() -> void:
 	on_placed.emit()
@@ -385,10 +373,10 @@ func settle() -> void:
 	var tweens = []
 	for column in columns:
 		for i in len(column):
-			var new_y = cell_size / 2 + cell_size * (board_height - 1 - i)
-			if column[i].transform.origin.y == new_y:
+			var new_pos = coords2pos(Vector2i(0, i))
+			if column[i].transform.origin.y == new_pos.y:
 				continue
-			tweens.append(column[i].fall_to(new_y))
+			tweens.append(column[i].fall_to(new_pos.y))
 	for tween in tweens:
 		self.on_piece_fall_start(null)
 		if not tween.is_running():
@@ -522,9 +510,25 @@ func attack2() -> void:
 			p.kind = Piece.Kind.GARBAGE
 			p.queue_redraw()
 			p.cell_size = cell_size
-			p.transform.origin = Vector2(cell_size / 2 + col * cell_size, cell_size / 2 - (1 + row) * cell_size)
+			p.transform.origin = coords2pos(Vector2i(col, board_height + row))
 			add_child(p)
 	await simulate()
+
+# (0, 0) -> bottom left
+# +y pointing up
+func coords2pos(coords: Vector2i) -> Vector2:
+	return Vector2(
+		cell_size / 2 + coords.x * cell_size,
+		cell_size / 2 + (board_height - 1 - coords.y) * cell_size
+	)
+	
+# (0, 0) -> top left
+# +y pointing down
+func inv_coords2pos(coords: Vector2i) -> Vector2:
+	return Vector2(
+		cell_size / 2 + coords.x * cell_size,
+		cell_size / 2 + coords.y * cell_size
+	)
 
 func on_piece_fall_start(p: Piece) -> void:
 	on_fall_start.emit(p)
