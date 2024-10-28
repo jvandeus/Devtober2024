@@ -31,4 +31,5 @@ func queue_free_and_yield_pieces() -> Array:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	$PrimarySlot.global_rotation = 0
+	$SecondarySlot.global_rotation = 0
