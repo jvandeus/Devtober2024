@@ -194,6 +194,7 @@ func move_left() -> bool:
 			if is_occupied(primary_left):
 				return false
 	dp.move_left()
+	update_ghost_piece()
 	return true
 	
 func move_right() -> bool:
@@ -210,6 +211,7 @@ func move_right() -> bool:
 			if is_occupied(secondary_right):
 				return false
 	dp.move_right()
+	update_ghost_piece()
 	return true
 
 func move_down() -> bool:
@@ -250,6 +252,7 @@ func rotate_cw():
 				move_right()
 	on_player_rotate.emit()
 	dp.rotate_cw()
+	update_ghost_piece()
 
 func rotate_ccw():
 	var primary_right = dp.get_primary_coords() + Vector2i(1, 0)
@@ -269,6 +272,42 @@ func rotate_ccw():
 				move_left()
 	on_player_rotate.emit()
 	dp.rotate_ccw()
+	update_ghost_piece()
+
+func hide_ghost_piece() -> void:
+	$GhostPiece.visible = false
+	$GhostPiece2.visible = false
+
+func show_ghost_piece() -> void:
+	$GhostPiece.visible = true
+	$GhostPiece2.visible = true
+
+func update_ghost_piece() -> void:
+	show_ghost_piece()
+	# dp coords are inverted (origin at top left, +y pointing down)
+	# returned ghost piece coords will also be inverted
+	var coords1 = dp.get_primary_coords()
+	var coords2 = dp.get_secondary_coords()
+	var ghost1 = Vector2i(coords1.x, board_height - len(columns[coords1.x]) - 1)
+	var ghost2 = Vector2i(coords2.x, board_height - len(columns[coords2.x]) - 1)
+	if coords1.x == coords2.x: # if DP is vertical
+		if coords1.y < coords2.y: # primary is higher than secondary
+			ghost1.y -= 1
+		else: # secondary is higher than primary
+			ghost2.y -= 1
+	# TODO make GhostPiece its own scene maybe
+	match primary.kind:
+		Piece.Kind.GREEN: $GhostPiece.play("green")
+		Piece.Kind.RED: $GhostPiece.play("red")
+		Piece.Kind.BLUE: $GhostPiece.play("blue")
+		Piece.Kind.YELLOW: $GhostPiece.play("yellow")
+	match secondary.kind:
+		Piece.Kind.GREEN: $GhostPiece2.play("green")
+		Piece.Kind.RED: $GhostPiece2.play("red")
+		Piece.Kind.BLUE: $GhostPiece2.play("blue")
+		Piece.Kind.YELLOW: $GhostPiece2.play("yellow")
+	$GhostPiece.position = inv_coords2pos(ghost1)
+	$GhostPiece2.position = inv_coords2pos(ghost2)
 
 func reindex_columns() -> void:
 	for column in columns:
@@ -302,6 +341,7 @@ func create_new_double_piece(p1: Piece, p2: Piece) -> void:
 	add_child(primary)
 	add_child(secondary)
 	update_primary_and_secondary()
+	update_ghost_piece()
 	
 func bind_piece(p):
 	#p.start_animation_fall.connect(self.on_piece_fall_start.bind(p))
@@ -332,6 +372,7 @@ func update_primary_and_secondary() -> void:
 func place() -> void:
 	on_placed.emit()
 	dp = null
+	hide_ghost_piece()
 	simulate()
 
 func simulate() -> void:
@@ -538,8 +579,5 @@ func on_piece_fall_end(p: Piece) -> void:
 	on_fall_end.emit(p)
 	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	queue_redraw()
 	update_primary_and_secondary()
