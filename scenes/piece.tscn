@@ -239,6 +239,12 @@ animations = [{
 [node name="Piece" type="Node2D"]
 script = ExtResource("1_jcdrj")
 
+[node name="Shadow" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.12549)
+position = Vector2(16, 0)
+sprite_frames = SubResource("SpriteFrames_gbdnc")
+animation = &"idle_yellow"
+
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gbdnc")
 animation = &"idle_yellow"

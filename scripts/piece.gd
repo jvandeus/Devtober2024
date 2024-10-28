@@ -17,19 +17,19 @@ func _ready() -> void:
 	
 func idle() -> void:
 	match kind:
-		Kind.GREEN: $Sprite.play("idle_green")
-		Kind.RED: $Sprite.play("idle_red")
-		Kind.YELLOW: $Sprite.play("idle_yellow")
-		Kind.BLUE: $Sprite.play("idle_blue")
-		Kind.GARBAGE: $Sprite.play("idle_garbage")
+		Kind.GREEN: play("idle_green")
+		Kind.RED: play("idle_red")
+		Kind.YELLOW: play("idle_yellow")
+		Kind.BLUE: play("idle_blue")
+		Kind.GARBAGE: play("idle_garbage")
 
 func play_clear_animation() -> void:
 	match kind:
-		Kind.GREEN: $Sprite.play("clear_green")
-		Kind.RED: $Sprite.play("clear_red")
-		Kind.YELLOW: $Sprite.play("clear_yellow")
-		Kind.BLUE: $Sprite.play("clear_blue")
-		Kind.GARBAGE: $Sprite.play("clear_garbage")
+		Kind.GREEN: play("clear_green")
+		Kind.RED: play("clear_red")
+		Kind.YELLOW: play("clear_yellow")
+		Kind.BLUE: play("clear_blue")
+		Kind.GARBAGE: play("clear_garbage")
 
 func randomize() -> void:
 	kind = KINDS.pick_random()
@@ -49,7 +49,14 @@ func set_kind(k: Kind) -> void:
 	await $AnimatedSprite2D.animation_finished
 	$AnimatedSprite2D.visible = false
 	kind = k
+	
+func play(animation: String) -> void:
+	$Sprite.play(animation)
+	$Shadow.play(animation)
 
 func _process(delta: float) -> void:
 	var scale = 0.5 * float(cell_size) / DEFAULT_CELL_SIZE
 	$Sprite.scale = Vector2(scale, scale)
+	# shadow is always a little left and down, independent of local transform
+	$Shadow.global_transform = get_global_transform().translated(Vector2(-16, 16))
+	$Shadow.scale = Vector2(scale, scale)
