@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=3 uid="uid://dph7556xsvmph"]
+
+[ext_resource type="PackedScene" uid="uid://dnoh66h1j6oip" path="res://assets/cutscenes/defeat/TIA-V_Death_scene.glb" id="1_3olfi"]
+[ext_resource type="Script" path="res://assets/cutscenes/defeat/tia_v_death_scene.gd" id="2_ybms2"]
+[ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="3_s6adm"]
+[ext_resource type="AnimationLibrary" uid="uid://dj1xboxbfo5x7" path="res://assets/cutscenes/defeat/TIA-V_Death_skel.glb" id="4_76ufe"]
+[ext_resource type="AudioStream" uid="uid://34f6eg7cgo5i" path="res://assets/cutscenes/defeat/Badfinger Baby Blue Breaking Bad Soundtrack HQ 1080p.mp3" id="5_b62hs"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_brpxx"]
+sky_top_color = Color(0.397395, 0.613218, 0.761942, 1)
+sky_horizon_color = Color(0.599349, 0.653305, 0.690485, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.599349, 0.653305, 0.690485, 1)
+
+[sub_resource type="Sky" id="Sky_2val1"]
+sky_material = SubResource("ProceduralSkyMaterial_brpxx")
+
+[sub_resource type="Environment" id="Environment_6sf0u"]
+background_mode = 2
+sky = SubResource("Sky_2val1")
+tonemap_mode = 2
+ssao_enabled = true
+
+[sub_resource type="Animation" id="Animation_10byo"]
+resource_name = "Main"
+length = 6.0
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TIA-V_MASTER/TiaPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("TIA-V_Death_skel/DEFEAT"),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "animation"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": PackedStringArray("CameraAction"),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8fseq"]
+_data = {
+"Main": SubResource("Animation_10byo")
+}
+
+[node name="TIA-V_Death_scene" instance=ExtResource("1_3olfi")]
+script = ExtResource("2_ybms2")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="0"]
+environment = SubResource("Environment_6sf0u")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
+transform = Transform3D(0.350207, 0.843304, -0.407669, 0, 0.435231, 0.900319, 0.936672, -0.315298, 0.152421, 0, 0, 0)
+light_color = Color(0.552956, 0.552956, 0.552956, 1)
+light_energy = 0.5
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="Camera" parent="." index="3"]
+transform = Transform3D(0.999999, -0.00111851, -4.88918e-11, 0, -4.37114e-08, 1, -0.00111851, -0.999999, -4.37114e-08, 0, 1.46791, -0.564245)
+current = true
+
+[node name="TIA-V_MASTER" parent="." index="5" instance=ExtResource("3_s6adm")]
+
+[node name="TiaPlayer" type="AnimationPlayer" parent="TIA-V_MASTER" index="3"]
+libraries = {
+"TIA-V_Death_skel": ExtResource("4_76ufe")
+}
+
+[node name="MainSequence" type="AnimationPlayer" parent="." index="6"]
+libraries = {
+"": SubResource("AnimationLibrary_8fseq")
+}
+
+[node name="Music" type="AudioStreamPlayer" parent="." index="7"]
+stream = ExtResource("5_b62hs")

@@ -37,6 +37,7 @@ func _on_lose() -> void:
 	board.stop()
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	lose_text.visible = true
+	SceneTransition.change_scene("res://assets/cutscenes/defeat/tia_v_death_scene.tscn")
 
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():
@@ -86,6 +87,7 @@ func player_attack():
 		opponent_portrait.lose()
 	else:
 		opponent_portrait.hurt()
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

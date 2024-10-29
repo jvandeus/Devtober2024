@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=39 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
@@ -29,6 +29,7 @@
 [ext_resource type="AudioStream" uid="uid://cf5hg4hom5lql" path="res://assets/sound/thunk_mesh03.wav" id="29_0o21r"]
 [ext_resource type="AudioStream" uid="uid://cjvo2sbmqd0x6" path="res://assets/sound/thunk_mesh04.wav" id="30_qw0te"]
 [ext_resource type="Texture2D" uid="uid://dmmqocx1eue7j" path="res://assets/mockup1.png" id="31_37sp6"]
+[ext_resource type="PackedScene" uid="uid://mf3wqejns2le" path="res://assets/cutscenes/spirit_bomb/spiritbomb_scene.tscn" id="31_vn1ei"]
 [ext_resource type="AudioStream" uid="uid://pe03wann1pq1" path="res://assets/sound/boing05.wav" id="31_xcqtw"]
 [ext_resource type="AudioStream" uid="uid://dhxuuljn2uaxx" path="res://assets/sound/impact_technic02.wav" id="32_73bde"]
 
@@ -44,16 +45,6 @@ size = Vector2(600, 600)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_b2jd3"]
 viewport_path = NodePath("3D_Stuff/SubViewport")
-
-[sub_resource type="Gradient" id="Gradient_q861v"]
-colors = PackedColorArray(0, 0, 0, 1, 0.223103, 0.223103, 0.223103, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ye4ey"]
-gradient = SubResource("Gradient_q861v")
-width = 4000
-height = 3000
-fill_from = Vector2(0.0042735, 1)
-fill_to = Vector2(0, 0)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vv5xr"]
 sky_top_color = Color(0.520422, 0.591633, 0.690789, 1)
@@ -245,14 +236,9 @@ scaling_3d_scale = 1.53
 size = Vector2i(640, 512)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="3D_Stuff/SubViewport"]
+[node name="GameCam" type="Camera3D" parent="3D_Stuff/SubViewport"]
 transform = Transform3D(1.35392, -0.0822802, -0.533468, 0, 1.44052, -0.222181, 0.539776, 0.206384, 1.3381, -0.882375, 1.05742, 1.89413)
 fov = 23.4796
-
-[node name="Sprite3D" type="Sprite3D" parent="3D_Stuff/SubViewport/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
-visible = false
-texture = SubResource("GradientTexture2D_ye4ey")
 
 [node name="TIA-V_MASTER" parent="3D_Stuff/SubViewport" instance=ExtResource("9_qcb26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
@@ -264,6 +250,9 @@ directional_shadow_max_distance = 1.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="3D_Stuff/SubViewport"]
 environment = SubResource("Environment_ny7oq")
+
+[node name="spiritbomb_scene" parent="3D_Stuff" instance=ExtResource("31_vn1ei")]
+visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false

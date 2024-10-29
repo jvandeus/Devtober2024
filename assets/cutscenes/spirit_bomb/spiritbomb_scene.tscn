@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://mf3wqejns2le"]
+
+[ext_resource type="PackedScene" uid="uid://cl1noevm6rqgv" path="res://assets/cutscenes/spirit_bomb/spiritbomb_scene.glb" id="1_1c87c"]
+[ext_resource type="Script" path="res://assets/cutscenes/spirit_bomb/spiritbomb_scene.gd" id="2_mooep"]
+[ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="3_503pv"]
+[ext_resource type="AnimationLibrary" uid="uid://ua1bvj704foi" path="res://assets/cutscenes/spirit_bomb/spiritbomb_skel.glb" id="4_hv0ut"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_115ts"]
+sky_top_color = Color(0.561838, 0.640721, 0.880706, 1)
+sky_horizon_color = Color(0.706911, 0.709871, 0.763386, 1)
+ground_bottom_color = Color(0.265807, 0.198762, 0.17284, 1)
+ground_horizon_color = Color(0.706911, 0.709871, 0.763386, 1)
+
+[sub_resource type="Sky" id="Sky_vjocj"]
+sky_material = SubResource("ProceduralSkyMaterial_115ts")
+
+[sub_resource type="Environment" id="Environment_f8mwi"]
+background_mode = 2
+sky = SubResource("Sky_vjocj")
+tonemap_mode = 2
+ssao_enabled = true
+
+[sub_resource type="Animation" id="Animation_th4dv"]
+resource_name = "main"
+length = 8.0
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("Animation"),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "animation"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TIA-V_MASTER/TiaPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": PackedStringArray("spiritbomb_skel/TIA-V_SpiritBomb"),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cofnk"]
+_data = {
+"main": SubResource("Animation_th4dv")
+}
+
+[node name="spiritbomb_scene" instance=ExtResource("1_1c87c")]
+script = ExtResource("2_mooep")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="0"]
+environment = SubResource("Environment_f8mwi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
+transform = Transform3D(0.113203, -0.692684, 0.712302, 0, 0.716911, 0.697165, -0.993572, -0.0789214, 0.0811566, 0, 0, 0)
+light_color = Color(0.552956, 0.552956, 0.552956, 1)
+light_energy = 0.5
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="Sphere" parent="." index="2"]
+transform = Transform3D(4.58268, 0, 0, 0, 4.58268, 0, 0, 0, 4.58268, -2.98023e-08, 4.7318, 7.45567)
+
+[node name="Dolly_Camera" parent="." index="3"]
+transform = Transform3D(0.999986, -0.0016998, -0.00501252, 1.16415e-10, 0.947029, -0.321148, 0.00529288, 0.321143, 0.947016, -0.0303797, -1.07038, 14.2566)
+
+[node name="MainSequence" type="AnimationPlayer" parent="." index="5"]
+libraries = {
+"": SubResource("AnimationLibrary_cofnk")
+}
+
+[node name="TIA-V_MASTER" parent="." index="6" instance=ExtResource("3_503pv")]
+
+[node name="TiaPlayer" type="AnimationPlayer" parent="TIA-V_MASTER" index="3"]
+libraries = {
+"spiritbomb_skel": ExtResource("4_hv0ut")
+}
