@@ -1,10 +1,62 @@
-[gd_scene load_steps=6 format=3 uid="uid://bp86rnvlsxn8o"]
+[gd_scene load_steps=12 format=3 uid="uid://bp86rnvlsxn8o"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_udi82"]
 [ext_resource type="PackedScene" uid="uid://dve8jb5bcsflx" path="res://scenes/preview_pane.tscn" id="2_hovcg"]
 [ext_resource type="Script" path="res://scripts/tile_layer.gd" id="4_nl3g8"]
 [ext_resource type="Script" path="res://scripts/poly_bg.gd" id="4_s57gr"]
 [ext_resource type="Script" path="res://scripts/connector.gd" id="6_cm71g"]
+[ext_resource type="Texture2D" uid="uid://bfnmnr0nwuf34" path="res://assets/images/pieces.png" id="6_su44c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlrbu"]
+atlas = ExtResource("6_su44c")
+region = Rect2(480, 320, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_scili"]
+atlas = ExtResource("6_su44c")
+region = Rect2(320, 480, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7pe8"]
+atlas = ExtResource("6_su44c")
+region = Rect2(0, 480, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7m57"]
+atlas = ExtResource("6_su44c")
+region = Rect2(160, 480, 160, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t1kw8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vlrbu")
+}],
+"loop": true,
+"name": &"blue",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_scili")
+}],
+"loop": true,
+"name": &"green",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c7pe8")
+}],
+"loop": true,
+"name": &"red",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7m57")
+}],
+"loop": true,
+"name": &"yellow",
+"speed": 5.0
+}]
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_udi82")
@@ -54,3 +106,11 @@ default_color = Color(0.976471, 0.513726, 0.411765, 1)
 [node name="base" type="Polygon2D" parent="CableConnector"]
 color = Color(0.356863, 0.360784, 0.356863, 1)
 polygon = PackedVector2Array(-40, 0, -48, -56, 40, -64, 40, 0)
+
+[node name="GhostPiece" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t1kw8")
+animation = &"red"
+
+[node name="GhostPiece2" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t1kw8")
+animation = &"yellow"

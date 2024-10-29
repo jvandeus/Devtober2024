@@ -9,6 +9,7 @@ extends Node2D
 @onready var win_text = $WinText
 @onready var lose_text = $LoseText
 @onready var signal_audio: Node = $SignalAudio
+@onready var bg_music = $BGMusic
 @onready var tia_v: Node3D = $"3D_Stuff/SubViewport/TIA-V_MASTER"
 #@onready var transition_player: AnimationPlayer = $TransitionCanvas/Transition_Player
 
@@ -21,6 +22,7 @@ func _ready() -> void:
 	#board.on_combo_finished.connect(_on_combo_finished)
 	health_bar.on_empty.connect(win)
 	opponent_attack_charge_loop()
+	bg_music.play()
 	
 func win() -> void:
 	opponent_portrait.lose()
@@ -29,7 +31,31 @@ func win() -> void:
 	attack_meter.stop_shaking()
 	win_text.visible = true
 	SceneTransition.change_scene()
-	
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		pause()
+
+func pause() -> void:
+	get_tree().paused = true
+	$PauseMenu.visible = true
+	$PauseMenu.initialize()
+
+func unpause() -> void:
+	get_tree().paused = false
+	$PauseMenu.visible = false
+	$Board.release_all_inputs()
+
+func _on_pause_menu_unpause() -> void:
+	unpause()
+
+func _on_pause_menu_restart() -> void:
+	unpause()
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
+
+func _on_pause_menu_quit() -> void:
+	unpause()
+	get_tree().change_scene_to_file("res://scenes/title.tscn")
 
 func _on_lose() -> void:
 	opponent_portrait.win()
@@ -40,7 +66,7 @@ func _on_lose() -> void:
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():
 		await attack_meter.increment(1)
-	attack_charge_timer = get_tree().create_timer(1)
+	attack_charge_timer = get_tree().create_timer(1, false)
 	attack_charge_timer.timeout.connect(opponent_attack_charge_loop)
 		
 func opponent_attack() -> void:

@@ -24,10 +24,6 @@ class DoublePiece:
 				return origin + Vector2i(1, 0)
 		assert(false)
 		return Vector2i(0, 0)
-	func get_primary_pos(cell_size: int) -> Vector2:
-		return Vector2(get_primary_coords() * cell_size) + Vector2(cell_size / 2, cell_size / 2)
-	func get_secondary_pos(cell_size: int) -> Vector2:
-		return Vector2(get_secondary_coords() * cell_size) + Vector2(cell_size / 2, cell_size / 2)
 	func get_orientation() -> Orientation:
 		return ORIENTATION_ORDER[orientation_index]
 	func rotate_ccw():
@@ -107,6 +103,11 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		start()
 
+func release_all_inputs() -> void:
+	release_down()
+	release_left()
+	release_right()
+
 func _input(event: InputEvent) -> void:
 	if is_stopped:
 		return
@@ -152,37 +153,40 @@ func hold_down(started: bool = false) -> void:
 		if dp: on_player_move.emit(move_down(), true)
 	else:
 		if dp: move_down()
-	down_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
+	down_repeat_timer = get_tree().create_timer(REPEAT_PERIOD, false)
 	down_repeat_timer.timeout.connect(hold_down.bind(true))
 
 func release_down() -> void:
-	down_repeat_timer.timeout.disconnect(hold_down)
+	if down_repeat_timer and down_repeat_timer.timeout.is_connected(hold_down):
+		down_repeat_timer.timeout.disconnect(hold_down)
 
 func hold_left() -> void:
 	if dp: on_player_move.emit(move_left())
-	left_repeat_timer = get_tree().create_timer(REPEAT_DELAY)
+	left_repeat_timer = get_tree().create_timer(REPEAT_DELAY, false)
 	left_repeat_timer.timeout.connect(continue_holding_left)
 
 func continue_holding_left() -> void:
 	if dp: move_left()
-	left_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
+	left_repeat_timer = get_tree().create_timer(REPEAT_PERIOD, false)
 	left_repeat_timer.timeout.connect(continue_holding_left)
 
 func release_left() -> void:
-	left_repeat_timer.timeout.disconnect(continue_holding_left)
+	if left_repeat_timer and left_repeat_timer.timeout.is_connected(continue_holding_left):
+		left_repeat_timer.timeout.disconnect(continue_holding_left)
 	
 func hold_right() -> void:
 	if dp: on_player_move.emit(move_right())
-	right_repeat_timer = get_tree().create_timer(REPEAT_DELAY)
+	right_repeat_timer = get_tree().create_timer(REPEAT_DELAY, false)
 	right_repeat_timer.timeout.connect(continue_holding_right)
 
 func continue_holding_right() -> void:
 	if dp: move_right()
-	right_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
+	right_repeat_timer = get_tree().create_timer(REPEAT_PERIOD, false)
 	right_repeat_timer.timeout.connect(continue_holding_right)
 
 func release_right() -> void:
-	right_repeat_timer.timeout.disconnect(continue_holding_right)
+	if right_repeat_timer and right_repeat_timer.timeout.is_connected(continue_holding_right):
+		right_repeat_timer.timeout.disconnect(continue_holding_right)
 
 func move_left() -> bool:
 	var primary_left = dp.get_primary_coords() + Vector2i(-1, 0)
@@ -198,6 +202,7 @@ func move_left() -> bool:
 			if is_occupied(primary_left):
 				return false
 	dp.move_left()
+	update_ghost_piece()
 	return true
 	
 func move_right() -> bool:
@@ -214,6 +219,7 @@ func move_right() -> bool:
 			if is_occupied(secondary_right):
 				return false
 	dp.move_right()
+	update_ghost_piece()
 	return true
 
 func move_down() -> bool:
@@ -254,6 +260,7 @@ func rotate_cw():
 				move_right()
 	on_player_rotate.emit()
 	dp.rotate_cw()
+	update_ghost_piece()
 
 func rotate_ccw():
 	var primary_right = dp.get_primary_coords() + Vector2i(1, 0)
@@ -273,14 +280,42 @@ func rotate_ccw():
 				move_left()
 	on_player_rotate.emit()
 	dp.rotate_ccw()
+	update_ghost_piece()
 
+func hide_ghost_piece() -> void:
+	$GhostPiece.visible = false
+	$GhostPiece2.visible = false
 
-func _draw() -> void:
-	if dp:
-		var primary = dp.get_primary_pos(cell_size)
-		var secondary = dp.get_secondary_pos(cell_size)
-		draw_circle(primary, cell_size / 2 - 16, LINE_COLOR, false, 4.0, true)
-		draw_circle(secondary, cell_size / 2 - 24, LINE_COLOR, false, 4.0, true)
+func show_ghost_piece() -> void:
+	$GhostPiece.visible = true
+	$GhostPiece2.visible = true
+
+func update_ghost_piece() -> void:
+	show_ghost_piece()
+	# dp coords are inverted (origin at top left, +y pointing down)
+	# returned ghost piece coords will also be inverted
+	var coords1 = dp.get_primary_coords()
+	var coords2 = dp.get_secondary_coords()
+	var ghost1 = Vector2i(coords1.x, board_height - len(columns[coords1.x]) - 1)
+	var ghost2 = Vector2i(coords2.x, board_height - len(columns[coords2.x]) - 1)
+	if coords1.x == coords2.x: # if DP is vertical
+		if coords1.y < coords2.y: # primary is higher than secondary
+			ghost1.y -= 1
+		else: # secondary is higher than primary
+			ghost2.y -= 1
+	# TODO make GhostPiece its own scene maybe
+	match primary.kind:
+		Piece.Kind.GREEN: $GhostPiece.play("green")
+		Piece.Kind.RED: $GhostPiece.play("red")
+		Piece.Kind.BLUE: $GhostPiece.play("blue")
+		Piece.Kind.YELLOW: $GhostPiece.play("yellow")
+	match secondary.kind:
+		Piece.Kind.GREEN: $GhostPiece2.play("green")
+		Piece.Kind.RED: $GhostPiece2.play("red")
+		Piece.Kind.BLUE: $GhostPiece2.play("blue")
+		Piece.Kind.YELLOW: $GhostPiece2.play("yellow")
+	$GhostPiece.position = inv_coords2pos(ghost1)
+	$GhostPiece2.position = inv_coords2pos(ghost2)
 
 func reindex_columns() -> void:
 	for column in columns:
@@ -314,6 +349,7 @@ func create_new_double_piece(p1: Piece, p2: Piece) -> void:
 	add_child(primary)
 	add_child(secondary)
 	update_primary_and_secondary()
+	update_ghost_piece()
 	
 func bind_piece(p):
 	#p.start_animation_fall.connect(self.on_piece_fall_start.bind(p))
@@ -330,20 +366,21 @@ func cancel_fall_timer() -> void:
 func reset_fall_timer() -> void:
 	if fall_timer and fall_timer.timeout.is_connected(move_down):
 		fall_timer.timeout.disconnect(move_down)
-	fall_timer = get_tree().create_timer(TIME_TO_FALL_ONE_CELL)
+	fall_timer = get_tree().create_timer(TIME_TO_FALL_ONE_CELL, false)
 	fall_timer.timeout.connect(move_down)
 
 func update_primary_and_secondary() -> void:
 	if not dp:
 		return
 	if primary:
-		primary.transform.origin = dp.get_primary_pos(cell_size)
+		primary.transform.origin = inv_coords2pos(dp.get_primary_coords())
 	if secondary:
-		secondary.transform.origin = dp.get_secondary_pos(cell_size)
+		secondary.transform.origin = inv_coords2pos(dp.get_secondary_coords())
 	
 func place() -> void:
 	on_placed.emit()
 	dp = null
+	hide_ghost_piece()
 	simulate()
 
 func simulate() -> void:
@@ -369,6 +406,8 @@ func simulate() -> void:
 
 func start():
 	var pieces = await preview_pane.pop()
+	pieces[0].cell_size = cell_size
+	pieces[1].cell_size = cell_size
 	create_new_double_piece(pieces[0], pieces[1])
 	reset_fall_timer()
 
@@ -383,10 +422,10 @@ func settle() -> void:
 	var tweens = []
 	for column in columns:
 		for i in len(column):
-			var new_y = cell_size / 2 + cell_size * (board_height - 1 - i)
-			if column[i].transform.origin.y == new_y:
+			var new_pos = coords2pos(Vector2i(0, i))
+			if column[i].transform.origin.y == new_pos.y:
 				continue
-			tweens.append(column[i].fall_to(new_y))
+			tweens.append(column[i].fall_to(new_pos.y))
 	for tween in tweens:
 		self.on_piece_fall_start(null)
 		if not tween.is_running():
@@ -394,42 +433,103 @@ func settle() -> void:
 		await tween.finished
 		self.on_piece_fall_end(null)
 
+func assert_in_bounds(coords: Vector2i) -> void:
+	assert(coords.x >= 0)
+	assert(coords.x < len(columns))
+	assert(coords.y >= 0)
+	assert(coords.y < len(columns[coords.x]))
+
+# get coords adjacent to the given coords
+# assumes there is a piece at coords
+# used for finding pieces to clear
+func get_adj(coords: Vector2i) -> Array:
+	assert_in_bounds(coords)
+	var x = coords.x
+	var y = coords.y
+	var result = []
+	# left
+	if x > 0 and y < len(columns[x - 1]):
+		result.append(Vector2i(x - 1, y))
+	# right
+	if x < len(columns) - 1 and y < len(columns[x + 1]):
+		result.append(Vector2i(x + 1, y))
+	# down
+	if y < len(columns[x]) - 1:
+		result.append(Vector2i(x, y + 1))
+	# up
+	if y > 0:
+		result.append(Vector2i(x, y - 1))
+	return result
+
+# gives the kind of the piece at the coords
+# assumes there is a piece at coords
+# used for finding pieces to clear
+func kind_at(coords: Vector2i) -> Piece.Kind:
+	assert_in_bounds(coords)
+	var piece = columns[coords.x][coords.y]
+	assert(piece)
+	return piece.kind
+	
+	
+# gives the piece at the coords
+# assumes there is a piece at coords
+# used for finding pieces to clear
+func piece_at(coords: Vector2i) -> Piece:
+	assert_in_bounds(coords)
+	var piece = columns[coords.x][coords.y]
+	assert(piece)
+	return piece
+
+# recursive depth-first search to find the contiguous cluster of same-kind
+# pieces touching the one at given coords
+func get_cluster(coords: Vector2i, visited := {}) -> Array:
+	assert_in_bounds(coords)
+	visited[coords] = true
+	var result = [coords]
+	for adj in get_adj(coords):
+		if kind_at(coords) == kind_at(adj) and !visited.has(adj):
+			result.append_array(get_cluster(adj, visited))
+	return result
+
+func all_coords() -> Array:
+	var result = []
+	for x in len(columns):
+		for y in len(columns[x]):
+			result.append(Vector2i(x, y))
+	return result
+
 func clear() -> int:
-	var pieces_to_clear = []
+	var pieces_to_clear = [] # coords of pieces to clear
 	var visited = {}
-	for piece in get_children():
-		if piece is not Piece:
+	for coords in all_coords():
+		if kind_at(coords) == Piece.Kind.GARBAGE:
 			continue
-		if piece.is_queued_for_deletion():
+		if visited.has(coords):
 			continue
-		if piece.kind == Piece.Kind.GARBAGE:
-			continue
-		if visited.has(hash(piece)):
-			continue
-		var cluster = piece.get_cluster(visited)
+		var cluster = get_cluster(coords, visited)
 		if len(cluster) >= 4:
 			pieces_to_clear.append_array(cluster)
 	
 	# find garbage adjacent to any clearing pieces
 	var garbage_to_clear = []
 	var visited_garbage = {}
-	for piece in pieces_to_clear:
-		for adj in piece.get_adj_pieces():
-			if visited_garbage.has(hash(adj)):
+	for coords in pieces_to_clear:
+		for adj in get_adj(coords):
+			if visited_garbage.has(adj):
 				continue
-			if adj.kind == Piece.Kind.GARBAGE:
+			if kind_at(adj) == Piece.Kind.GARBAGE:
 				garbage_to_clear.append(adj)
-				visited_garbage[hash(adj)] = true
+				visited_garbage[adj] = true
 	pieces_to_clear.append_array(garbage_to_clear)
 	
 	if len(pieces_to_clear) == 0:
 		return 0
 	
-	for piece in pieces_to_clear:
-		piece.play_clear_animation()
-	await get_tree().create_timer(CLEAR_DURATION).timeout
-	for piece in pieces_to_clear:
-		piece.queue_free()
+	for coords in pieces_to_clear:
+		piece_at(coords).play_clear_animation()
+	await get_tree().create_timer(CLEAR_DURATION, false).timeout
+	for coords in pieces_to_clear:
+		piece_at(coords).queue_free()
 	
 	return len(pieces_to_clear)
 
@@ -459,9 +559,25 @@ func attack2() -> void:
 			p.kind = Piece.Kind.GARBAGE
 			p.queue_redraw()
 			p.cell_size = cell_size
-			p.transform.origin = Vector2(cell_size / 2 + col * cell_size, cell_size / 2 - (1 + row) * cell_size)
+			p.transform.origin = coords2pos(Vector2i(col, board_height + row))
 			add_child(p)
 	await simulate()
+
+# (0, 0) -> bottom left
+# +y pointing up
+func coords2pos(coords: Vector2i) -> Vector2:
+	return Vector2(
+		cell_size / 2 + coords.x * cell_size,
+		cell_size / 2 + (board_height - 1 - coords.y) * cell_size
+	)
+	
+# (0, 0) -> top left
+# +y pointing down
+func inv_coords2pos(coords: Vector2i) -> Vector2:
+	return Vector2(
+		cell_size / 2 + coords.x * cell_size,
+		cell_size / 2 + coords.y * cell_size
+	)
 
 func on_piece_fall_start(p: Piece) -> void:
 	on_fall_start.emit(p)
@@ -471,8 +587,5 @@ func on_piece_fall_end(p: Piece) -> void:
 	on_fall_end.emit(p)
 	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	queue_redraw()
 	update_primary_and_secondary()

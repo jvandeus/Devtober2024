@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://72otjl2w5yiq"]
+[gd_scene load_steps=9 format=3 uid="uid://72otjl2w5yiq"]
 
 [ext_resource type="PackedScene" uid="uid://cf14717h4pio8" path="res://assets/cutscenes/victories/victory_cheery/TIA-V_VictoryCheery_cam.glb" id="1_byumk"]
 [ext_resource type="Script" path="res://assets/cutscenes/victories/victory_cheery/cine_victory_cheery.gd" id="2_rgndm"]
@@ -18,6 +18,8 @@ background_mode = 2
 sky = SubResource("Sky_6sln3")
 tonemap_mode = 2
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_ln2to"]
+
 [node name="TIA-V_VictoryCheery_cam" instance=ExtResource("1_byumk")]
 script = ExtResource("2_rgndm")
 
@@ -25,12 +27,12 @@ script = ExtResource("2_rgndm")
 environment = SubResource("Environment_wfg43")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
-transform = Transform3D(-0.866023, -0.204963, 0.456063, 0, 0.91212, 0.409923, -0.500003, 0.355003, -0.789917, 0, 0, 0)
+transform = Transform3D(0.529228, -0.515656, 0.673807, 0.122779, 0.832319, 0.540528, -0.839549, -0.203333, 0.503799, 2.40229, 2.85029, -0.0048213)
 shadow_enabled = true
 directional_shadow_max_distance = 1.0
 
 [node name="Dolly_Camera" parent="." index="2"]
-transform = Transform3D(0.982538, 1.70781e-06, -0.186061, -6.28415e-09, 1, 9.14558e-06, 0.186061, -8.98471e-06, 0.982538, -0.836949, 1.25803, 3.96834)
+transform = Transform3D(1, 0, 0, 0, 1, -1.68587e-07, 0, 1.68587e-07, 1, -0.369094, 1.27058, 4.02151)
 
 [node name="TIA-V_MASTER2" parent="." index="4" instance=ExtResource("3_0gw6v")]
 
@@ -38,3 +40,9 @@ transform = Transform3D(0.982538, 1.70781e-06, -0.186061, -6.28415e-09, 1, 9.145
 libraries = {
 "TIA-V_VictoryCheery_skel": ExtResource("4_67jwd")
 }
+
+[node name="Environment" type="Node3D" parent="." index="5"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment" index="0"]
+transform = Transform3D(10.0671, 0, 0, 0, 10.0671, 0, 0, 0, 10.0671, 0, 0, 0)
+mesh = SubResource("PlaneMesh_ln2to")
