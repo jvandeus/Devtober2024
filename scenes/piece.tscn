@@ -240,6 +240,7 @@ animations = [{
 script = ExtResource("1_jcdrj")
 
 [node name="Shadow" type="AnimatedSprite2D" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.12549)
 position = Vector2(16, 0)
 sprite_frames = SubResource("SpriteFrames_gbdnc")
