@@ -103,6 +103,11 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		start()
 
+func release_all_inputs() -> void:
+	release_down()
+	release_left()
+	release_right()
+
 func _input(event: InputEvent) -> void:
 	if is_stopped:
 		return
@@ -148,37 +153,40 @@ func hold_down(started: bool = false) -> void:
 		if dp: on_player_move.emit(move_down(), true)
 	else:
 		if dp: move_down()
-	down_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
+	down_repeat_timer = get_tree().create_timer(REPEAT_PERIOD, false)
 	down_repeat_timer.timeout.connect(hold_down.bind(true))
 
 func release_down() -> void:
-	down_repeat_timer.timeout.disconnect(hold_down)
+	if down_repeat_timer and down_repeat_timer.timeout.is_connected(hold_down):
+		down_repeat_timer.timeout.disconnect(hold_down)
 
 func hold_left() -> void:
 	if dp: on_player_move.emit(move_left())
-	left_repeat_timer = get_tree().create_timer(REPEAT_DELAY)
+	left_repeat_timer = get_tree().create_timer(REPEAT_DELAY, false)
 	left_repeat_timer.timeout.connect(continue_holding_left)
 
 func continue_holding_left() -> void:
 	if dp: move_left()
-	left_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
+	left_repeat_timer = get_tree().create_timer(REPEAT_PERIOD, false)
 	left_repeat_timer.timeout.connect(continue_holding_left)
 
 func release_left() -> void:
-	left_repeat_timer.timeout.disconnect(continue_holding_left)
+	if left_repeat_timer and left_repeat_timer.timeout.is_connected(continue_holding_left):
+		left_repeat_timer.timeout.disconnect(continue_holding_left)
 	
 func hold_right() -> void:
 	if dp: on_player_move.emit(move_right())
-	right_repeat_timer = get_tree().create_timer(REPEAT_DELAY)
+	right_repeat_timer = get_tree().create_timer(REPEAT_DELAY, false)
 	right_repeat_timer.timeout.connect(continue_holding_right)
 
 func continue_holding_right() -> void:
 	if dp: move_right()
-	right_repeat_timer = get_tree().create_timer(REPEAT_PERIOD)
+	right_repeat_timer = get_tree().create_timer(REPEAT_PERIOD, false)
 	right_repeat_timer.timeout.connect(continue_holding_right)
 
 func release_right() -> void:
-	right_repeat_timer.timeout.disconnect(continue_holding_right)
+	if right_repeat_timer and right_repeat_timer.timeout.is_connected(continue_holding_right):
+		right_repeat_timer.timeout.disconnect(continue_holding_right)
 
 func move_left() -> bool:
 	var primary_left = dp.get_primary_coords() + Vector2i(-1, 0)
@@ -358,7 +366,7 @@ func cancel_fall_timer() -> void:
 func reset_fall_timer() -> void:
 	if fall_timer and fall_timer.timeout.is_connected(move_down):
 		fall_timer.timeout.disconnect(move_down)
-	fall_timer = get_tree().create_timer(TIME_TO_FALL_ONE_CELL)
+	fall_timer = get_tree().create_timer(TIME_TO_FALL_ONE_CELL, false)
 	fall_timer.timeout.connect(move_down)
 
 func update_primary_and_secondary() -> void:
@@ -519,7 +527,7 @@ func clear() -> int:
 	
 	for coords in pieces_to_clear:
 		piece_at(coords).play_clear_animation()
-	await get_tree().create_timer(CLEAR_DURATION).timeout
+	await get_tree().create_timer(CLEAR_DURATION, false).timeout
 	for coords in pieces_to_clear:
 		piece_at(coords).queue_free()
 	

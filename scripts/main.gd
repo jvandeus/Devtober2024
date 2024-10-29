@@ -31,7 +31,31 @@ func win() -> void:
 	attack_meter.stop_shaking()
 	win_text.visible = true
 	SceneTransition.change_scene()
-	
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		pause()
+
+func pause() -> void:
+	get_tree().paused = true
+	$PauseMenu.visible = true
+	$PauseMenu.initialize()
+
+func unpause() -> void:
+	get_tree().paused = false
+	$PauseMenu.visible = false
+	$Board.release_all_inputs()
+
+func _on_pause_menu_unpause() -> void:
+	unpause()
+
+func _on_pause_menu_restart() -> void:
+	unpause()
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
+
+func _on_pause_menu_quit() -> void:
+	unpause()
+	get_tree().change_scene_to_file("res://scenes/title.tscn")
 
 func _on_lose() -> void:
 	opponent_portrait.win()
@@ -42,7 +66,7 @@ func _on_lose() -> void:
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():
 		await attack_meter.increment(1)
-	attack_charge_timer = get_tree().create_timer(1)
+	attack_charge_timer = get_tree().create_timer(1, false)
 	attack_charge_timer.timeout.connect(opponent_attack_charge_loop)
 		
 func opponent_attack() -> void:
