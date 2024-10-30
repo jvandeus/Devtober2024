@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://5dncenqp6mo0"]
+
+[ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="1_l2m5s"]
+[ext_resource type="Script" path="res://scripts/tia_portrait.gd" id="1_nk0y4"]
+
+[node name="TiaPortrait" type="Node3D"]
+script = ExtResource("1_nk0y4")
+
+[node name="TIA-V_MASTER" parent="." instance=ExtResource("1_l2m5s")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.46387, 1.40652)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
