@@ -128,7 +128,7 @@ func strong_attack_cutscene():
 func _on_settled():
 	var queue = []
 	if bomb and bomb.can_send():
-		if bomb.get_damage() >= 50:
+		if bomb.get_damage() >= 60:
 			# easter egg cutscene
 			await strong_attack_cutscene()
 		await player_attack()
