@@ -15,6 +15,7 @@ extends Node2D
 #@onready var tia_v: Node3D = $"SubViewport/CharPortrait3D/TIA-V_MASTER"
 @onready var scene_Victory = preload("res://assets/cutscenes/victories/CINE_victory_cheery.tscn")
 @onready var scene_Portrait = preload("res://assets/cutscenes/tia_portrait.tscn")
+@onready var scene_OHKO = preload("res://assets/cutscenes/spirit_bomb/spiritbomb_scene.tscn")
 
 var portrait: TiaPortrait
 var bomb: Bomb
@@ -40,6 +41,11 @@ func fade_from_black(duration: float) -> void:
 func play_victory_cutscene() -> void:
 	$SubViewport.remove_child(portrait)
 	$SubViewport.add_child(scene_Victory.instantiate())
+	$CanvasLayer/CutscenePlayer.visible = true
+	
+func play_ohko_cutscene() -> void:
+	$SubViewport.remove_child(portrait)
+	$SubViewport.add_child(scene_OHKO.instantiate())
 	$CanvasLayer/CutscenePlayer.visible = true
 
 func stop_cutscene() -> void:
@@ -109,19 +115,22 @@ func _on_pieces_cleared(num_pieces: int, combo: int):
 		add_child(bomb)
 		bomb.transform.origin = bomb_socket.transform.origin
 	bomb.add_points(num_pieces * combo)
-	
-	if points == 5:
-		await fade_to_black(0.5)
-		fade_from_black(0.5)
-		play_victory_cutscene()
-		await get_tree().create_timer(2).timeout
-		await fade_to_black(0.5)
-		fade_from_black(0.5)
-		stop_cutscene()
-	
+
+func strong_attack_cutscene():
+	await fade_to_black(0.5)
+	fade_from_black(0.5)
+	play_ohko_cutscene()
+	await get_tree().create_timer(8).timeout
+	await fade_to_black(0.5)
+	fade_from_black(0.5)
+	stop_cutscene()
+
 func _on_settled():
 	var queue = []
 	if bomb and bomb.can_send():
+		if bomb.get_damage() >= 50:
+			# easter egg cutscene
+			await strong_attack_cutscene()
 		await player_attack()
 	if board.is_stopped:
 		return

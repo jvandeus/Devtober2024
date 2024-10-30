@@ -179,7 +179,7 @@ position = Vector2(384, 360)
 
 [node name="HealthBar" parent="." instance=ExtResource("26_sbdry")]
 position = Vector2(1256, 574)
-initial_value = 10
+initial_value = 100
 
 [node name="AttackMeter" parent="." instance=ExtResource("27_frg8t")]
 position = Vector2(1278, 757)
