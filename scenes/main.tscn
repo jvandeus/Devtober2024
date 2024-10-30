@@ -232,22 +232,6 @@ visible = false
 texture = ExtResource("31_37sp6")
 centered = false
 
-[node name="PauseMenu" parent="." instance=ExtResource("32_ptto6")]
-visible = false
-offset_left = 864.0
-offset_top = 480.0
-offset_right = 864.0
-offset_bottom = 480.0
-
-[node name="BGMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("32_uyumv")
-
-[node name="GameOverMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("34_nx430")
-
-[node name="VictoryMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("35_n3ibs")
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="CutscenePlayer" type="TextureRect" parent="CanvasLayer"]
@@ -268,6 +252,22 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0)
 
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("32_ptto6")]
+visible = false
+offset_left = 864.0
+offset_top = 480.0
+offset_right = 864.0
+offset_bottom = 480.0
+
+[node name="BGMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("32_uyumv")
+
+[node name="GameOverMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("34_nx430")
+
+[node name="VictoryMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("35_n3ibs")
+
 [connection signal="on_fall_end" from="Board" to="SignalAudio" method="_on_fall_end"]
 [connection signal="on_fall_start" from="Board" to="SignalAudio" method="_on_fall_start"]
 [connection signal="on_lose" from="Board" to="." method="_on_lose"]
@@ -279,6 +279,6 @@ color = Color(0, 0, 0, 0)
 [connection signal="on_player_rotate" from="Board" to="SignalAudio" method="_on_player_rotate"]
 [connection signal="on_settled" from="Board" to="." method="_on_settled"]
 [connection signal="on_empty" from="HealthBar" to="." method="_on_health_bar_on_empty"]
-[connection signal="quit" from="PauseMenu" to="." method="_on_pause_menu_quit"]
-[connection signal="restart" from="PauseMenu" to="." method="_on_pause_menu_restart"]
-[connection signal="unpause" from="PauseMenu" to="." method="_on_pause_menu_unpause"]
+[connection signal="quit" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_quit"]
+[connection signal="restart" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_restart"]
+[connection signal="unpause" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_unpause"]

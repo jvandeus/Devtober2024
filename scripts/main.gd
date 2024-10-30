@@ -59,12 +59,12 @@ func _input(event: InputEvent) -> void:
 
 func pause() -> void:
 	get_tree().paused = true
-	$PauseMenu.visible = true
-	$PauseMenu.initialize()
+	$CanvasLayer/PauseMenu.visible = true
+	$CanvasLayer/PauseMenu.initialize()
 
 func unpause() -> void:
 	get_tree().paused = false
-	$PauseMenu.visible = false
+	$CanvasLayer/PauseMenu.visible = false
 	$Board.release_all_inputs()
 
 func _on_pause_menu_unpause() -> void:
@@ -120,7 +120,7 @@ func strong_attack_cutscene():
 	await fade_to_black(0.5)
 	fade_from_black(0.5)
 	play_ohko_cutscene()
-	await get_tree().create_timer(8).timeout
+	await get_tree().create_timer(8, false).timeout
 	await fade_to_black(0.5)
 	fade_from_black(0.5)
 	stop_cutscene()
