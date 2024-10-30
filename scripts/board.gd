@@ -249,7 +249,8 @@ func rotate_cw():
 	match dp.get_orientation():
 		DoublePiece.Orientation.UP:
 			if is_occupied(primary_right):
-				move_left()
+				if !move_left():
+					dp.rotate_cw() # rotate again to avoid out of bounds
 		DoublePiece.Orientation.LEFT:
 			pass # no adjustment needed
 		DoublePiece.Orientation.RIGHT:
@@ -257,7 +258,8 @@ func rotate_cw():
 				dp.move_up()
 		DoublePiece.Orientation.DOWN:
 			if is_occupied(primary_left):
-				move_right()
+				if !move_right():
+					dp.rotate_cw() # rotate again to avoid out of bounds
 	on_player_rotate.emit()
 	dp.rotate_cw()
 	update_ghost_piece()
@@ -269,7 +271,8 @@ func rotate_ccw():
 	match dp.get_orientation():
 		DoublePiece.Orientation.UP:
 			if is_occupied(primary_left):
-				move_right()
+				if !move_right():
+					dp.rotate_ccw() # rotate again to avoid out of bounds
 		DoublePiece.Orientation.LEFT:
 			if is_occupied(primary_down):
 				dp.move_up()
@@ -277,7 +280,8 @@ func rotate_ccw():
 			pass # no adjustment needed
 		DoublePiece.Orientation.DOWN:
 			if is_occupied(primary_right):
-				move_left()
+				if !move_left():
+					dp.rotate_ccw() # rotate again to avoid out of bounds
 	on_player_rotate.emit()
 	dp.rotate_ccw()
 	update_ghost_piece()

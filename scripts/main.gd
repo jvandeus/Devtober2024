@@ -39,6 +39,8 @@ func fade_from_black(duration: float) -> void:
 	await tween.finished
 
 func play_victory_cutscene() -> void:
+	bg_music.stop()
+	victory_music.play()
 	$SubViewport.remove_child(portrait)
 	$SubViewport.add_child(scene_Victory.instantiate())
 	$CanvasLayer/CutscenePlayer.visible = true

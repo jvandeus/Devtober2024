@@ -15,11 +15,13 @@ script = ExtResource("1_c7avf")
 [node name="TitleText" type="Label" parent="."]
 layout_mode = 0
 offset_left = 394.0
-offset_top = 168.0
+offset_top = 120.0
 offset_right = 1498.0
-offset_bottom = 396.0
-text = "Telly Jelly"
+offset_bottom = 559.0
+text = "Airwave Riders"
 label_settings = SubResource("LabelSettings_5xnfr")
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
