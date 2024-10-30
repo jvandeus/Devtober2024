@@ -1,11 +1,10 @@
-[gd_scene load_steps=42 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=40 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
 [ext_resource type="Script" path="res://scripts/score.gd" id="2_qhh88"]
 [ext_resource type="PackedScene" uid="uid://b3p18c2i1ifow" path="res://scenes/flip_board.tscn" id="4_g1vkf"]
 [ext_resource type="PackedScene" uid="uid://bp86rnvlsxn8o" path="res://scenes/board.tscn" id="8_hikeo"]
-[ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="9_qcb26"]
 [ext_resource type="PackedScene" uid="uid://dhfyav0my2m5m" path="res://scenes/opponent_portrait.tscn" id="11_mnnac"]
 [ext_resource type="Script" path="res://scenes/signal_audio.gd" id="14_bx4to"]
 [ext_resource type="AudioStream" uid="uid://drlg7i2v2uik" path="res://assets/sound/knock01.wav" id="15_dcrwb"]
@@ -33,6 +32,8 @@
 [ext_resource type="AudioStream" uid="uid://dhxuuljn2uaxx" path="res://assets/sound/impact_technic02.wav" id="32_73bde"]
 [ext_resource type="PackedScene" uid="uid://b11gj4cvvxvxn" path="res://scenes/pause_menu.tscn" id="32_ptto6"]
 [ext_resource type="AudioStream" uid="uid://ps7hvlh2oncw" path="res://assets/music/blockhead_loop.ogg" id="32_uyumv"]
+[ext_resource type="AudioStream" uid="uid://bgb43tji5qb7c" path="res://assets/music/game_over.ogg" id="34_nx430"]
+[ext_resource type="AudioStream" uid="uid://ba68ugcs8oqkc" path="res://assets/music/victory.ogg" id="35_n3ibs"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_62hhw"]
 streams_count = 4
@@ -45,30 +46,12 @@ stream_3/stream = ExtResource("30_qw0te")
 size = Vector2(600, 600)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_b2jd3"]
-viewport_path = NodePath("3D_Stuff/SubViewport")
+viewport_path = NodePath("SubViewport")
 
-[sub_resource type="Gradient" id="Gradient_q861v"]
-colors = PackedColorArray(0, 0, 0, 1, 0.223103, 0.223103, 0.223103, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k40ul"]
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ye4ey"]
-gradient = SubResource("Gradient_q861v")
-width = 4000
-height = 3000
-fill_from = Vector2(0.0042735, 1)
-fill_to = Vector2(0, 0)
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vv5xr"]
-sky_top_color = Color(0.520422, 0.591633, 0.690789, 1)
-sky_horizon_color = Color(0.680106, 0.690158, 0.705947, 1)
-ground_horizon_color = Color(0.680106, 0.690158, 0.705947, 1)
-
-[sub_resource type="Sky" id="Sky_ioljt"]
-sky_material = SubResource("ProceduralSkyMaterial_vv5xr")
-
-[sub_resource type="Environment" id="Environment_ny7oq"]
-background_mode = 2
-sky = SubResource("Sky_ioljt")
-tonemap_mode = 2
+[sub_resource type="ViewportTexture" id="ViewportTexture_6x5p4"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_kstpf")
@@ -231,48 +214,45 @@ clip_children = 1
 scale = Vector2(1.07235, 1.05621)
 polygon = PackedVector2Array(-186.506, -181.783, -247.12, 75.7427, -179.978, 212.08, 216.346, 173.262, 247.12, -65.3281, 149.204, -213.026)
 
-[node name="Char3D" type="Sprite2D" parent="CharLeft/CharMask_left"]
+[node name="CharPortrait2D" type="Sprite2D" parent="CharLeft/CharMask_left"]
 position = Vector2(0, 24)
 texture = SubResource("ViewportTexture_b2jd3")
 
-[node name="3D_Stuff" type="CanvasLayer" parent="."]
-
-[node name="SubViewport" type="SubViewport" parent="3D_Stuff"]
-transparent_bg = true
+[node name="SubViewport" type="SubViewport" parent="."]
 handle_input_locally = false
 msaa_3d = 1
 screen_space_aa = 1
 scaling_3d_mode = 2
 scaling_3d_scale = 1.53
-size = Vector2i(640, 512)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
-
-[node name="Camera3D" type="Camera3D" parent="3D_Stuff/SubViewport"]
-transform = Transform3D(1.35392, -0.0822802, -0.533468, 0, 1.44052, -0.222181, 0.539776, 0.206384, 1.3381, -0.882375, 1.05742, 1.89413)
-fov = 23.4796
-
-[node name="Sprite3D" type="Sprite3D" parent="3D_Stuff/SubViewport/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
-visible = false
-texture = SubResource("GradientTexture2D_ye4ey")
-
-[node name="TIA-V_MASTER" parent="3D_Stuff/SubViewport" instance=ExtResource("9_qcb26")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="3D_Stuff/SubViewport"]
-transform = Transform3D(0.969995, 0.0996622, -0.221758, 0, 0.91212, 0.409923, 0.243124, -0.397623, 0.884752, 1.69313, 1.48518, 0)
-shadow_enabled = true
-directional_shadow_max_distance = 1.0
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="3D_Stuff/SubViewport"]
-environment = SubResource("Environment_ny7oq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("31_37sp6")
 centered = false
 
-[node name="PauseMenu" parent="." instance=ExtResource("32_ptto6")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CutscenePlayer" type="TextureRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_k40ul")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_6x5p4")
+
+[node name="BlackFader" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("32_ptto6")]
 visible = false
 offset_left = 864.0
 offset_top = 480.0
@@ -281,6 +261,12 @@ offset_bottom = 480.0
 
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("32_uyumv")
+
+[node name="GameOverMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("34_nx430")
+
+[node name="VictoryMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("35_n3ibs")
 
 [connection signal="on_fall_end" from="Board" to="SignalAudio" method="_on_fall_end"]
 [connection signal="on_fall_start" from="Board" to="SignalAudio" method="_on_fall_start"]
@@ -292,6 +278,7 @@ stream = ExtResource("32_uyumv")
 [connection signal="on_player_move" from="Board" to="SignalAudio" method="_on_player_move"]
 [connection signal="on_player_rotate" from="Board" to="SignalAudio" method="_on_player_rotate"]
 [connection signal="on_settled" from="Board" to="." method="_on_settled"]
-[connection signal="quit" from="PauseMenu" to="." method="_on_pause_menu_quit"]
-[connection signal="restart" from="PauseMenu" to="." method="_on_pause_menu_restart"]
-[connection signal="unpause" from="PauseMenu" to="." method="_on_pause_menu_unpause"]
+[connection signal="on_empty" from="HealthBar" to="." method="_on_health_bar_on_empty"]
+[connection signal="quit" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_quit"]
+[connection signal="restart" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_restart"]
+[connection signal="unpause" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_unpause"]
