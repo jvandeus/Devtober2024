@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://qenmagh0s323"]
+[gd_scene load_steps=44 format=3 uid="uid://qenmagh0s323"]
 
 [ext_resource type="Texture2D" uid="uid://l584mfh6k7vx" path="res://assets/bg_tile.png" id="1_d7sal"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_kstpf"]
@@ -33,6 +33,8 @@
 [ext_resource type="AudioStream" uid="uid://dhxuuljn2uaxx" path="res://assets/sound/impact_technic02.wav" id="32_73bde"]
 [ext_resource type="PackedScene" uid="uid://b11gj4cvvxvxn" path="res://scenes/pause_menu.tscn" id="32_ptto6"]
 [ext_resource type="AudioStream" uid="uid://ps7hvlh2oncw" path="res://assets/music/blockhead_loop.ogg" id="32_uyumv"]
+[ext_resource type="AudioStream" uid="uid://bgb43tji5qb7c" path="res://assets/music/game_over.ogg" id="34_nx430"]
+[ext_resource type="AudioStream" uid="uid://ba68ugcs8oqkc" path="res://assets/music/victory.ogg" id="35_n3ibs"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_62hhw"]
 streams_count = 4
@@ -45,7 +47,7 @@ stream_3/stream = ExtResource("30_qw0te")
 size = Vector2(600, 600)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_b2jd3"]
-viewport_path = NodePath("3D_Stuff/SubViewport")
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="Gradient" id="Gradient_q861v"]
 colors = PackedColorArray(0, 0, 0, 1, 0.223103, 0.223103, 0.223103, 1)
@@ -235,9 +237,7 @@ polygon = PackedVector2Array(-186.506, -181.783, -247.12, 75.7427, -179.978, 212
 position = Vector2(0, 24)
 texture = SubResource("ViewportTexture_b2jd3")
 
-[node name="3D_Stuff" type="CanvasLayer" parent="."]
-
-[node name="SubViewport" type="SubViewport" parent="3D_Stuff"]
+[node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true
 handle_input_locally = false
 msaa_3d = 1
@@ -247,24 +247,24 @@ scaling_3d_scale = 1.53
 size = Vector2i(640, 512)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="3D_Stuff/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
 transform = Transform3D(1.35392, -0.0822802, -0.533468, 0, 1.44052, -0.222181, 0.539776, 0.206384, 1.3381, -0.882375, 1.05742, 1.89413)
 fov = 23.4796
 
-[node name="Sprite3D" type="Sprite3D" parent="3D_Stuff/SubViewport/Camera3D"]
+[node name="Sprite3D" type="Sprite3D" parent="SubViewport/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -19)
 visible = false
 texture = SubResource("GradientTexture2D_ye4ey")
 
-[node name="TIA-V_MASTER" parent="3D_Stuff/SubViewport" instance=ExtResource("9_qcb26")]
+[node name="TIA-V_MASTER" parent="SubViewport" instance=ExtResource("9_qcb26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0612365, 0, -0.0587646)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="3D_Stuff/SubViewport"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
 transform = Transform3D(0.969995, 0.0996622, -0.221758, 0, 0.91212, 0.409923, 0.243124, -0.397623, 0.884752, 1.69313, 1.48518, 0)
 shadow_enabled = true
 directional_shadow_max_distance = 1.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="3D_Stuff/SubViewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
 environment = SubResource("Environment_ny7oq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -282,6 +282,12 @@ offset_bottom = 480.0
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("32_uyumv")
 
+[node name="GameOverMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("34_nx430")
+
+[node name="VictoryMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("35_n3ibs")
+
 [connection signal="on_fall_end" from="Board" to="SignalAudio" method="_on_fall_end"]
 [connection signal="on_fall_start" from="Board" to="SignalAudio" method="_on_fall_start"]
 [connection signal="on_lose" from="Board" to="." method="_on_lose"]
@@ -292,6 +298,7 @@ stream = ExtResource("32_uyumv")
 [connection signal="on_player_move" from="Board" to="SignalAudio" method="_on_player_move"]
 [connection signal="on_player_rotate" from="Board" to="SignalAudio" method="_on_player_rotate"]
 [connection signal="on_settled" from="Board" to="." method="_on_settled"]
+[connection signal="on_empty" from="HealthBar" to="." method="_on_health_bar_on_empty"]
 [connection signal="quit" from="PauseMenu" to="." method="_on_pause_menu_quit"]
 [connection signal="restart" from="PauseMenu" to="." method="_on_pause_menu_restart"]
 [connection signal="unpause" from="PauseMenu" to="." method="_on_pause_menu_unpause"]
