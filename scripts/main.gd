@@ -24,7 +24,7 @@ var attack_charge_timer: SceneTreeTimer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	opponent_attack_charge_loop()
-	#bg_music.play()
+	bg_music.play()
 	portrait = scene_Portrait.instantiate()
 	$SubViewport.add_child(portrait)
 
