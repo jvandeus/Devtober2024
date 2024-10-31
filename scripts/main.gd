@@ -24,9 +24,15 @@ var bomb: Bomb
 var attack_charge_timer: SceneTreeTimer
 var cutscene_transition_timer: SceneTreeTimer
 
+# duration in seconds between attacks
+var opponent_attack_time := 20
+# number of rows of garbage sent per attack
+var opponent_attack_num_rows := 2
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	opponent_attack_charge_loop()
+	attack_meter.max_value = opponent_attack_time
 	bg_music.play()
 	portrait = scene_Portrait.instantiate()
 	$SubViewport.add_child(portrait)
@@ -88,11 +94,17 @@ func _on_pause_menu_unpause() -> void:
 
 func _on_pause_menu_restart() -> void:
 	unpause()
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	var scene = load("res://scenes/main.tscn").instantiate()
+	scene.opponent_attack_num_rows = opponent_attack_num_rows
+	scene.opponent_attack_time = opponent_attack_time
+	get_tree().get_root().add_child(scene)
+	queue_free()
 
 func _on_pause_menu_quit() -> void:
 	unpause()
-	get_tree().change_scene_to_file("res://scenes/title.tscn")
+	var scene = load("res://scenes/title.tscn").instantiate()
+	get_tree().get_root().add_child(scene)
+	queue_free()
 
 func _on_health_bar_on_empty() -> void:
 	opponent_portrait.lose()
@@ -115,14 +127,14 @@ func _on_lose() -> void:
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():
 		await attack_meter.increment(1)
-	attack_charge_timer = get_tree().create_timer(2.5, false)
+	attack_charge_timer = get_tree().create_timer(1, false)
 	attack_charge_timer.timeout.connect(opponent_attack_charge_loop)
 		
 func opponent_attack() -> void:
 	portrait.play_dmg()
 	opponent_portrait.attack()
 	attack_meter.clear()
-	await board.attack2()
+	await board.attack2(opponent_attack_num_rows)
 	opponent_portrait.idle()
 
 func _on_pieces_cleared(num_pieces: int, combo: int):

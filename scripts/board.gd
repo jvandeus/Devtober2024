@@ -573,9 +573,8 @@ func attack1() -> void:
 	for piece in piece_sample:
 		await piece.set_kind(Piece.Kind.GARBAGE)
 
-func attack2() -> void:
-	const ROWS_OF_GARBAGE = 2
-	for row in ROWS_OF_GARBAGE:
+func attack2(rows_of_garbage: int) -> void:
+	for row in rows_of_garbage:
 		for col in len(columns):
 			var p = scene_Piece.instantiate()
 			p.kind = Piece.Kind.GARBAGE

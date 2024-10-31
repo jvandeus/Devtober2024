@@ -36,6 +36,7 @@ focus_neighbor_bottom = NodePath("../OptionsButton")
 text = "play"
 
 [node name="OptionsButton" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_neighbor_top = NodePath("../PlayButton")
 focus_neighbor_bottom = NodePath("../QuitButton")

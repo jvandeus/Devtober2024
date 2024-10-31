@@ -1,7 +1,9 @@
 extends Control
 
+
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$VBoxContainer/PlayButton.grab_focus()
+	$VBoxContainer/Normal.grab_focus()
 
 enum Difficulty { NORMAL, HARD, REALLY_HARD }
 
@@ -20,13 +22,14 @@ func load_main_scene(difficulty: Difficulty) -> void:
 	get_tree().get_root().add_child(scene)
 	queue_free()
 
-func _on_play_button_pressed() -> void:
-	var scene = load("res://scenes/difficulty_select.tscn").instantiate()
-	get_tree().get_root().add_child(scene)
-	queue_free()
-		
-func _on_options_button_pressed() -> void:
-	pass
-	
-func _on_quit_button_pressed() -> void:
-	get_tree().quit()
+
+func _on_normal_pressed() -> void:
+	load_main_scene(Difficulty.NORMAL)
+
+
+func _on_hard_pressed() -> void:
+	load_main_scene(Difficulty.HARD)
+
+
+func _on_harder_pressed() -> void:
+	load_main_scene(Difficulty.REALLY_HARD)
