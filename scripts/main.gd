@@ -17,12 +17,11 @@ extends Node2D
 @onready var scene_Portrait = preload("res://assets/cutscenes/tia_portrait.tscn")
 @onready var scene_OHKO = preload("res://assets/cutscenes/spirit_bomb/spiritbomb_scene.tscn")
 @onready var scene_defeat = preload("res://assets/cutscenes/defeat/tia_v_death_scene.tscn")
-#@onready var transition_timer: Timer = $TransitionTimer
+@onready var transition_timer: Timer = $TransitionTimer
 
 var portrait: TiaPortrait
 var bomb: Bomb
 var attack_charge_timer: SceneTreeTimer
-var cutscene_transition_timer: SceneTreeTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -51,23 +50,28 @@ func play_cutscene(scene, music=null, stop_bg_music=true):
 		music.play()
 
 func play_victory_cutscene() -> void:
+	transition_timer.start()
+	await transition_timer.timeout
+	await fade_to_black(0.5)
+	fade_from_black(0.5)
 	play_cutscene(scene_Victory, victory_music)
 	
 func play_ohko_cutscene() -> void:
 	play_cutscene(scene_OHKO, null, false)
-	#$SubViewport.remove_child(portrait)
-	#$SubViewport.add_child(scene_OHKO.instantiate())
-	#$CanvasLayer/CutscenePlayer.visible = true
 	
 func play_defeat_cutscene() -> void:
+	transition_timer.start()
+	await transition_timer.timeout
+	await fade_to_black(0.5)
+	fade_from_black(0.5)
 	play_cutscene(scene_defeat, game_over_music)
 
 func stop_cutscene() -> void:
-	bg_music.stop()
+	#bg_music.stop()
 	$SubViewport.remove_child($SubViewport.get_child(0))
 	$SubViewport.add_child(portrait)
 	$CanvasLayer/CutscenePlayer.visible = false
-	game_over_music.play()
+	#game_over_music.play()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -99,8 +103,6 @@ func _on_health_bar_on_empty() -> void:
 	board.stop()
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	attack_meter.stop_shaking()
-	await fade_to_black(0.5)
-	fade_from_black(0.5)
 	play_victory_cutscene()
 
 func _on_lose() -> void:
@@ -134,6 +136,7 @@ func _on_pieces_cleared(num_pieces: int, combo: int):
 	bomb.add_points(num_pieces * combo)
 
 func strong_attack_cutscene():
+	portrait.super_atk()
 	await fade_to_black(0.5)
 	fade_from_black(0.5)
 	play_ohko_cutscene()
@@ -145,7 +148,7 @@ func strong_attack_cutscene():
 func _on_settled():
 	var queue = []
 	if bomb and bomb.can_send():
-		if bomb.get_damage() >= 40:
+		if bomb.get_damage() >= 30:
 			# easter egg cutscene
 			await strong_attack_cutscene()
 		await player_attack()
@@ -160,6 +163,11 @@ func _on_settled():
 		return
 	board.start()
 
+func _on_almost_dead() -> void:
+	if portrait.is_scared == false:
+		portrait.is_scared = true
+		portrait.idle_scared()
+	
 func player_attack():
 	portrait.play_atk()
 	var tween = create_tween()
@@ -179,3 +187,8 @@ func player_attack():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+func _on_safe() -> void:
+	if portrait.is_scared == true:
+		portrait.is_scared = false
+		portrait.idle_ditsy()

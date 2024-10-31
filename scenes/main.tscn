@@ -268,6 +268,10 @@ stream = ExtResource("34_nx430")
 [node name="VictoryMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("35_n3ibs")
 
+[node name="TransitionTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="on_almost_dead" from="Board" to="." method="_on_almost_dead"]
 [connection signal="on_fall_end" from="Board" to="SignalAudio" method="_on_fall_end"]
 [connection signal="on_fall_start" from="Board" to="SignalAudio" method="_on_fall_start"]
 [connection signal="on_lose" from="Board" to="." method="_on_lose"]
@@ -277,6 +281,7 @@ stream = ExtResource("35_n3ibs")
 [connection signal="on_placed" from="Board" to="SignalAudio" method="_on_placed"]
 [connection signal="on_player_move" from="Board" to="SignalAudio" method="_on_player_move"]
 [connection signal="on_player_rotate" from="Board" to="SignalAudio" method="_on_player_rotate"]
+[connection signal="on_safe" from="Board" to="." method="_on_safe"]
 [connection signal="on_settled" from="Board" to="." method="_on_settled"]
 [connection signal="on_empty" from="HealthBar" to="." method="_on_health_bar_on_empty"]
 [connection signal="quit" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_quit"]

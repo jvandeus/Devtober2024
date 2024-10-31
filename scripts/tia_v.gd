@@ -20,7 +20,15 @@ func play_atk():
 	random_attack = randi_range(0, 1)
 	play_rnd("AttackState", random_attack, 0, 1)
 	
-func idle_scared():
+func play_super_atk():
 	var playback = anim_tree["parameters/playback"]
 	anim_tree["parameters/Idle/BlendTree/OneShot/request"] = "Fire"
+	
+func idle_scared():
+	var playback = anim_tree["parameters/playback"]
+	playback.travel("ScaredIn")
+	
+func idle_ditsy():
+	var playback = anim_tree["parameters/playback"]
+	playback.travel("Idle")
 	

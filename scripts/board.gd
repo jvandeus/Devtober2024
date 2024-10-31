@@ -81,6 +81,8 @@ signal on_player_rotate
 signal on_lose
 signal on_fall_start(p: Piece)
 signal on_fall_end(p: Piece)
+signal on_almost_dead
+signal on_safe
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -400,6 +402,12 @@ func simulate() -> void:
 		reindex_columns()
 		await settle()
 		num_cleared = await clear()
+		
+	if len(columns[get_center_column_index()]) >= board_height - 3:
+		on_almost_dead.emit()
+		
+	elif len(columns[get_center_column_index()]) <= board_height - 3:
+		on_safe.emit()
 	
 	if len(columns[get_center_column_index()]) >= board_height:
 		on_lose.emit()
