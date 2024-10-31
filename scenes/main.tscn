@@ -260,6 +260,7 @@ offset_right = 864.0
 offset_bottom = 480.0
 
 [node name="PauseHelpText" type="Label" parent="CanvasLayer"]
+visible = false
 offset_right = 40.0
 offset_bottom = 45.0
 text = "Press Escape to pause"
