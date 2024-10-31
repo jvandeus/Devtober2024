@@ -108,9 +108,8 @@ func _on_lose() -> void:
 	board.stop()
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	lose_text.visible = true
-	play_defeat_cutscene()
-	#bg_music.stop()
-	#game_over_music.play()
+	bg_music.stop()
+	game_over_music.play()
 
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():
@@ -145,7 +144,7 @@ func strong_attack_cutscene():
 func _on_settled():
 	var queue = []
 	if bomb and bomb.can_send():
-		if bomb.get_damage() >= 60:
+		if bomb.get_damage() >= 40:
 			# easter egg cutscene
 			await strong_attack_cutscene()
 		await player_attack()
