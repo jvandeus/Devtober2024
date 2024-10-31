@@ -1,15 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://coxra0ls2cj1g"]
+[gd_scene load_steps=9 format=3 uid="uid://coxra0ls2cj1g"]
 
+[ext_resource type="Theme" uid="uid://cddhm2wjkfo48" path="res://themes/FlipDigit.tres" id="1_0lfpg"]
 [ext_resource type="StyleBox" uid="uid://cs6xl7gdxh2q4" path="res://assets/font/FlipDigitPanel_Top.tres" id="1_ar3hj"]
 [ext_resource type="Script" path="res://scenes/flip_digit.gd" id="1_e8ayn"]
 [ext_resource type="LabelSettings" uid="uid://mdi801eoai4u" path="res://assets/font/FlipDigitText.tres" id="2_7b2va"]
 [ext_resource type="StyleBox" uid="uid://c4ma5uvcov3dv" path="res://assets/font/FlipDigitPanel_Bottom.tres" id="3_wcs18"]
 [ext_resource type="AudioStream" uid="uid://f5blebswk0bj" path="res://assets/sound/slosh03.wav" id="5_q1tuy"]
+[ext_resource type="FontVariation" uid="uid://rr6u4j4imq5q" path="res://assets/font/FlipDigitFontVariationTrimmed.tres" id="6_dq46n"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0tivw"]
 
 [node name="FlipDigit" type="PanelContainer"]
 custom_minimum_size = Vector2(60, 72)
+theme = ExtResource("1_0lfpg")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_0tivw")
 script = ExtResource("1_e8ayn")
 
@@ -91,6 +94,7 @@ theme_override_constants/margin_bottom = -32
 [node name="Label" type="Label" parent="Front/Top/Margin"]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("6_dq46n")
 text = "0"
 label_settings = ExtResource("2_7b2va")
 horizontal_alignment = 1
@@ -114,6 +118,7 @@ theme_override_constants/margin_bottom = 4
 [node name="Label" type="Label" parent="Front/Bottom/Margin"]
 layout_mode = 2
 size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("6_dq46n")
 text = "0"
 label_settings = ExtResource("2_7b2va")
 horizontal_alignment = 1

@@ -46,85 +46,107 @@ stream_3/stream = ExtResource("30_qw0te")
 size = Vector2(600, 600)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_b2jd3"]
-viewport_path = NodePath("SubViewport")
+viewport_path = NodePath("All/SubViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k40ul"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_6x5p4"]
-viewport_path = NodePath("SubViewport")
+viewport_path = NodePath("All/SubViewport")
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_kstpf")
 
-[node name="SignalAudio" type="Node" parent="."]
+[node name="All" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = -673.0
+offset_bottom = -466.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="SignalAudio" type="Node" parent="All"]
 script = ExtResource("14_bx4to")
 
-[node name="PlaceSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="PlaceSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("15_dcrwb")
 
-[node name="MoveSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="MoveSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("17_oxs0j")
 max_polyphony = 2
 
-[node name="MoveSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="MoveSFX2" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("17_dyp8m")
 max_polyphony = 2
 
-[node name="BlockedSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="BlockedSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("17_qcbhn")
 max_polyphony = 2
 
-[node name="RotateSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="RotateSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("16_5vhk7")
 
-[node name="ComboSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="ComboSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 script = ExtResource("20_xqkpy")
 streams = Array[AudioStreamWAV]([ExtResource("20_7bau0"), ExtResource("21_rxidj"), ExtResource("22_8be85"), ExtResource("23_3cfok"), ExtResource("24_e7f1a")])
 
-[node name="PlaceSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="PlaceSFX2" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("15_dcrwb")
 
-[node name="MoveSFX3" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="MoveSFX3" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("17_oxs0j")
 max_polyphony = 2
 
-[node name="MoveSFX4" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="MoveSFX4" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("17_dyp8m")
 max_polyphony = 2
 
-[node name="BlockedSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="BlockedSFX2" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("17_qcbhn")
 max_polyphony = 2
 
-[node name="RotateSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="RotateSFX2" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("16_5vhk7")
 
-[node name="ComboSFX2" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="ComboSFX2" type="AudioStreamPlayer" parent="All/SignalAudio"]
 script = ExtResource("20_xqkpy")
 streams = Array[AudioStreamWAV]([ExtResource("20_7bau0"), ExtResource("21_rxidj"), ExtResource("22_8be85"), ExtResource("23_3cfok"), ExtResource("24_e7f1a")])
 
-[node name="FallStartSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="FallStartSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("26_wjwbw")
 volume_db = -3.0
 max_polyphony = 4
 
-[node name="FallEndSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="FallEndSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = SubResource("AudioStreamRandomizer_62hhw")
 volume_db = -5.0
 max_polyphony = 4
 
-[node name="PlayerAttackLaunchSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="PlayerAttackLaunchSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("31_xcqtw")
 
-[node name="PlayerAttackLandSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="PlayerAttackLandSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 stream = ExtResource("32_73bde")
 
-[node name="EnemyAttackLaunchSFX" type="AudioStreamPlayer" parent="SignalAudio"]
+[node name="EnemyAttackLaunchSFX" type="AudioStreamPlayer" parent="All/SignalAudio"]
 
-[node name="bg" type="CanvasLayer" parent="."]
+[node name="bg" type="CanvasLayer" parent="All"]
 layer = -1
 
-[node name="scrolling_texture" type="TextureRect" parent="bg"]
+[node name="scrolling_texture" type="TextureRect" parent="All/bg"]
 visible = false
 material = ExtResource("21_x0ym5")
 anchors_preset = 15
@@ -137,7 +159,7 @@ size_flags_vertical = 3
 texture = ExtResource("1_d7sal")
 stretch_mode = 1
 
-[node name="shard_noise" type="TextureRect" parent="bg"]
+[node name="shard_noise" type="TextureRect" parent="All/bg"]
 material = ExtResource("23_cj46f")
 anchors_preset = 15
 anchor_right = 1.0
@@ -148,77 +170,104 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = SubResource("PlaceholderTexture2D_7nvu5")
 
-[node name="OpponentPortrait" parent="." instance=ExtResource("11_mnnac")]
+[node name="OpponentPortrait" parent="All" instance=ExtResource("11_mnnac")]
 position = Vector2(1568, 256)
 
-[node name="Board" parent="." instance=ExtResource("8_hikeo")]
+[node name="Board" parent="All" instance=ExtResource("8_hikeo")]
 position = Vector2(678, 80)
 board_height = 12
 cell_size = 80
 
-[node name="WinText" type="Label" parent="."]
+[node name="WinText" type="Label" parent="All"]
 visible = false
-offset_left = 884.0
-offset_top = 488.0
-offset_right = 1117.0
-offset_bottom = 576.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 696.5
+offset_top = 483.0
+offset_right = 983.5
+offset_bottom = 557.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 64
 text = "Victory!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="LoseText" type="Label" parent="."]
+[node name="LoseText" type="Label" parent="All"]
 visible = false
-offset_left = 884.0
-offset_top = 488.0
-offset_right = 1117.0
-offset_bottom = 576.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 712.5
+offset_top = 483.0
+offset_right = 964.5
+offset_bottom = 557.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 64
 text = "Defeat!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="BombSocket" type="Node2D" parent="."]
+[node name="BombSocket" type="Node2D" parent="All"]
 position = Vector2(384, 360)
 
-[node name="HealthBar" parent="." instance=ExtResource("26_sbdry")]
+[node name="HealthBar" parent="All" instance=ExtResource("26_sbdry")]
 position = Vector2(1256, 574)
 initial_value = 100
 
-[node name="AttackMeter" parent="." instance=ExtResource("27_frg8t")]
+[node name="AttackMeter" parent="All" instance=ExtResource("27_frg8t")]
 position = Vector2(1278, 757)
 
-[node name="Score" type="Node" parent="."]
+[node name="Score" type="Node" parent="All"]
 script = ExtResource("2_qhh88")
 
-[node name="FlipBoard" parent="Score" instance=ExtResource("4_g1vkf")]
-offset_left = 1264.0
-offset_top = 907.0
-offset_right = 1836.0
-offset_bottom = 979.0
-size_flags_horizontal = 8
-size_flags_vertical = 0
+[node name="FlipBoard" parent="All/Score" instance=ExtResource("4_g1vkf")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 320.0
+offset_top = 356.0
+offset_right = 892.0
+offset_bottom = 428.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="CharLeft" type="Node2D" parent="."]
+[node name="CharLeft" type="Node2D" parent="All"]
 position = Vector2(330, 765)
 
-[node name="PortraitOutline" type="Polygon2D" parent="CharLeft"]
+[node name="PortraitOutline" type="Polygon2D" parent="All/CharLeft"]
 visibility_layer = 3
 scale = Vector2(1.05742, 1.05742)
 color = Color(0.713276, 0.56692, 0.975564, 1)
 polygon = PackedVector2Array(-200, -192, -264, 80, -192, 224, 232, 184, 264, -72, 160, -224)
 
-[node name="PortraitInner" type="Polygon2D" parent="CharLeft/PortraitOutline"]
+[node name="PortraitInner" type="Polygon2D" parent="All/CharLeft/PortraitOutline"]
 scale = Vector2(0.9457, 0.9457)
 color = Color(0.579842, 0.4953, 0.602008, 1)
 polygon = PackedVector2Array(-200, -192, -264, 80, -192, 224, 232, 184, 264, -72, 160, -224)
 
-[node name="CharMask_left" type="Polygon2D" parent="CharLeft"]
+[node name="CharMask_left" type="Polygon2D" parent="All/CharLeft"]
 clip_children = 1
 scale = Vector2(1.07235, 1.05621)
 polygon = PackedVector2Array(-186.506, -181.783, -247.12, 75.7427, -179.978, 212.08, 216.346, 173.262, 247.12, -65.3281, 149.204, -213.026)
 
-[node name="CharPortrait2D" type="Sprite2D" parent="CharLeft/CharMask_left"]
+[node name="CharPortrait2D" type="Sprite2D" parent="All/CharLeft/CharMask_left"]
 position = Vector2(0, 24)
 texture = SubResource("ViewportTexture_b2jd3")
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="All"]
 handle_input_locally = false
 msaa_3d = 1
 screen_space_aa = 1
@@ -227,14 +276,14 @@ scaling_3d_scale = 1.53
 size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="All"]
 visible = false
 texture = ExtResource("31_37sp6")
 centered = false
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="All"]
 
-[node name="CutscenePlayer" type="TextureRect" parent="CanvasLayer"]
+[node name="CutscenePlayer" type="TextureRect" parent="All/CanvasLayer"]
 visible = false
 material = SubResource("ShaderMaterial_k40ul")
 anchors_preset = 15
@@ -244,7 +293,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_6x5p4")
 
-[node name="BlackFader" type="ColorRect" parent="CanvasLayer"]
+[node name="BlackFader" type="ColorRect" parent="All/CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -252,44 +301,44 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.745098, 0.701961, 0.72549, 0)
 
-[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("32_ptto6")]
+[node name="PauseMenu" parent="All/CanvasLayer" instance=ExtResource("32_ptto6")]
 visible = false
 offset_left = 864.0
 offset_top = 480.0
 offset_right = 864.0
 offset_bottom = 480.0
 
-[node name="PauseHelpText" type="Label" parent="CanvasLayer"]
+[node name="PauseHelpText" type="Label" parent="All/CanvasLayer"]
 visible = false
 offset_right = 40.0
 offset_bottom = 45.0
 text = "Press Escape to pause"
 
-[node name="BGMusic" type="AudioStreamPlayer" parent="."]
+[node name="BGMusic" type="AudioStreamPlayer" parent="All"]
 stream = ExtResource("32_uyumv")
 
-[node name="GameOverMusic" type="AudioStreamPlayer" parent="."]
+[node name="GameOverMusic" type="AudioStreamPlayer" parent="All"]
 stream = ExtResource("34_nx430")
 
-[node name="VictoryMusic" type="AudioStreamPlayer" parent="."]
+[node name="VictoryMusic" type="AudioStreamPlayer" parent="All"]
 stream = ExtResource("35_n3ibs")
 
-[node name="TransitionTimer" type="Timer" parent="."]
+[node name="TransitionTimer" type="Timer" parent="All"]
 wait_time = 2.0
 
-[connection signal="on_almost_dead" from="Board" to="." method="_on_almost_dead"]
-[connection signal="on_fall_end" from="Board" to="SignalAudio" method="_on_fall_end"]
-[connection signal="on_fall_start" from="Board" to="SignalAudio" method="_on_fall_start"]
-[connection signal="on_lose" from="Board" to="." method="_on_lose"]
-[connection signal="on_pieces_cleared" from="Board" to="." method="_on_pieces_cleared"]
-[connection signal="on_pieces_cleared" from="Board" to="SignalAudio" method="_on_pieces_cleared"]
-[connection signal="on_pieces_cleared" from="Board" to="Score" method="_on_pieces_cleared"]
-[connection signal="on_placed" from="Board" to="SignalAudio" method="_on_placed"]
-[connection signal="on_player_move" from="Board" to="SignalAudio" method="_on_player_move"]
-[connection signal="on_player_rotate" from="Board" to="SignalAudio" method="_on_player_rotate"]
-[connection signal="on_safe" from="Board" to="." method="_on_safe"]
-[connection signal="on_settled" from="Board" to="." method="_on_settled"]
-[connection signal="on_empty" from="HealthBar" to="." method="_on_health_bar_on_empty"]
-[connection signal="quit" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_quit"]
-[connection signal="restart" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_restart"]
-[connection signal="unpause" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_unpause"]
+[connection signal="on_almost_dead" from="All/Board" to="." method="_on_almost_dead"]
+[connection signal="on_fall_end" from="All/Board" to="All/SignalAudio" method="_on_fall_end"]
+[connection signal="on_fall_start" from="All/Board" to="All/SignalAudio" method="_on_fall_start"]
+[connection signal="on_lose" from="All/Board" to="." method="_on_lose"]
+[connection signal="on_pieces_cleared" from="All/Board" to="All/SignalAudio" method="_on_pieces_cleared"]
+[connection signal="on_pieces_cleared" from="All/Board" to="All/Score" method="_on_pieces_cleared"]
+[connection signal="on_pieces_cleared" from="All/Board" to="." method="_on_pieces_cleared"]
+[connection signal="on_placed" from="All/Board" to="All/SignalAudio" method="_on_placed"]
+[connection signal="on_player_move" from="All/Board" to="All/SignalAudio" method="_on_player_move"]
+[connection signal="on_player_rotate" from="All/Board" to="All/SignalAudio" method="_on_player_rotate"]
+[connection signal="on_safe" from="All/Board" to="." method="_on_safe"]
+[connection signal="on_settled" from="All/Board" to="." method="_on_settled"]
+[connection signal="on_empty" from="All/HealthBar" to="." method="_on_health_bar_on_empty"]
+[connection signal="quit" from="All/CanvasLayer/PauseMenu" to="." method="_on_pause_menu_quit"]
+[connection signal="restart" from="All/CanvasLayer/PauseMenu" to="." method="_on_pause_menu_restart"]
+[connection signal="unpause" from="All/CanvasLayer/PauseMenu" to="." method="_on_pause_menu_unpause"]

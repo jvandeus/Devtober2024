@@ -1,23 +1,23 @@
-extends Node2D
+extends Node
 
 @onready var scene_Bomb = preload("res://scenes/bomb.tscn")
-@onready var board = $Board
-@onready var opponent_portrait = $OpponentPortrait
-@onready var bomb_socket = $BombSocket
-@onready var health_bar = $HealthBar
-@onready var attack_meter = $AttackMeter
-@onready var win_text = $WinText
-@onready var lose_text = $LoseText
-@onready var signal_audio: Node = $SignalAudio
-@onready var bg_music = $BGMusic
-@onready var game_over_music = $GameOverMusic
-@onready var victory_music = $VictoryMusic
-#@onready var tia_v: Node3D = $"SubViewport/CharPortrait3D/TIA-V_MASTER"
+@onready var board = $All/Board
+@onready var opponent_portrait = $All/OpponentPortrait
+@onready var bomb_socket = $All/BombSocket
+@onready var health_bar = $All/HealthBar
+@onready var attack_meter = $All/AttackMeter
+@onready var win_text = $All/WinText
+@onready var lose_text = $All/LoseText
+@onready var signal_audio: Node = $All/SignalAudio
+@onready var bg_music = $All/BGMusic
+@onready var game_over_music = $All/GameOverMusic
+@onready var victory_music = $All/VictoryMusic
+#@onready var tia_v: Node3D = $All/"SubViewport/CharPortrait3D/TIA-V_MASTER"
 @onready var scene_Victory = preload("res://assets/cutscenes/victories/CINE_victory_cheery.tscn")
 @onready var scene_Portrait = preload("res://assets/cutscenes/tia_portrait.tscn")
 @onready var scene_OHKO = preload("res://assets/cutscenes/spirit_bomb/spiritbomb_scene.tscn")
 @onready var scene_defeat = preload("res://assets/cutscenes/defeat/tia_v_death_scene.tscn")
-@onready var transition_timer: Timer = $TransitionTimer
+@onready var transition_timer: Timer = $All/TransitionTimer
 
 var portrait: TiaPortrait
 var bomb: Bomb
@@ -35,16 +35,16 @@ func _ready() -> void:
 	attack_meter.max_value = opponent_attack_time
 	bg_music.play()
 	portrait = scene_Portrait.instantiate()
-	$SubViewport.add_child(portrait)
+	$All/SubViewport.add_child(portrait)
 
 func fade_to_black(duration: float) -> void:
 	var tween = create_tween()
-	tween.tween_property($CanvasLayer/BlackFader, "color", Color(201, 163, 244, 1), duration)
+	tween.tween_property($All/CanvasLayer/BlackFader, "color", Color(201, 163, 244, 1), duration)
 	await tween.finished
 	
 func fade_from_black(duration: float) -> void:
 	var tween = create_tween()
-	tween.tween_property($CanvasLayer/BlackFader, "color", Color(201, 163, 244, 0), duration)
+	tween.tween_property($All/CanvasLayer/BlackFader, "color", Color(201, 163, 244, 0), duration)
 	await tween.finished
 	
 func play_cutscene(scene: Resource, music: AudioStreamPlayer = null, delay : float = 0, show_pause_help_text := false):
@@ -55,11 +55,11 @@ func play_cutscene(scene: Resource, music: AudioStreamPlayer = null, delay : flo
 		await get_tree().create_timer(delay, false).timeout
 	await fade_to_black(0.5)
 	fade_from_black(0.5)
-	$SubViewport.remove_child(portrait)
-	$SubViewport.add_child(scene.instantiate())
-	$CanvasLayer/CutscenePlayer.visible = true
+	$All/SubViewport.remove_child(portrait)
+	$All/SubViewport.add_child(scene.instantiate())
+	$All/CanvasLayer/CutscenePlayer.visible = true
 	if show_pause_help_text:
-		$CanvasLayer/PauseHelpText.visible = true
+		$All/CanvasLayer/PauseHelpText.visible = true
 
 func play_victory_cutscene() -> void:
 	play_cutscene(scene_Victory, victory_music, 3, true)
@@ -71,9 +71,9 @@ func play_defeat_cutscene() -> void:
 	play_cutscene(scene_defeat, game_over_music, 3, true)
 
 func stop_cutscene() -> void:
-	$SubViewport.remove_child($SubViewport.get_child(0))
-	$SubViewport.add_child(portrait)
-	$CanvasLayer/CutscenePlayer.visible = false
+	$All/SubViewport.remove_child($All/SubViewport.get_child(0))
+	$All/SubViewport.add_child(portrait)
+	$All/CanvasLayer/CutscenePlayer.visible = false
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -81,13 +81,13 @@ func _input(event: InputEvent) -> void:
 
 func pause() -> void:
 	get_tree().paused = true
-	$CanvasLayer/PauseMenu.visible = true
-	$CanvasLayer/PauseMenu.initialize()
+	$All/CanvasLayer/PauseMenu.visible = true
+	$All/CanvasLayer/PauseMenu.initialize()
 
 func unpause() -> void:
 	get_tree().paused = false
-	$CanvasLayer/PauseMenu.visible = false
-	$Board.release_all_inputs()
+	$All/CanvasLayer/PauseMenu.visible = false
+	$All/Board.release_all_inputs()
 
 func _on_pause_menu_unpause() -> void:
 	unpause()
@@ -138,7 +138,7 @@ func opponent_attack() -> void:
 	opponent_portrait.idle()
 
 func _on_pieces_cleared(num_pieces: int, combo: int):
-	var points = num_pieces * combo
+	#var points = num_pieces * combo
 	if not bomb:
 		bomb = scene_Bomb.instantiate()
 		add_child(bomb)
@@ -156,7 +156,7 @@ func strong_attack_cutscene():
 	stop_cutscene()
 
 func _on_settled():
-	var queue = []
+	#var queue = []
 	if bomb and bomb.can_send():
 		if bomb.get_damage() >= 40:
 			# easter egg cutscene
@@ -193,10 +193,6 @@ func player_attack():
 		opponent_portrait.lose()
 	else:
 		opponent_portrait.hurt()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func _on_safe() -> void:
 	if portrait.is_scared == true:
