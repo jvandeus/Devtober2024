@@ -1,7 +1,7 @@
-extends Control
+extends Node
 
 func _ready() -> void:
-	$VBoxContainer/PlayButton.grab_focus()
+	$screen/VBoxMain/VBoxButtons/PlayButton.grab_focus()
 
 enum Difficulty { NORMAL, HARD, REALLY_HARD }
 
