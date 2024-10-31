@@ -8,6 +8,16 @@ class DoublePiece:
 	const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT, Orientation.DOWN ]
 	var orientation_index := 1
 	var origin := Vector2i(0, 0)
+	# --- 1-WIDE SHAFT SPECIAL HANDLING ---
+	# When the DoublePiece is in a 1-wide shaft, only vertical orientations are allowed.
+	# However, it should still be possible to flip the piece 180 degrees.
+	# Players expect to be able to do this the same way they normally do;
+	# by double-tapping a rotation button. To achieve this effect without
+	# passing through a horizontal orientation, we keep track of rotation state
+	# internally, in these booleans.
+	var is_left_stored := false
+	var is_right_stored := false
+	
 	func _init(p_origin: Vector2i) -> void:
 		origin = p_origin
 	func get_primary_coords() -> Vector2i:
@@ -38,6 +48,8 @@ class DoublePiece:
 		origin.y -= 1
 	func move_down():
 		origin.y += 1
+	func flip_180():
+		orientation_index = (orientation_index + 2) % len(ORIENTATION_ORDER)
 
 const ATTACK1_CHANCE := 0.2
 const TIME_TO_FALL_ONE_CELL := 1.0
@@ -248,6 +260,16 @@ func rotate_cw():
 	var primary_down = dp.get_primary_coords() + Vector2i(0, 1)
 	match dp.get_orientation():
 		DoublePiece.Orientation.UP:
+			if is_occupied(primary_right) and is_occupied(primary_left):
+				if dp.is_left_stored:
+					dp.is_left_stored = false
+				elif dp.is_right_stored:
+					flip_180()
+					dp.is_right_stored = false
+				else:
+					dp.is_right_stored = true
+				on_player_rotate.emit()
+				return
 			if is_occupied(primary_right):
 				move_left()
 		DoublePiece.Orientation.LEFT:
@@ -256,6 +278,16 @@ func rotate_cw():
 			if is_occupied(primary_down):
 				dp.move_up()
 		DoublePiece.Orientation.DOWN:
+			if is_occupied(primary_right) and is_occupied(primary_left):
+				if dp.is_right_stored:
+					dp.is_right_stored = false
+				elif dp.is_left_stored:
+					flip_180()
+					dp.is_left_stored = false
+				else:
+					dp.is_left_stored = true
+				on_player_rotate.emit()
+				return
 			if is_occupied(primary_left):
 				move_right()
 	on_player_rotate.emit()
@@ -268,6 +300,16 @@ func rotate_ccw():
 	var primary_down = dp.get_primary_coords() + Vector2i(0, 1)
 	match dp.get_orientation():
 		DoublePiece.Orientation.UP:
+			if is_occupied(primary_right) and is_occupied(primary_left):
+				if dp.is_right_stored:
+					dp.is_right_stored = false
+				elif dp.is_left_stored:
+					flip_180()
+					dp.is_left_stored = false
+				else:
+					dp.is_left_stored = true
+				on_player_rotate.emit()
+				return
 			if is_occupied(primary_left):
 				move_right()
 		DoublePiece.Orientation.LEFT:
@@ -276,10 +318,36 @@ func rotate_ccw():
 		DoublePiece.Orientation.RIGHT:
 			pass # no adjustment needed
 		DoublePiece.Orientation.DOWN:
+			if is_occupied(primary_right) and is_occupied(primary_left):
+				if dp.is_left_stored:
+					dp.is_left_stored = false
+				if dp.is_right_stored:
+					flip_180()
+					dp.is_right_stored = false
+				else:
+					dp.is_right_stored = true
+				on_player_rotate.emit()
+				return
 			if is_occupied(primary_right):
 				move_left()
 	on_player_rotate.emit()
 	dp.rotate_ccw()
+	update_ghost_piece()
+
+func flip_180():
+	var primary_down = dp.get_primary_coords() + Vector2i(0, 1)
+	match dp.get_orientation():
+		DoublePiece.Orientation.UP:
+			if is_occupied(primary_down):
+				dp.move_up()
+		DoublePiece.Orientation.LEFT:
+			push_warning("tried to flip 180 from a horizontal position")
+		DoublePiece.Orientation.RIGHT:
+			push_warning("tried to flip 180 from a horizontal position")
+		DoublePiece.Orientation.DOWN:
+			pass # no adjustment needed
+	on_player_rotate.emit()
+	dp.flip_180()
 	update_ghost_piece()
 
 func hide_ghost_piece() -> void:
@@ -297,7 +365,7 @@ func update_ghost_piece() -> void:
 	var coords2 = dp.get_secondary_coords()
 	# precaution: if OOB, proceeding will crash. just abort here if it happens
 	if coords1.x < 0 or coords1.x >= board_width or coords2.x < 0 or coords2.x >= board_width:
-		push_warning("detected piece out of bounds. this should not happen.")
+		push_warning("detected piece out of bounds. aborting ghost piece calculation")
 		return
 	show_ghost_piece()
 	var ghost1 = Vector2i(coords1.x, board_height - len(columns[coords1.x]) - 1)
