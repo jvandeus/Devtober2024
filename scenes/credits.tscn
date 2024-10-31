@@ -104,7 +104,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 30
 
 [node name="Label" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -186,6 +186,18 @@ text = "youtube"
 underline = 1
 uri = "https://youtube.com/@astroninja0 "
 
+[node name="Desc" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_x3ms7")
+theme_override_font_sizes/font_size = 16
+text = "3D artist - texture, rig, animation, cutscenes, programming"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
 [node name="DaelethRow" type="HBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -255,6 +267,18 @@ text = "youtube"
 underline = 1
 uri = "https://youtube.com/@daeleth"
 
+[node name="Desc2" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_x3ms7")
+theme_override_font_sizes/font_size = 16
+text = "Project Lead, Character Design, 2D Artist, Programming, SFX Design"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
 [node name="HimikRow" type="HBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -269,6 +293,18 @@ theme_override_font_sizes/font_size = 24
 text = "HIMIK-MAN"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Desc3" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_x3ms7")
+theme_override_font_sizes/font_size = 16
+text = "Music, Sound Design, Concept art"
+horizontal_alignment = 1
+
+[node name="HSeparator3" type="HSeparator" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
 
 [node name="TurncodaRow" type="HBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -321,6 +357,18 @@ text = "itch.io"
 underline = 1
 uri = "https://turncoda.itch.io/"
 
+[node name="Desc4" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_x3ms7")
+theme_override_font_sizes/font_size = 16
+text = "UI Design and Gameplay Programming"
+horizontal_alignment = 1
+
+[node name="HSeparator4" type="HSeparator" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
 [node name="Label3" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("4_mlgqx")
@@ -366,7 +414,14 @@ size_flags_vertical = 6
 theme = ExtResource("4_mlgqx")
 theme_override_fonts/font = ExtResource("5_x3ms7")
 theme_override_font_sizes/font_size = 16
-text = "Music/Sound:
+text = "Shaders:
+Stylized sky with procedural sun and moon shader by krzmig: https://godotshaders.com/shader/stylized-sky-with-procedural-sun-and-moon/
+Complete Toon Shader by eldskald: https://godotshaders.com/shader/complete-cel-shader-for-godot-4/
+Simple Energy Shield by MinusZero: https://godotshaders.com/shader/simple-energy-shield/
+background based on Shard Noise -- https://godotshaders.com/shader/shard-noise/
+Some UI elements Built from -- https://godotshaders.com/shader/4-point-perspective-transformation/
+
+Music/Sound:
 squeaks resonate finger push along CRT TV glass echo.flac by kyles -- https://freesound.org/s/637825/ -- License: Creative Commons 0
 Sixties TV Static by f-r-a-g-i-l-e -- https://freesound.org/s/478760/ -- License: Creative Commons 0
 TV Static.mp3 by Gaiamuse -- https://freesound.org/s/50500/ -- License: Creative Commons 0
