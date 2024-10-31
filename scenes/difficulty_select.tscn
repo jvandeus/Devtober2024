@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://3s8rn0jieq7a"]
+[gd_scene load_steps=4 format=3 uid="uid://3s8rn0jieq7a"]
 
 [ext_resource type="Script" path="res://scripts/difficulty_select.gd" id="1_coefa"]
+[ext_resource type="Material" uid="uid://dyxyxq5xlkwj2" path="res://assets/shaders/shard_noise.tres" id="2_t4e42"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_d8027"]
+size = Vector2(600, 600)
 
 [node name="DifficultySelect" type="Control"]
 layout_mode = 3
@@ -11,12 +15,33 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_coefa")
 
+[node name="bg" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="shard_noise" type="TextureRect" parent="bg"]
+material = ExtResource("2_t4e42")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("PlaceholderTexture2D_d8027")
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 897.0
-offset_top = 699.0
-offset_right = 1017.0
-offset_bottom = 866.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -83.5
+offset_right = 72.0
+offset_bottom = 83.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Normal" type="Button" parent="VBoxContainer"]
 layout_mode = 2

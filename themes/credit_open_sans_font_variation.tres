@@ -1,0 +1,6 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://cm1qbkueduf2x"]
+
+[ext_resource type="FontFile" uid="uid://cpqntr0f7tl4a" path="res://assets/font/Open_Sans/OpenSans-VariableFont_wdth,wght.ttf" id="1_w1sb3"]
+
+[resource]
+base_font = ExtResource("1_w1sb3")
