@@ -291,11 +291,15 @@ func show_ghost_piece() -> void:
 	$GhostPiece2.visible = true
 
 func update_ghost_piece() -> void:
-	show_ghost_piece()
 	# dp coords are inverted (origin at top left, +y pointing down)
 	# returned ghost piece coords will also be inverted
 	var coords1 = dp.get_primary_coords()
 	var coords2 = dp.get_secondary_coords()
+	# precaution: if OOB, proceeding will crash. just abort here if it happens
+	if coords1.x < 0 or coords1.x >= board_width or coords2.x < 0 or coords2.x >= board_width:
+		push_warning("detected piece out of bounds. this should not happen.")
+		return
+	show_ghost_piece()
 	var ghost1 = Vector2i(coords1.x, board_height - len(columns[coords1.x]) - 1)
 	var ghost2 = Vector2i(coords2.x, board_height - len(columns[coords2.x]) - 1)
 	if coords1.x == coords2.x: # if DP is vertical
