@@ -33,12 +33,12 @@ func _ready() -> void:
 
 func fade_to_black(duration: float) -> void:
 	var tween = create_tween()
-	tween.tween_property($CanvasLayer/BlackFader, "color", Color(0, 0, 0, 1), duration)
+	tween.tween_property($CanvasLayer/BlackFader, "color", Color(201, 163, 244, 1), duration)
 	await tween.finished
 	
 func fade_from_black(duration: float) -> void:
 	var tween = create_tween()
-	tween.tween_property($CanvasLayer/BlackFader, "color", Color(0, 0, 0, 0), duration)
+	tween.tween_property($CanvasLayer/BlackFader, "color", Color(201, 163, 244, 0), duration)
 	await tween.finished
 	
 func play_cutscene(scene, music=null, stop_bg_music=true):
@@ -108,8 +108,9 @@ func _on_lose() -> void:
 	board.stop()
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	lose_text.visible = true
-	bg_music.stop()
-	game_over_music.play()
+	play_defeat_cutscene()
+	#bg_music.stop()
+	#game_over_music.play()
 
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():

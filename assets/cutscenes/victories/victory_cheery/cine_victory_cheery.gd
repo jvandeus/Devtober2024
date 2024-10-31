@@ -12,7 +12,7 @@ func _ready() -> void:
 	
 func bruh():
 	ap.play("Dolly_Camera")
-	tia.disable_anim_tree()
+	#tia.disable_anim_tree()
 	$"TIA-V_MASTER2/TIA_player".play("TIA-V_VictoryCheery_skel/TIA-V_VICTORY_CHEERY")
 	#music.play()
 

@@ -3,8 +3,8 @@ extends Node3D
 var random_stun := 0
 var random_attack := 0
 		
-func disable_anim_tree():
-	anim_tree.active = false
+func toggle_anim_tree():
+	anim_tree.active = !anim_tree.active
 	
 func play_rnd(state, rand_num, min, max):
 	#rand_num = randi_range(min, max)
