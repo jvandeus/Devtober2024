@@ -67,7 +67,6 @@ func stop_cutscene() -> void:
 	$SubViewport.remove_child($SubViewport.get_child(0))
 	$SubViewport.add_child(portrait)
 	$CanvasLayer/CutscenePlayer.visible = false
-	game_over_music.play()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -109,8 +108,8 @@ func _on_lose() -> void:
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	lose_text.visible = true
 	play_defeat_cutscene()
-	#bg_music.stop()
-	#game_over_music.play()
+	bg_music.stop()
+	game_over_music.play()
 
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():
