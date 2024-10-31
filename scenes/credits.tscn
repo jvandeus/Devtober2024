@@ -294,6 +294,24 @@ text = "HIMIK-MAN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="spacer2" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HimikRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = SubResource("SystemFont_tjvrt")
+theme_override_font_sizes/font_size = 24
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinkButton3" type="LinkButton" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HimikRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_mcl0q")
+theme_override_font_sizes/font_size = 24
+text = "Newgrounds"
+underline = 1
+uri = "https://himik.newgrounds.com/"
+
 [node name="Desc3" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_x3ms7")
