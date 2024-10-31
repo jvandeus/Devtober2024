@@ -16,10 +16,13 @@ extends Node2D
 @onready var scene_Victory = preload("res://assets/cutscenes/victories/CINE_victory_cheery.tscn")
 @onready var scene_Portrait = preload("res://assets/cutscenes/tia_portrait.tscn")
 @onready var scene_OHKO = preload("res://assets/cutscenes/spirit_bomb/spiritbomb_scene.tscn")
+@onready var scene_defeat = preload("res://assets/cutscenes/defeat/tia_v_death_scene.tscn")
+#@onready var transition_timer: Timer = $TransitionTimer
 
 var portrait: TiaPortrait
 var bomb: Bomb
 var attack_charge_timer: SceneTreeTimer
+var cutscene_transition_timer: SceneTreeTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,21 +40,34 @@ func fade_from_black(duration: float) -> void:
 	var tween = create_tween()
 	tween.tween_property($CanvasLayer/BlackFader, "color", Color(0, 0, 0, 0), duration)
 	await tween.finished
+	
+func play_cutscene(scene, music=null, stop_bg_music=true):
+	if stop_bg_music:
+		bg_music.stop()
+	$SubViewport.remove_child(portrait)
+	$SubViewport.add_child(scene.instantiate())
+	$CanvasLayer/CutscenePlayer.visible = true
+	if music:
+		music.play()
 
 func play_victory_cutscene() -> void:
-	$SubViewport.remove_child(portrait)
-	$SubViewport.add_child(scene_Victory.instantiate())
-	$CanvasLayer/CutscenePlayer.visible = true
+	play_cutscene(scene_Victory, victory_music)
 	
 func play_ohko_cutscene() -> void:
-	$SubViewport.remove_child(portrait)
-	$SubViewport.add_child(scene_OHKO.instantiate())
-	$CanvasLayer/CutscenePlayer.visible = true
+	play_cutscene(scene_OHKO, null, false)
+	#$SubViewport.remove_child(portrait)
+	#$SubViewport.add_child(scene_OHKO.instantiate())
+	#$CanvasLayer/CutscenePlayer.visible = true
+	
+func play_defeat_cutscene() -> void:
+	play_cutscene(scene_defeat, game_over_music)
 
 func stop_cutscene() -> void:
+	bg_music.stop()
 	$SubViewport.remove_child($SubViewport.get_child(0))
 	$SubViewport.add_child(portrait)
 	$CanvasLayer/CutscenePlayer.visible = false
+	game_over_music.play()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -92,13 +108,14 @@ func _on_lose() -> void:
 	board.stop()
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	lose_text.visible = true
-	bg_music.stop()
-	game_over_music.play()
+	play_defeat_cutscene()
+	#bg_music.stop()
+	#game_over_music.play()
 
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():
 		await attack_meter.increment(1)
-	attack_charge_timer = get_tree().create_timer(1, false)
+	attack_charge_timer = get_tree().create_timer(2.5, false)
 	attack_charge_timer.timeout.connect(opponent_attack_charge_loop)
 		
 func opponent_attack() -> void:

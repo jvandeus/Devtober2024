@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://mf3wqejns2le"]
+[gd_scene load_steps=11 format=3 uid="uid://mf3wqejns2le"]
 
 [ext_resource type="PackedScene" uid="uid://cl1noevm6rqgv" path="res://assets/cutscenes/spirit_bomb/spiritbomb_scene.glb" id="1_1c87c"]
 [ext_resource type="Script" path="res://assets/cutscenes/spirit_bomb/spiritbomb_scene.gd" id="2_mooep"]
+[ext_resource type="Material" uid="uid://c0ffnu0rp37np" path="res://assets/cutscenes/spirit_bomb/spiritbomb_MAT.tres" id="3_8doxv"]
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="3_503pv"]
 [ext_resource type="AnimationLibrary" uid="uid://ua1bvj704foi" path="res://assets/cutscenes/spirit_bomb/spiritbomb_skel.glb" id="4_hv0ut"]
 
@@ -64,9 +65,10 @@ directional_shadow_max_distance = 1.0
 
 [node name="Sphere" parent="." index="2"]
 transform = Transform3D(4.58268, 0, 0, 0, 4.58268, 0, 0, 0, 4.58268, -2.98023e-08, 4.7318, 7.45567)
+material_override = ExtResource("3_8doxv")
 
 [node name="Dolly_Camera" parent="." index="3"]
-transform = Transform3D(0.999986, -0.0016998, -0.00501252, 1.16415e-10, 0.947029, -0.321148, 0.00529288, 0.321143, 0.947016, -0.0303797, -1.07038, 14.2566)
+transform = Transform3D(0.999986, -0.00168694, -0.00497639, 1.43773e-08, 0.947065, -0.321042, 0.00525454, 0.321037, 0.947052, -0.0303797, -1.07038, 14.2566)
 
 [node name="MainSequence" type="AnimationPlayer" parent="." index="5"]
 libraries = {

@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://72otjl2w5yiq"]
+[gd_scene load_steps=10 format=3 uid="uid://72otjl2w5yiq"]
 
 [ext_resource type="PackedScene" uid="uid://cf14717h4pio8" path="res://assets/cutscenes/victories/victory_cheery/TIA-V_VictoryCheery_cam.glb" id="1_byumk"]
 [ext_resource type="Script" path="res://assets/cutscenes/victories/victory_cheery/cine_victory_cheery.gd" id="2_rgndm"]
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="3_0gw6v"]
 [ext_resource type="AnimationLibrary" uid="uid://d0os2vilfc5ab" path="res://assets/cutscenes/victories/victory_cheery/TIA-V_VictoryCheery_skel.glb" id="4_67jwd"]
+[ext_resource type="AudioStream" uid="uid://ba68ugcs8oqkc" path="res://assets/music/victory.ogg" id="5_qw8d0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j5j3p"]
 sky_top_color = Color(0.520422, 0.591633, 0.690789, 1)
@@ -32,7 +33,7 @@ shadow_enabled = true
 directional_shadow_max_distance = 1.0
 
 [node name="Dolly_Camera" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, -1.68587e-07, 0, 1.68587e-07, 1, -0.369094, 1.27058, 4.02151)
+transform = Transform3D(0.982538, 1.56106e-06, -0.186061, 1.48149e-08, 1, 8.46828e-06, 0.186061, -8.32316e-06, 0.982538, -0.836949, 1.25803, 3.96834)
 
 [node name="TIA-V_MASTER2" parent="." index="4" instance=ExtResource("3_0gw6v")]
 
@@ -46,3 +47,6 @@ libraries = {
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Environment" index="0"]
 transform = Transform3D(10.0671, 0, 0, 0, 10.0671, 0, 0, 0, 10.0671, 0, 0, 0)
 mesh = SubResource("PlaneMesh_ln2to")
+
+[node name="Music" type="AudioStreamPlayer" parent="." index="6"]
+stream = ExtResource("5_qw8d0")

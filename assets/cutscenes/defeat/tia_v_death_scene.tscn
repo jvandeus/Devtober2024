@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://assets/cutscenes/defeat/tia_v_death_scene.gd" id="2_ybms2"]
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="3_s6adm"]
 [ext_resource type="AnimationLibrary" uid="uid://dj1xboxbfo5x7" path="res://assets/cutscenes/defeat/TIA-V_Death_skel.glb" id="4_76ufe"]
-[ext_resource type="AudioStream" uid="uid://34f6eg7cgo5i" path="res://assets/cutscenes/defeat/Badfinger Baby Blue Breaking Bad Soundtrack HQ 1080p.mp3" id="5_b62hs"]
+[ext_resource type="AudioStream" uid="uid://bgb43tji5qb7c" path="res://assets/music/game_over.ogg" id="5_wrp45"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_brpxx"]
 sky_top_color = Color(0.397395, 0.613218, 0.761942, 1)
@@ -80,4 +80,4 @@ libraries = {
 }
 
 [node name="Music" type="AudioStreamPlayer" parent="." index="7"]
-stream = ExtResource("5_b62hs")
+stream = ExtResource("5_wrp45")
