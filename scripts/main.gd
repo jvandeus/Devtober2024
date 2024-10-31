@@ -22,6 +22,7 @@ extends Node2D
 var portrait: TiaPortrait
 var bomb: Bomb
 var attack_charge_timer: SceneTreeTimer
+var cutscene_transition_timer: SceneTreeTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -40,38 +41,33 @@ func fade_from_black(duration: float) -> void:
 	tween.tween_property($CanvasLayer/BlackFader, "color", Color(201, 163, 244, 0), duration)
 	await tween.finished
 	
-func play_cutscene(scene, music=null, stop_bg_music=true):
-	if stop_bg_music:
+func play_cutscene(scene: Resource, music: AudioStreamPlayer = null, delay : float = 0, show_pause_help_text := false):
+	if music:
 		bg_music.stop()
+		music.play()
+	if delay > 0:
+		await get_tree().create_timer(delay, false).timeout
+	await fade_to_black(0.5)
+	fade_from_black(0.5)
 	$SubViewport.remove_child(portrait)
 	$SubViewport.add_child(scene.instantiate())
 	$CanvasLayer/CutscenePlayer.visible = true
-	if music:
-		music.play()
+	if show_pause_help_text:
+		$CanvasLayer/PauseHelpText.visible = true
 
 func play_victory_cutscene() -> void:
-	transition_timer.start()
-	await transition_timer.timeout
-	await fade_to_black(0.5)
-	fade_from_black(0.5)
-	play_cutscene(scene_Victory, victory_music)
+	play_cutscene(scene_Victory, victory_music, 3, true)
 	
 func play_ohko_cutscene() -> void:
-	play_cutscene(scene_OHKO, null, false)
+	play_cutscene(scene_OHKO, null)
 	
 func play_defeat_cutscene() -> void:
-	transition_timer.start()
-	await transition_timer.timeout
-	await fade_to_black(0.5)
-	fade_from_black(0.5)
-	play_cutscene(scene_defeat, game_over_music)
+	play_cutscene(scene_defeat, game_over_music, 3, true)
 
 func stop_cutscene() -> void:
-	#bg_music.stop()
 	$SubViewport.remove_child($SubViewport.get_child(0))
 	$SubViewport.add_child(portrait)
 	$CanvasLayer/CutscenePlayer.visible = false
-	#game_over_music.play()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -103,6 +99,8 @@ func _on_health_bar_on_empty() -> void:
 	board.stop()
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	attack_meter.stop_shaking()
+#	await fade_to_black(0.5)
+#	fade_from_black(0.5)
 	play_victory_cutscene()
 
 func _on_lose() -> void:
@@ -111,8 +109,8 @@ func _on_lose() -> void:
 	attack_charge_timer.timeout.disconnect(opponent_attack_charge_loop)
 	lose_text.visible = true
 	play_defeat_cutscene()
-	#bg_music.stop()
-	#game_over_music.play()
+	bg_music.stop()
+	game_over_music.play()
 
 func opponent_attack_charge_loop() -> void:
 	if not attack_meter.is_full():
@@ -148,7 +146,7 @@ func strong_attack_cutscene():
 func _on_settled():
 	var queue = []
 	if bomb and bomb.can_send():
-		if bomb.get_damage() >= 30:
+		if bomb.get_damage() >= 40:
 			# easter egg cutscene
 			await strong_attack_cutscene()
 		await player_attack()

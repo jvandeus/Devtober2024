@@ -8,6 +8,16 @@ class DoublePiece:
 	const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT, Orientation.DOWN ]
 	var orientation_index := 1
 	var origin := Vector2i(0, 0)
+	# --- 1-WIDE SHAFT SPECIAL HANDLING ---
+	# When the DoublePiece is in a 1-wide shaft, only vertical orientations are allowed.
+	# However, it should still be possible to flip the piece 180 degrees.
+	# Players expect to be able to do this the same way they normally do;
+	# by double-tapping a rotation button. To achieve this effect without
+	# passing through a horizontal orientation, we keep track of rotation state
+	# internally, in these booleans.
+	var is_left_stored := false
+	var is_right_stored := false
+	
 	func _init(p_origin: Vector2i) -> void:
 		origin = p_origin
 	func get_primary_coords() -> Vector2i:
