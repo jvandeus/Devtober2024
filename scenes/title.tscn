@@ -1,49 +1,135 @@
-[gd_scene load_steps=4 format=3 uid="uid://bydxyn7stprhg"]
+[gd_scene load_steps=12 format=3 uid="uid://bydxyn7stprhg"]
 
 [ext_resource type="Script" path="res://scripts/title.gd" id="1_c7avf"]
 [ext_resource type="FontVariation" uid="uid://rr6u4j4imq5q" path="res://assets/font/FlipDigitFontVariationTrimmed.tres" id="2_07t5a"]
+[ext_resource type="Material" uid="uid://dyxyxq5xlkwj2" path="res://assets/shaders/shard_noise.tres" id="2_ef6gg"]
+[ext_resource type="Shader" path="res://scenes/canvas_bg_skewed.gdshader" id="3_cusq3"]
+[ext_resource type="Theme" uid="uid://beoutk2tesnol" path="res://themes/default_edgy_theme.tres" id="3_ge8vr"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_28ddd"]
+size = Vector2(600, 600)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_14nu3"]
+shader = ExtResource("3_cusq3")
+shader_parameter/up_left = Vector2(0, 0.06)
+shader_parameter/up_right = Vector2(1, 0.02)
+shader_parameter/down_right = Vector2(0.98, 0.92)
+shader_parameter/down_left = Vector2(0.04, 1)
+shader_parameter/plane_size = null
 
 [sub_resource type="LabelSettings" id="LabelSettings_5xnfr"]
 font = ExtResource("2_07t5a")
 font_size = 200
 
-[node name="Title" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ltgfx"]
+shader = ExtResource("3_cusq3")
+shader_parameter/up_left = Vector2(0.01, 0)
+shader_parameter/up_right = Vector2(1, 0)
+shader_parameter/down_right = Vector2(0.98, 1)
+shader_parameter/down_left = Vector2(0, 1)
+shader_parameter/plane_size = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lh22i"]
+shader = ExtResource("3_cusq3")
+shader_parameter/up_left = Vector2(0, 0)
+shader_parameter/up_right = Vector2(1, 0)
+shader_parameter/down_right = Vector2(0.98, 1)
+shader_parameter/down_left = Vector2(0.02, 1)
+shader_parameter/plane_size = null
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vr7ht"]
+shader = ExtResource("3_cusq3")
+shader_parameter/up_left = Vector2(0.01, 0)
+shader_parameter/up_right = Vector2(0.97, 0)
+shader_parameter/down_right = Vector2(1, 1)
+shader_parameter/down_left = Vector2(0, 1)
+shader_parameter/plane_size = null
+
+[node name="Title" type="Node"]
 script = ExtResource("1_c7avf")
 
-[node name="TitleText" type="Label" parent="."]
-layout_mode = 0
-offset_left = 394.0
-offset_top = 120.0
-offset_right = 1498.0
-offset_bottom = 559.0
-text = "Airwave Riders"
+[node name="bg" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="shard_noise" type="TextureRect" parent="bg"]
+material = ExtResource("2_ef6gg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("PlaceholderTexture2D_28ddd")
+
+[node name="screen" type="CanvasLayer" parent="."]
+
+[node name="VBoxMain" type="VBoxContainer" parent="screen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.0
+offset_top = -91.5
+offset_right = 71.0
+offset_bottom = 91.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+alignment = 1
+
+[node name="Panel" type="Panel" parent="screen/VBoxMain"]
+material = SubResource("ShaderMaterial_14nu3")
+custom_minimum_size = Vector2(1000, 550)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TitleText" type="Label" parent="screen/VBoxMain/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -219.5
+offset_right = 450.0
+offset_bottom = 219.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Airwave
+Catcher"
 label_settings = SubResource("LabelSettings_5xnfr")
 horizontal_alignment = 1
-autowrap_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 886.0
-offset_top = 592.0
-offset_right = 1010.0
-offset_bottom = 759.0
-
-[node name="PlayButton" type="Button" parent="VBoxContainer"]
+[node name="VBoxButtons" type="VBoxContainer" parent="screen/VBoxMain"]
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="PlayButton" type="Button" parent="screen/VBoxMain/VBoxButtons"]
+material = SubResource("ShaderMaterial_ltgfx")
+layout_mode = 2
+theme = ExtResource("3_ge8vr")
+theme_override_font_sizes/font_size = 48
 text = "play"
 
-[node name="CreditsButton" type="Button" parent="VBoxContainer"]
+[node name="CreditsButton" type="Button" parent="screen/VBoxMain/VBoxButtons"]
+material = SubResource("ShaderMaterial_lh22i")
 layout_mode = 2
 focus_neighbor_top = NodePath("../PlayButton")
 focus_neighbor_bottom = NodePath("../QuitButton")
 text = "credits"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer"]
+[node name="QuitButton" type="Button" parent="screen/VBoxMain/VBoxButtons"]
+material = SubResource("ShaderMaterial_vr7ht")
 layout_mode = 2
 text = "quit"
 
-[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="screen/VBoxMain/VBoxButtons/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="screen/VBoxMain/VBoxButtons/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="screen/VBoxMain/VBoxButtons/QuitButton" to="." method="_on_quit_button_pressed"]
