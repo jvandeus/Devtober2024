@@ -1,17 +1,49 @@
-[gd_scene load_steps=9 format=3 uid="uid://72otjl2w5yiq"]
+[gd_scene load_steps=15 format=3 uid="uid://72otjl2w5yiq"]
 
 [ext_resource type="PackedScene" uid="uid://cf14717h4pio8" path="res://assets/cutscenes/victories/victory_cheery/TIA-V_VictoryCheery_cam.glb" id="1_byumk"]
 [ext_resource type="Script" path="res://assets/cutscenes/victories/victory_cheery/cine_victory_cheery.gd" id="2_rgndm"]
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="3_0gw6v"]
+[ext_resource type="Shader" path="res://assets/shaders/stylized_sky.gdshader" id="3_h8iff"]
 [ext_resource type="AnimationLibrary" uid="uid://d0os2vilfc5ab" path="res://assets/cutscenes/victories/victory_cheery/TIA-V_VictoryCheery_skel.glb" id="4_67jwd"]
+[ext_resource type="AudioStream" uid="uid://ba68ugcs8oqkc" path="res://assets/music/victory.ogg" id="5_qw8d0"]
+[ext_resource type="AudioStream" uid="uid://6md8do78ejmr" path="res://assets/sound/boing02.wav" id="7_odjmd"]
+[ext_resource type="AudioStream" uid="uid://dhxuuljn2uaxx" path="res://assets/sound/impact_technic02.wav" id="8_ajvgu"]
+[ext_resource type="AudioStream" uid="uid://bu1kgtnj35yt7" path="res://assets/sound/talk_high02.wav" id="9_ky5i7"]
+[ext_resource type="AudioStream" uid="uid://dxxahg506fkty" path="res://assets/sound/talk_high03.wav" id="10_pljnl"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j5j3p"]
-sky_top_color = Color(0.520422, 0.591633, 0.690789, 1)
-sky_horizon_color = Color(0.680105, 0.690158, 0.705947, 1)
-ground_horizon_color = Color(0.680105, 0.690158, 0.705947, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m7hh0"]
+shader = ExtResource("3_h8iff")
+shader_parameter/day_top_color = Color(0.1, 0.6, 1, 1)
+shader_parameter/day_bottom_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/sunset_top_color = Color(0.7, 0.75, 1, 1)
+shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.7, 1)
+shader_parameter/night_top_color = Color(0.02, 0, 0.04, 1)
+shader_parameter/night_bottom_color = Color(0.1, 0, 0.2, 1)
+shader_parameter/horizon_color = Color(0, 0.7, 0.8, 1)
+shader_parameter/horizon_blur = 0.05
+shader_parameter/sun_color = Color(10, 8, 1, 1)
+shader_parameter/sun_sunset_color = Color(10, 0, 0, 1)
+shader_parameter/sun_size = 0.2
+shader_parameter/sun_blur = 10.0
+shader_parameter/moon_color = Color(1, 0.95, 0.7, 1)
+shader_parameter/moon_size = 0.06
+shader_parameter/moon_blur = 0.1
+shader_parameter/clouds_edge_color = Color(0.8, 0.8, 0.98, 1)
+shader_parameter/clouds_top_color = Color(1, 1, 1, 1)
+shader_parameter/clouds_middle_color = Color(0.92, 0.92, 0.98, 1)
+shader_parameter/clouds_bottom_color = Color(0.83, 0.83, 0.94, 1)
+shader_parameter/clouds_speed = 2.0
+shader_parameter/clouds_direction = 0.2
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_cutoff = 0.3
+shader_parameter/clouds_fuzziness = 0.5
+shader_parameter/clouds_weight = 0.0
+shader_parameter/clouds_blur = 0.25
+shader_parameter/stars_speed = 1.0
+shader_parameter/overwritten_time = 0.0
 
 [sub_resource type="Sky" id="Sky_6sln3"]
-sky_material = SubResource("ProceduralSkyMaterial_j5j3p")
+sky_material = SubResource("ShaderMaterial_m7hh0")
 
 [sub_resource type="Environment" id="Environment_wfg43"]
 background_mode = 2
@@ -32,7 +64,7 @@ shadow_enabled = true
 directional_shadow_max_distance = 1.0
 
 [node name="Dolly_Camera" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, -1.68587e-07, 0, 1.68587e-07, 1, -0.369094, 1.27058, 4.02151)
+transform = Transform3D(1, 0, 0, 0, 1, -1.68587e-07, 0, 1.68587e-07, 1, -0.0170714, 1.30875, 3.53027)
 
 [node name="TIA-V_MASTER2" parent="." index="4" instance=ExtResource("3_0gw6v")]
 
@@ -46,3 +78,20 @@ libraries = {
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Environment" index="0"]
 transform = Transform3D(10.0671, 0, 0, 0, 10.0671, 0, 0, 0, 10.0671, 0, 0, 0)
 mesh = SubResource("PlaneMesh_ln2to")
+
+[node name="Music" type="AudioStreamPlayer" parent="." index="6"]
+stream = ExtResource("5_qw8d0")
+
+[node name="SFX" type="Node" parent="." index="7"]
+
+[node name="Blastoff" type="AudioStreamPlayer" parent="SFX" index="0"]
+stream = ExtResource("7_odjmd")
+
+[node name="Crashland" type="AudioStreamPlayer" parent="SFX" index="1"]
+stream = ExtResource("8_ajvgu")
+
+[node name="Cheer1" type="AudioStreamPlayer" parent="SFX" index="2"]
+stream = ExtResource("9_ky5i7")
+
+[node name="Cheer2" type="AudioStreamPlayer" parent="SFX" index="3"]
+stream = ExtResource("10_pljnl")

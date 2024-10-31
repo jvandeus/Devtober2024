@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://3s8rn0jieq7a"]
+
+[ext_resource type="Script" path="res://scripts/difficulty_select.gd" id="1_coefa"]
+
+[node name="DifficultySelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_coefa")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 897.0
+offset_top = 699.0
+offset_right = 1017.0
+offset_bottom = 866.0
+
+[node name="Normal" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "normal"
+
+[node name="Hard" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "hard"
+
+[node name="Harder" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "harder"
+
+[connection signal="pressed" from="VBoxContainer/Normal" to="." method="_on_normal_pressed"]
+[connection signal="pressed" from="VBoxContainer/Hard" to="." method="_on_hard_pressed"]
+[connection signal="pressed" from="VBoxContainer/Harder" to="." method="_on_harder_pressed"]

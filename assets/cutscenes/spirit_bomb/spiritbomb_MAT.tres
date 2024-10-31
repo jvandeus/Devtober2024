@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c0ffnu0rp37np"]
+
+[ext_resource type="Shader" path="res://assets/shaders/spiritbomb_MAT.gdshader" id="1_lw5bu"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_lw5bu")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/emission_color = Color(0.226121, 0.81508, 0.771245, 1)
+shader_parameter/emission_amount = 12.747
+shader_parameter/rim_steepness = -0.886999
+shader_parameter/uv_scale = Vector3(0, 0, 0)
+shader_parameter/uv_offset = null

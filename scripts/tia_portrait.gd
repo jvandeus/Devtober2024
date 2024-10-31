@@ -2,10 +2,20 @@ class_name TiaPortrait
 extends Node3D
 
 @onready var tia = $"TIA-V_MASTER"
+var is_scared = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	tia.toggle_anim_tree()
+	
+func idle_scared():
+	tia.idle_scared()
+	
+func idle_ditsy():
+	tia.idle_ditsy()
+	
+func super_atk():
+	pass
 
 func play_atk() -> void:
 	tia.play_atk()

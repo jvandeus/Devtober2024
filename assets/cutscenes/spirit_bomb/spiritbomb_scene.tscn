@@ -1,22 +1,59 @@
-[gd_scene load_steps=10 format=3 uid="uid://mf3wqejns2le"]
+[gd_scene load_steps=24 format=3 uid="uid://mf3wqejns2le"]
 
 [ext_resource type="PackedScene" uid="uid://cl1noevm6rqgv" path="res://assets/cutscenes/spirit_bomb/spiritbomb_scene.glb" id="1_1c87c"]
 [ext_resource type="Script" path="res://assets/cutscenes/spirit_bomb/spiritbomb_scene.gd" id="2_mooep"]
+[ext_resource type="Material" uid="uid://c0ffnu0rp37np" path="res://assets/cutscenes/spirit_bomb/spiritbomb_MAT.tres" id="3_8doxv"]
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="3_503pv"]
+[ext_resource type="Shader" path="res://assets/shaders/stylized_sky.gdshader" id="3_ndffe"]
 [ext_resource type="AnimationLibrary" uid="uid://ua1bvj704foi" path="res://assets/cutscenes/spirit_bomb/spiritbomb_skel.glb" id="4_hv0ut"]
+[ext_resource type="AudioStream" uid="uid://b0tw445xo4r3k" path="res://assets/sound/alarm01.wav" id="5_rf2yv"]
+[ext_resource type="Shader" path="res://assets/cutscenes/spirit_bomb/speedlines.gdshader" id="7_e1iwh"]
+[ext_resource type="Texture2D" uid="uid://r7wp3esnvrbw" path="res://assets/cutscenes/spirit_bomb/noiseTexture.png" id="8_r6pl4"]
+[ext_resource type="AudioStream" uid="uid://joo7ricynblt" path="res://assets/sound/shine01.wav" id="10_2f3hu"]
+[ext_resource type="AudioStream" uid="uid://qdg17mpn1ot0" path="res://assets/sound/boing01.wav" id="10_ikasp"]
+[ext_resource type="AudioStream" uid="uid://xi8h2iafuxpt" path="res://assets/sound/talk_high01.wav" id="12_43m5f"]
+[ext_resource type="AudioStream" uid="uid://cabc38o8lhdpn" path="res://assets/sound/talk_high07.wav" id="13_e5ttn"]
+[ext_resource type="AudioStream" uid="uid://qlavmwfadx47" path="res://assets/sound/wooshfadeout02.wav" id="14_6il54"]
+[ext_resource type="AudioStream" uid="uid://d18hte3w87kos" path="res://assets/sound/shine02.wav" id="15_xahk0"]
+[ext_resource type="AudioStream" uid="uid://dngk8vtm88v8p" path="res://assets/sound/slosh02.wav" id="16_oqhcu"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_115ts"]
-sky_top_color = Color(0.561838, 0.640721, 0.880706, 1)
-sky_horizon_color = Color(0.706911, 0.709871, 0.763386, 1)
-ground_bottom_color = Color(0.265807, 0.198762, 0.17284, 1)
-ground_horizon_color = Color(0.706911, 0.709871, 0.763386, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c1tpy"]
+shader = ExtResource("3_ndffe")
+shader_parameter/day_top_color = Color(0.1, 0.6, 1, 1)
+shader_parameter/day_bottom_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/sunset_top_color = Color(0.7, 0.75, 1, 1)
+shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.7, 1)
+shader_parameter/night_top_color = Color(0.02, 0, 0.04, 1)
+shader_parameter/night_bottom_color = Color(0.1, 0, 0.2, 1)
+shader_parameter/horizon_color = Color(0, 0.7, 0.8, 1)
+shader_parameter/horizon_blur = 0.05
+shader_parameter/sun_color = Color(10, 8, 1, 1)
+shader_parameter/sun_sunset_color = Color(10, 0, 0, 1)
+shader_parameter/sun_size = 0.2
+shader_parameter/sun_blur = 10.0
+shader_parameter/moon_color = Color(1, 0.95, 0.7, 1)
+shader_parameter/moon_size = 0.06
+shader_parameter/moon_blur = 0.1
+shader_parameter/clouds_edge_color = Color(0.8, 0.8, 0.98, 1)
+shader_parameter/clouds_top_color = Color(1, 1, 1, 1)
+shader_parameter/clouds_middle_color = Color(0.92, 0.92, 0.98, 1)
+shader_parameter/clouds_bottom_color = Color(0.83, 0.83, 0.94, 1)
+shader_parameter/clouds_speed = 2.0
+shader_parameter/clouds_direction = 0.2
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_cutoff = 0.3
+shader_parameter/clouds_fuzziness = 0.5
+shader_parameter/clouds_weight = 0.0
+shader_parameter/clouds_blur = 0.25
+shader_parameter/stars_speed = 1.0
+shader_parameter/overwritten_time = 0.0
 
-[sub_resource type="Sky" id="Sky_vjocj"]
-sky_material = SubResource("ProceduralSkyMaterial_115ts")
+[sub_resource type="Sky" id="Sky_ug0o1"]
+sky_material = SubResource("ShaderMaterial_c1tpy")
 
 [sub_resource type="Environment" id="Environment_f8mwi"]
 background_mode = 2
-sky = SubResource("Sky_vjocj")
+sky = SubResource("Sky_ug0o1")
 tonemap_mode = 2
 ssao_enabled = true
 
@@ -43,11 +80,242 @@ tracks/1/keys = {
 "clips": PackedStringArray("spiritbomb_skel/TIA-V_SpiritBomb"),
 "times": PackedFloat32Array(0)
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("2D Effects:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 4.83333, 5.66667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SFX/TiaScream:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(4.76667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SFX/AttackAppear:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(2.83333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("SFX/Boing01:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("SFX/TIA_wonder:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1.43333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("SFX/TIA_realize:playing")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(2.13333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("SFX/ThrowWoosh:playing")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(6.16667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("SFX/Shine02:playing")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(3.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("SFX/Slosh02:playing")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0.566667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_ou0e6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("2D Effects:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SFX/TiaScream:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SFX/AttackAppear:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SFX/Boing01:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SFX/TIA_wonder:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("SFX/TIA_realize:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("SFX/ThrowWoosh:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("SFX/Shine02:playing")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("SFX/Slosh02:playing")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cofnk"]
 _data = {
+"RESET": SubResource("Animation_ou0e6"),
 "main": SubResource("Animation_th4dv")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_14nt2"]
+shader = ExtResource("7_e1iwh")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_count = 2.0
+shader_parameter/line_density = 1.0
+shader_parameter/line_faloff = 1.0
+shader_parameter/mask_size = 0.093
+shader_parameter/mask_edge = 0.56
+shader_parameter/animation_speed = 20.0
+shader_parameter/noise = ExtResource("8_r6pl4")
 
 [node name="spiritbomb_scene" instance=ExtResource("1_1c87c")]
 script = ExtResource("2_mooep")
@@ -57,16 +325,16 @@ environment = SubResource("Environment_f8mwi")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
 transform = Transform3D(0.113203, -0.692684, 0.712302, 0, 0.716911, 0.697165, -0.993572, -0.0789214, 0.0811566, 0, 0, 0)
-light_color = Color(0.552956, 0.552956, 0.552956, 1)
 light_energy = 0.5
 shadow_enabled = true
 directional_shadow_max_distance = 1.0
 
 [node name="Sphere" parent="." index="2"]
-transform = Transform3D(4.58268, 0, 0, 0, 4.58268, 0, 0, 0, 4.58268, -2.98023e-08, 4.7318, 7.45567)
+transform = Transform3D(4.58268, 0, 0, 0, 4.58268, 0, 0, 0, 4.58268, -2.98023e-08, 8.69316, -0.0464616)
+material_override = ExtResource("3_8doxv")
 
 [node name="Dolly_Camera" parent="." index="3"]
-transform = Transform3D(0.999986, -0.0016998, -0.00501252, 1.16415e-10, 0.947029, -0.321148, 0.00529288, 0.321143, 0.947016, -0.0303797, -1.07038, 14.2566)
+transform = Transform3D(0.999833, -0.0063979, -0.0171083, -2.32831e-09, 0.936647, -0.350273, 0.0182655, 0.350214, 0.936491, 0.00161824, 2.90014, 2.29546)
 
 [node name="MainSequence" type="AnimationPlayer" parent="." index="5"]
 libraries = {
@@ -79,3 +347,49 @@ libraries = {
 libraries = {
 "spiritbomb_skel": ExtResource("4_hv0ut")
 }
+
+[node name="2D Effects" type="CanvasLayer" parent="." index="7"]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="2D Effects" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.54902, 0.294118, 0.270588, 0.0980392)
+
+[node name="Speedlines" type="Panel" parent="2D Effects" index="1"]
+material = SubResource("ShaderMaterial_14nt2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SFX" type="Node" parent="." index="8"]
+
+[node name="TiaScream" type="AudioStreamPlayer" parent="SFX" index="0"]
+stream = ExtResource("5_rf2yv")
+
+[node name="AttackAppear" type="AudioStreamPlayer" parent="SFX" index="1"]
+stream = ExtResource("10_2f3hu")
+pitch_scale = 1.41
+
+[node name="Boing01" type="AudioStreamPlayer" parent="SFX" index="2"]
+stream = ExtResource("10_ikasp")
+
+[node name="TIA_wonder" type="AudioStreamPlayer" parent="SFX" index="3"]
+stream = ExtResource("12_43m5f")
+
+[node name="TIA_realize" type="AudioStreamPlayer" parent="SFX" index="4"]
+stream = ExtResource("13_e5ttn")
+
+[node name="ThrowWoosh" type="AudioStreamPlayer" parent="SFX" index="5"]
+stream = ExtResource("14_6il54")
+
+[node name="Shine02" type="AudioStreamPlayer" parent="SFX" index="6"]
+stream = ExtResource("15_xahk0")
+
+[node name="Slosh02" type="AudioStreamPlayer" parent="SFX" index="7"]
+stream = ExtResource("16_oqhcu")

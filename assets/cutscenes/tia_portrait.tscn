@@ -1,7 +1,48 @@
-[gd_scene load_steps=3 format=3 uid="uid://5dncenqp6mo0"]
+[gd_scene load_steps=7 format=3 uid="uid://5dncenqp6mo0"]
 
 [ext_resource type="PackedScene" uid="uid://dnmufuphqvq7h" path="res://assets/models/TIA-V/tia_v.tscn" id="1_l2m5s"]
 [ext_resource type="Script" path="res://scripts/tia_portrait.gd" id="1_nk0y4"]
+[ext_resource type="Shader" path="res://assets/shaders/stylized_sky.gdshader" id="3_hxknd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g2kll"]
+shader = ExtResource("3_hxknd")
+shader_parameter/day_top_color = Color(0.1, 0.6, 1, 1)
+shader_parameter/day_bottom_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/sunset_top_color = Color(0.7, 0.75, 1, 1)
+shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.7, 1)
+shader_parameter/night_top_color = Color(0.02, 0, 0.04, 1)
+shader_parameter/night_bottom_color = Color(0.1, 0, 0.2, 1)
+shader_parameter/horizon_color = Color(0, 0.7, 0.8, 1)
+shader_parameter/horizon_blur = 0.05
+shader_parameter/sun_color = Color(10, 8, 1, 1)
+shader_parameter/sun_sunset_color = Color(10, 0, 0, 1)
+shader_parameter/sun_size = 0.2
+shader_parameter/sun_blur = 10.0
+shader_parameter/moon_color = Color(1, 0.95, 0.7, 1)
+shader_parameter/moon_size = 0.06
+shader_parameter/moon_blur = 0.1
+shader_parameter/clouds_edge_color = Color(0.8, 0.8, 0.98, 1)
+shader_parameter/clouds_top_color = Color(1, 1, 1, 1)
+shader_parameter/clouds_middle_color = Color(0.92, 0.92, 0.98, 1)
+shader_parameter/clouds_bottom_color = Color(0.83, 0.83, 0.94, 1)
+shader_parameter/clouds_speed = 2.0
+shader_parameter/clouds_direction = 0.2
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_cutoff = 0.3
+shader_parameter/clouds_fuzziness = 0.5
+shader_parameter/clouds_weight = 0.0
+shader_parameter/clouds_blur = 0.25
+shader_parameter/stars_speed = 1.0
+shader_parameter/overwritten_time = 0.0
+
+[sub_resource type="Sky" id="Sky_vjocj"]
+sky_material = SubResource("ShaderMaterial_g2kll")
+
+[sub_resource type="Environment" id="Environment_l78p5"]
+background_mode = 2
+sky = SubResource("Sky_vjocj")
+tonemap_mode = 2
+ssao_enabled = true
 
 [node name="TiaPortrait" type="Node3D"]
 script = ExtResource("1_nk0y4")
@@ -9,8 +50,11 @@ script = ExtResource("1_nk0y4")
 [node name="TIA-V_MASTER" parent="." instance=ExtResource("1_l2m5s")]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.965713, -0.0529165, -0.254161, 0, 0.979006, -0.20383, 0.259611, 0.196841, 0.945439, -0.428734, 1.07741, 1.54015)
-fov = 60.0
+transform = Transform3D(0.913945, -0.102075, -0.392791, 0.0222646, 0.979006, -0.20261, 0.405226, 0.176429, 0.897031, -1.98375, 0.432005, 4.36606)
+fov = 22.4
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.589023, 0.261037, -0.764796, -0.16114, 0.965326, 0.205375, 0.791888, 0.00226896, 0.610662, 0, 1.60661, 0.941018)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_l78p5")

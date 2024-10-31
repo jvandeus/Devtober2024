@@ -1,0 +1,3 @@
+Stylized sky with procedural sun and moon shader by krzmig: https://godotshaders.com/shader/stylized-sky-with-procedural-sun-and-moon/
+Complete Toon Shader by eldskald: https://godotshaders.com/shader/complete-cel-shader-for-godot-4/
+Simple Energy Shield by MinusZero: https://godotshaders.com/shader/simple-energy-shield/

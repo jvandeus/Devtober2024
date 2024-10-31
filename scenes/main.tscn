@@ -250,7 +250,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0)
+color = Color(0.745098, 0.701961, 0.72549, 0)
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("32_ptto6")]
 visible = false
@@ -258,6 +258,12 @@ offset_left = 864.0
 offset_top = 480.0
 offset_right = 864.0
 offset_bottom = 480.0
+
+[node name="PauseHelpText" type="Label" parent="CanvasLayer"]
+visible = false
+offset_right = 40.0
+offset_bottom = 45.0
+text = "Press Escape to pause"
 
 [node name="BGMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("32_uyumv")
@@ -268,6 +274,10 @@ stream = ExtResource("34_nx430")
 [node name="VictoryMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("35_n3ibs")
 
+[node name="TransitionTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="on_almost_dead" from="Board" to="." method="_on_almost_dead"]
 [connection signal="on_fall_end" from="Board" to="SignalAudio" method="_on_fall_end"]
 [connection signal="on_fall_start" from="Board" to="SignalAudio" method="_on_fall_start"]
 [connection signal="on_lose" from="Board" to="." method="_on_lose"]
@@ -277,6 +287,7 @@ stream = ExtResource("35_n3ibs")
 [connection signal="on_placed" from="Board" to="SignalAudio" method="_on_placed"]
 [connection signal="on_player_move" from="Board" to="SignalAudio" method="_on_player_move"]
 [connection signal="on_player_rotate" from="Board" to="SignalAudio" method="_on_player_rotate"]
+[connection signal="on_safe" from="Board" to="." method="_on_safe"]
 [connection signal="on_settled" from="Board" to="." method="_on_settled"]
 [connection signal="on_empty" from="HealthBar" to="." method="_on_health_bar_on_empty"]
 [connection signal="quit" from="CanvasLayer/PauseMenu" to="." method="_on_pause_menu_quit"]

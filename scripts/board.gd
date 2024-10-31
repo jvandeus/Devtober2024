@@ -8,6 +8,16 @@ class DoublePiece:
 	const ORIENTATION_ORDER := [ Orientation.RIGHT, Orientation.UP, Orientation.LEFT, Orientation.DOWN ]
 	var orientation_index := 1
 	var origin := Vector2i(0, 0)
+	# --- 1-WIDE SHAFT SPECIAL HANDLING ---
+	# When the DoublePiece is in a 1-wide shaft, only vertical orientations are allowed.
+	# However, it should still be possible to flip the piece 180 degrees.
+	# Players expect to be able to do this the same way they normally do;
+	# by double-tapping a rotation button. To achieve this effect without
+	# passing through a horizontal orientation, we keep track of rotation state
+	# internally, in these booleans.
+	var is_left_stored := false
+	var is_right_stored := false
+	
 	func _init(p_origin: Vector2i) -> void:
 		origin = p_origin
 	func get_primary_coords() -> Vector2i:
@@ -81,6 +91,8 @@ signal on_player_rotate
 signal on_lose
 signal on_fall_start(p: Piece)
 signal on_fall_end(p: Piece)
+signal on_almost_dead
+signal on_safe
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -400,6 +412,12 @@ func simulate() -> void:
 		reindex_columns()
 		await settle()
 		num_cleared = await clear()
+		
+	if len(columns[get_center_column_index()]) >= board_height - 3:
+		on_almost_dead.emit()
+		
+	elif len(columns[get_center_column_index()]) <= board_height - 3:
+		on_safe.emit()
 	
 	if len(columns[get_center_column_index()]) >= board_height:
 		on_lose.emit()
@@ -555,9 +573,8 @@ func attack1() -> void:
 	for piece in piece_sample:
 		await piece.set_kind(Piece.Kind.GARBAGE)
 
-func attack2() -> void:
-	const ROWS_OF_GARBAGE = 2
-	for row in ROWS_OF_GARBAGE:
+func attack2(rows_of_garbage: int) -> void:
+	for row in rows_of_garbage:
 		for col in len(columns):
 			var p = scene_Piece.instantiate()
 			p.kind = Piece.Kind.GARBAGE
