@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwrbta2tuaolb"]
+
+[ext_resource type="Script" path="res://scripts/credits.gd" id="1_ynqel"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ynqel")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 752.0
+offset_top = 208.0
+offset_right = 1279.0
+offset_bottom = 733.0
+text = "This game was made by:
+
+AstroNinja0
+Daeleth
+HIMIK-MAN
+Turncoda
+
+during the month of October 2024
+for the Devtober game jam.
+
+Thanks for playing!"
+horizontal_alignment = 1
+
+[node name="GoBack" type="Button" parent="."]
+layout_mode = 0
+offset_left = 912.0
+offset_top = 896.0
+offset_right = 1096.0
+offset_bottom = 949.0
+text = "main menu"
+
+[connection signal="pressed" from="GoBack" to="." method="_on_go_back_pressed"]

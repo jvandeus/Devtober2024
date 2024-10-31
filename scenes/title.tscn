@@ -32,21 +32,18 @@ offset_bottom = 759.0
 
 [node name="PlayButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-focus_neighbor_bottom = NodePath("../OptionsButton")
 text = "play"
 
-[node name="OptionsButton" type="Button" parent="VBoxContainer"]
-visible = false
+[node name="CreditsButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../PlayButton")
 focus_neighbor_bottom = NodePath("../QuitButton")
-text = "options"
+text = "credits"
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../OptionsButton")
 text = "quit"
 
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
