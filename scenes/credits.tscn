@@ -1,6 +1,44 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwrbta2tuaolb"]
+[gd_scene load_steps=13 format=3 uid="uid://cwrbta2tuaolb"]
 
 [ext_resource type="Script" path="res://scripts/credits.gd" id="1_ynqel"]
+[ext_resource type="Material" uid="uid://dyxyxq5xlkwj2" path="res://assets/shaders/shard_noise.tres" id="2_5272u"]
+[ext_resource type="Shader" path="res://assets/shaders/canvas_bg_skewed.gdshader" id="3_p23p0"]
+[ext_resource type="Theme" uid="uid://beoutk2tesnol" path="res://themes/default_edgy_theme.tres" id="4_mlgqx"]
+[ext_resource type="FontVariation" uid="uid://cm1qbkueduf2x" path="res://themes/credit_open_sans_font_variation.tres" id="5_x3ms7"]
+[ext_resource type="FontFile" uid="uid://by4cynbjilsgj" path="res://assets/font/ZeroCool.ttf" id="5_xlris"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_nuj15"]
+size = Vector2(600, 600)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ijgu2"]
+shader = ExtResource("3_p23p0")
+shader_parameter/up_left = Vector2(0.03, 0)
+shader_parameter/up_right = Vector2(0.98, 0.02)
+shader_parameter/down_right = Vector2(1, 0.97)
+shader_parameter/down_left = Vector2(0, 1)
+shader_parameter/plane_size = null
+
+[sub_resource type="SystemFont" id="SystemFont_tjvrt"]
+
+[sub_resource type="FontVariation" id="FontVariation_mcl0q"]
+base_font = ExtResource("5_xlris")
+spacing_top = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_30d48"]
+shader = ExtResource("3_p23p0")
+shader_parameter/up_left = Vector2(0, 0.02)
+shader_parameter/up_right = Vector2(1, 0)
+shader_parameter/down_right = Vector2(0.98, 1)
+shader_parameter/down_left = Vector2(0.02, 0.98)
+shader_parameter/plane_size = null
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ojbh2"]
+shader = ExtResource("3_p23p0")
+shader_parameter/up_left = Vector2(0, 0)
+shader_parameter/up_right = Vector2(1, 0)
+shader_parameter/down_right = Vector2(0.97, 1)
+shader_parameter/down_left = Vector2(0.02, 1)
+shader_parameter/plane_size = null
 
 [node name="Credits" type="Control"]
 layout_mode = 3
@@ -11,31 +49,235 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ynqel")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 752.0
-offset_top = 208.0
-offset_right = 1279.0
-offset_bottom = 733.0
-text = "This game was made by:
+[node name="bg" type="CanvasLayer" parent="."]
+layer = -1
 
-AstroNinja0
-Daeleth
-HIMIK-MAN
-Turncoda
+[node name="shard_noise" type="TextureRect" parent="bg"]
+material = ExtResource("2_5272u")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("PlaceholderTexture2D_nuj15")
 
-during the month of October 2024
+[node name="All" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterColumn" type="VBoxContainer" parent="All"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -287.0
+offset_top = -249.0
+offset_right = 287.0
+offset_bottom = 249.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="All/CenterColumn"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="All/CenterColumn/HBoxContainer"]
+material = SubResource("ShaderMaterial_ijgu2")
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+text = "This game was made by:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="AstroRow" type="HBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/AstroRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = ExtResource("5_x3ms7")
+theme_override_font_sizes/font_size = 24
+text = "AstroNinja0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DaelethRow" type="HBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/DaelethRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = ExtResource("5_x3ms7")
+theme_override_font_sizes/font_size = 24
+text = "Daeleth"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spacer" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/DaelethRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = SubResource("SystemFont_tjvrt")
+theme_override_font_sizes/font_size = 24
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinkButton" type="LinkButton" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/DaelethRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_mcl0q")
+theme_override_font_sizes/font_size = 24
+text = "bsky.app"
+underline = 1
+uri = "https://bsky.app/profile/daeleth.bsky.social"
+
+[node name="spacer2" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/DaelethRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = SubResource("SystemFont_tjvrt")
+theme_override_font_sizes/font_size = 24
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinkButton3" type="LinkButton" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/DaelethRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_mcl0q")
+theme_override_font_sizes/font_size = 24
+text = "itch.io"
+underline = 1
+uri = "https://daeleth.itch.io/"
+
+[node name="HimikRow" type="HBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HimikRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = ExtResource("5_x3ms7")
+theme_override_font_sizes/font_size = 24
+text = "HIMIK-MAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurncodaRow" type="HBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/TurncodaRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = ExtResource("5_x3ms7")
+theme_override_font_sizes/font_size = 24
+text = "Turncoda"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+text = "during the month of October 2024
 for the Devtober game jam.
 
 Thanks for playing!"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="GoBack" type="Button" parent="."]
-layout_mode = 0
-offset_left = 912.0
-offset_top = 896.0
-offset_right = 1096.0
-offset_bottom = 949.0
+[node name="PanelContainer2" type="PanelContainer" parent="All/CenterColumn/HBoxContainer"]
+material = SubResource("ShaderMaterial_30d48")
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="ScrollContainer" type="ScrollContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer2/MarginContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer2/MarginContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer2/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+text = "External Resourses:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Body" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer2/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = ExtResource("5_x3ms7")
+theme_override_font_sizes/font_size = 16
+text = "Music/Sound:
+squeaks resonate finger push along CRT TV glass echo.flac by kyles -- https://freesound.org/s/637825/ -- License: Creative Commons 0
+Sixties TV Static by f-r-a-g-i-l-e -- https://freesound.org/s/478760/ -- License: Creative Commons 0
+TV Static.mp3 by Gaiamuse -- https://freesound.org/s/50500/ -- License: Creative Commons 0
+TV_CRT_PAL_TurnOff.wav by firefreak -- https://freesound.org/s/65399/ -- License: Attribution 3.0
+tv turn off.aif by harpoyume -- https://freesound.org/s/86034/ -- License: Attribution NonCommercial 3.0
+Yeaaah! Talkbox by wladymeer -- https://samplefocus.com/samples/yeaaah-talkbox License: Standart
+
+Fonts:
+Zero Cool -- :https://ggbot.itch.io/zero-cool-font
+Open Sans -- https://fonts.google.com/specimen/Open+Sans/license
+
+All else was created by the developers credited to the left."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="GoBack" type="Button" parent="All/CenterColumn"]
+material = SubResource("ShaderMaterial_ojbh2")
+layout_mode = 2
 text = "main menu"
 
-[connection signal="pressed" from="GoBack" to="." method="_on_go_back_pressed"]
+[connection signal="pressed" from="All/CenterColumn/GoBack" to="." method="_on_go_back_pressed"]
