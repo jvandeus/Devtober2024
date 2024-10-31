@@ -132,6 +132,60 @@ text = "AstroNinja0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="spacer" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/AstroRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = SubResource("SystemFont_tjvrt")
+theme_override_font_sizes/font_size = 24
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinkButton" type="LinkButton" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/AstroRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_mcl0q")
+theme_override_font_sizes/font_size = 24
+text = "x.com"
+underline = 1
+uri = "https://x.com/AstroNinja0"
+
+[node name="spacer2" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/AstroRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = SubResource("SystemFont_tjvrt")
+theme_override_font_sizes/font_size = 24
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinkButton3" type="LinkButton" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/AstroRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_mcl0q")
+theme_override_font_sizes/font_size = 24
+text = "bsky.app"
+underline = 1
+uri = "https://bsky.app/profile/astroninja0.bsky.social"
+
+[node name="spacer3" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/AstroRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = SubResource("SystemFont_tjvrt")
+theme_override_font_sizes/font_size = 24
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinkButton4" type="LinkButton" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/AstroRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_mcl0q")
+theme_override_font_sizes/font_size = 24
+text = "youtube"
+underline = 1
+uri = "https://youtube.com/@astroninja0 "
+
 [node name="DaelethRow" type="HBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -182,6 +236,24 @@ theme_override_font_sizes/font_size = 24
 text = "itch.io"
 underline = 1
 uri = "https://daeleth.itch.io/"
+
+[node name="spacer3" type="Label" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/DaelethRow"]
+layout_mode = 2
+theme = ExtResource("4_mlgqx")
+theme_override_fonts/font = SubResource("SystemFont_tjvrt")
+theme_override_font_sizes/font_size = 24
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinkButton4" type="LinkButton" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/DaelethRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("FontVariation_mcl0q")
+theme_override_font_sizes/font_size = 24
+text = "youtube"
+underline = 1
+uri = "https://youtube.com/@daeleth"
 
 [node name="HimikRow" type="HBoxContainer" parent="All/CenterColumn/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
